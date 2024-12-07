@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        "spicy-rice": ['"Spicy Rice"', "cursive"],
+        "playwrite-hr": ['"Henny Penny"', "system-ui"],
       },
       colors: {
         background: "var(--background)",
