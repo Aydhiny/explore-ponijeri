@@ -104,7 +104,7 @@ export default function Header() {
               Obilazak
             </motion.button>
             <motion.button
-              className="text-white border-2 hover:border-none hover:bg-main-color-lighter-green transition-all duration-150 hover:text-main-color-dark-green bg-[#ffffff28] backdrop-blur-md border-white rounded-sm font-bold shadow-xl px-8 py-3 bg-none"
+              className="text-white border-2 hover:bg-main-color-lighter-green transition-all duration-150 hover:text-main-color-dark-green bg-[#ffffff28] backdrop-blur-md border-white rounded-sm font-bold shadow-xl px-8 py-3 bg-none"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.2, duration: 1 }}
