@@ -7,11 +7,14 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        "spicy-rice": ['"Spicy Rice"', "cursive"],
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        "main-color-lighter-green": "#A7FFC4",
-        "main-color-dark-green": "#007315",
+        "main-color-lighter-green": "#0084FF",
+        "main-color-dark-green": "#002F5A",
         "main-color-light-green": "#E9FFCF",
       },
     },

@@ -4,7 +4,7 @@ import Tree from "../images/tree.png";
 import Image from "next/image";
 export default function Navbar() {
   return (
-    <div className="p-4 sticky top-0 shadow-2xl z-50 bg-gradient-to-l from-[#a7ffc4e5] to-[#e9ffcf85] backdrop-blur-sm border-b border-y-main-color-light-green">
+    <div className="p-4 w-full absolute top-0 shadow-2xl z-50 bg-gradient-to-l from-[#a7cdffe5] to-[#cfe2ff85] backdrop-blur-sm border-b border-y-main-color-lighter-green">
       <ul className="flex justify-center font-semibold items-center text-main-color-dark-green text-sm">
         <Image
           alt="tree"
