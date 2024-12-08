@@ -35,7 +35,7 @@ export default function Header() {
 
   return (
     <div
-      className="w-full h-screen cursor-default shadow-2xl relative bg-cover bg-center"
+      className="w-full h-screen cursor-default relative bg-cover bg-center"
       style={{
         backgroundImage: `url(${backgroundImage})`,
       }}

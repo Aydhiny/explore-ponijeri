@@ -42,6 +42,7 @@ export default function About() {
           kvarca, jaspisa, limonita, serpentina, olivina, opala, hematita,
           kalcita, gipsa i liksuna.
         </p>
+        <div className="p-[2px] -rotate-1 w-full bg-gray-600"></div>
         <div className="flex">
           <Image
             alt="ponijeri"

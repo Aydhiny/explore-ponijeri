@@ -19,7 +19,7 @@ body {
 }
 /* For modern browsers */
 ::-webkit-scrollbar {
-  width: 15px; /* Width of the scrollbar */
+  width: 10px; /* Width of the scrollbar */
 }
 
 ::-webkit-scrollbar-thumb {
@@ -31,6 +31,6 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #363636; /* Track color */
+  background: #b8b8b8; /* Track color */
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }

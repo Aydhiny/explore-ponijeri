@@ -12,7 +12,7 @@ export default function Restaurant() {
       {/* Image Section */}
       <div className="relative group cursor-pointer">
         <Image
-          className="border-4 border-green-300 shadow-lg rounded-sm transition-transform duration-300 transform group-hover:rotate-6"
+          className="border-4 border-green-300 rounded-sm transition-transform duration-300 transform group-hover:rotate-6"
           alt="eko"
           src={Medena}
           width={800}
@@ -20,10 +20,11 @@ export default function Restaurant() {
         />
       </div>
       {/* Text Section */}
-      <div className="flex flex-col max-w-2xl space-y-8">
+      <div className="flex text-justify flex-col max-w-2xl space-y-8">
         <h1 className="font-playwrite-hr text-6xl font-bold text-green-900 leading-tight">
           Medena Dolina Ponijeri
         </h1>
+        <div className="p-1 bg-green-800"></div>
         <p className="text-lg leading-relaxed">
           Medena Dolina Ponijeri predstavlja jedinstveno utočište koje spaja
           luksuz, prirodu i autentičnost. Svojim posjetiteljima nudi deset
