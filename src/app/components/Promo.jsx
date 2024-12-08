@@ -5,7 +5,7 @@ const backgroundImage = new URL("../images/apartman1.jpg", import.meta.url);
 export default function Promo() {
   return (
     <div
-      className="w-full border-b-2 border-main-color-lighter-green border-opacity-50 text-gray-600 h-fit cursor-default shadow-2xl relative bg-cover bg-center"
+      className="w-full border-b-2 border-main-color-lighter-green border-opacity-50 text-gray-600 h-fit cursor-default relative bg-cover bg-center"
       style={{
         backgroundImage: `url(${backgroundImage})`,
       }}

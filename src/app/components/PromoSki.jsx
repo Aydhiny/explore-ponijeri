@@ -5,7 +5,7 @@ const backgroundImage = new URL("../images/skijanje1.jpg", import.meta.url);
 export default function PromoSki() {
   return (
     <div
-      className="w-full text-gray-600 h-fit cursor-default shadow-2xl relative bg-cover bg-center"
+      className="w-full text-gray-600 h-fit cursor-default relative bg-cover bg-center"
       style={{
         backgroundImage: `url(${backgroundImage})`,
       }}

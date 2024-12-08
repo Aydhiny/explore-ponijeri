@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Eko() {
   return (
-    <div className="bg-gradient-to-b from-green-100 to-white px-24 cursor-default py-16 text-gray-700 flex justify-between items-center">
+    <div className="bg-white px-24 cursor-default py-16 text-gray-700 flex justify-between items-center">
       {/* Text Section */}
       <div className="flex flex-col max-w-2xl space-y-8">
         <h1 className="font-playwrite-hr text-6xl font-bold text-green-900 leading-tight">
@@ -32,7 +32,7 @@ export default function Eko() {
         </p>
         <Link
           href="/restorani"
-          className="text-white border-b-2 mr-8 hover:bg-black hover:text-white transition-all duration-150 border-white rounded-sm font-bold shadow-xl px-8 py-3 bg-green-500 bg-opacity-60 backdrop-blur-sm self-start"
+          className="text-white border-b-2 mr-8 hover:bg-black hover:text-white transition-all duration-150 border-white rounded-sm font-bold px-8 py-3 bg-green-500 backdrop-blur-sm self-start"
         >
           Više informacija
         </Link>
