@@ -9,7 +9,7 @@ export default function About() {
       <h1 className="text-5xl font-bold font-playwrite-hr text-gray-600">
         Planinsko Izletište
       </h1>
-      <div className="mt-24 text-lg flex items-end flex-col">
+      <div className="mt-24 text-lg flex items-end text-wrap flex-col">
         <p className="text-lg font-bold leading-relaxed mb-6">
           Ponijeri su planinsko izletište na nadmorskoj visini od 1200 metara,
           koje je udaljeno oko 20 kilometara od centra Kaknja. Zbog nadmorske

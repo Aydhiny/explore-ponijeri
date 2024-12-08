@@ -1,5 +1,6 @@
 import About from "./components/About";
 import Activities from "./components/Activities";
+import Eko from "./components/Eko";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Promo from "./components/Promo";
@@ -12,6 +13,7 @@ export default function Home() {
       <About />
       <Activities />
       <Promo />
+      <Eko />
       <PromoSki />
       <Footer />
     </div>

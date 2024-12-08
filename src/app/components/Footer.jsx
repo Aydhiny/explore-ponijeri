@@ -3,7 +3,7 @@ import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <div className="p-10 md:p-20">
+    <div className="p-10 text-gray-600 md:p-20">
       <div className="flex flex-col md:flex-row justify-between items-center md:items-start">
         {/* Contact Information */}
         <div className="mb-10 md:mb-0">
@@ -77,7 +77,7 @@ export default function Footer() {
       </div>
 
       {/* Footer Bottom */}
-      <div className="mt-10 text-center border-t border-gray-300 pt-5">
+      <div className="text-center pt-8">
         <p className="text-sm text-gray-600">
           © 2024 Općina Kakanj. Sva prava zadržana.
         </p>
