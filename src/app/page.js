@@ -7,6 +7,7 @@ import Promo from "./components/Promo";
 import PromoSki from "./components/PromoSki";
 import Restaurant from "./components/Restaurant";
 import Showcase from "./components/Showcase";
+import SkiInfo from "./components/SkiInfo";
 import Travel from "./components/Travel";
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
       <Promo />
       <Restaurant />
       <PromoSki />
+      <SkiInfo />
       <Footer />
     </div>
   );

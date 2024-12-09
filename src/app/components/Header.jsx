@@ -96,7 +96,7 @@ export default function Header() {
             transition={{ delay: 0.9, duration: 1 }}
           >
             <motion.button
-              className="text-white border-b-2 mr-8 hover:bg-black hover:text-white transition-all duration-150 hover:border-none border-white rounded-sm font-bold shadow-xl px-8 py-3 bg-blue-600 bg-opacity-60 backdrop-blur-sm"
+              className="text-white border-b-2 mr-8 hover:bg-black hover:text-white transition-all duration-150 border-white rounded-sm font-bold shadow-xl px-8 py-3 bg-blue-600 bg-opacity-60 backdrop-blur-sm"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.1, duration: 1 }}
