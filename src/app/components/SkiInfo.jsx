@@ -37,6 +37,10 @@ export default function SkiInfo() {
           <h3 className="text-3xl font-bold mb-4">Karta za jednu vožnju</h3>
           <p className="text-5xl font-bold">2 KM</p>
         </div>
+        <div className="bg-gradient-to-t from-[#00ff3794] to-[#00ffaad8] hover:bg-gray-600 shadow-xl backdrop-blur-sm border-2 border-opacity-35 border-green-500 text-white text-center py-8 px-6 hover:scale-105 transition-all duration-300">
+          <h3 className="text-3xl font-bold mb-4">Cijena parkinga</h3>
+          <p className="text-5xl font-bold">2 KM</p>
+        </div>
         <div className="bg-gradient-to-t from-[#0044ff94] to-[#0066ffd8] hover:bg-gray-600 shadow-xl backdrop-blur-sm border-2 border-opacity-35 border-main-color-lighter-green text-white text-center py-8 px-6 hover:scale-105 transition-all duration-300">
           <h3 className="text-3xl font-bold mb-4">Sedmodnevna karta</h3>
           <p className="text-5xl font-bold">80 KM</p>
@@ -58,10 +62,6 @@ export default function SkiInfo() {
           </h3>
           <p className="text-5xl font-bold">8 KM po osobi</p>
           <p className="text-2xl mt-2">dnevna karta (ski klubovi)</p>
-        </div>
-        <div className="bg-gradient-to-t from-[#00ff3794] to-[#00ffaad8] hover:bg-gray-600 shadow-xl backdrop-blur-sm border-2 border-opacity-35 border-green-500 text-white text-center py-8 px-6 hover:scale-105 transition-all duration-300">
-          <h3 className="text-3xl font-bold mb-4">Cijena parkinga</h3>
-          <p className="text-5xl font-bold">2 KM</p>
         </div>
       </div>
 

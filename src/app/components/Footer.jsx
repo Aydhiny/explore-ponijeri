@@ -3,7 +3,7 @@ import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <div className="p-10 text-gray-600 md:p-20">
+    <div className="p-10 bg-blue-50 text-gray-600 md:p-20">
       <div className="flex flex-col md:flex-row justify-between items-center md:items-start">
         {/* Contact Information */}
         <div className="mb-10 md:mb-0">

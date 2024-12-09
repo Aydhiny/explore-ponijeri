@@ -27,7 +27,7 @@ export default function Navbar() {
           <Link href="/skijanje">Skijanje</Link>
         </li>
         <li className="mr-10 transition-all duration-150 hover:text-black">
-          <Link href="/misc">Restorani</Link>
+          <Link href="/restorani">Restorani</Link>
         </li>
         <li className="mr-10 transition-all duration-150 hover:text-black">
           <Link href="/stay">Prebivališta</Link>
