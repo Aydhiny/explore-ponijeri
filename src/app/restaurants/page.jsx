@@ -9,9 +9,11 @@ export default function page() {
       <h1 className="text-6xl mb-12 font-bold text-gray-600 font-playwrite-hr">
         Restorani
       </h1>
-      <Restaurant />
-      <Eko />
-      <Pasha />
+      <div className="shadow-2xl">
+        <Restaurant />
+        <Eko />
+        <Pasha />
+      </div>
     </div>
   );
 }

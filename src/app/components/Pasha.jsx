@@ -41,13 +41,6 @@ export default function Pasha() {
           nepce. Svaki detalj u pripremi i posluživanju jela osmišljen je kako
           bi pružio nezaboravno iskustvo.
         </p>
-
-        <Link
-          href="/restorani"
-          className="text-white border-b-2 mr-8 hover:bg-black hover:text-white transition-all duration-150 border-white rounded-sm font-bold px-8 py-3 bg-green-500 backdrop-blur-sm self-start"
-        >
-          Više informacija
-        </Link>
       </div>
     </div>
   );

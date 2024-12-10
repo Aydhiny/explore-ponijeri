@@ -1,7 +1,7 @@
+import Link from "next/link";
 import About from "./components/About";
 import Activities from "./components/Activities";
 import Eko from "./components/Eko";
-import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Promo from "./components/Promo";
 import PromoSki from "./components/PromoSki";
@@ -19,8 +19,24 @@ export default function Home() {
       <Activities />
       <Showcase />
       <Eko />
+      <div className="bg-white px-24 pb-12">
+        <Link
+          href="/restaurants"
+          className="text-white border-b-2 mr-8 hover:bg-black hover:text-white transition-all duration-150 border-white rounded-sm font-bold px-8 py-3 bg-green-500 backdrop-blur-sm self-start"
+        >
+          Više informacija
+        </Link>
+      </div>
       <Promo />
       <Restaurant />
+      <div className="px-24 pb-12 justify-end bg-white items-end flex">
+        <Link
+          href="/restaurants"
+          className="text-white border-b-2 mr-8 hover:bg-black hover:text-white transition-all duration-150 border-white rounded-sm font-bold px-8 py-3 bg-green-500 backdrop-blur-sm self-start"
+        >
+          Više informacija
+        </Link>
+      </div>
       <PromoSki />
       <SkiInfo />
     </div>

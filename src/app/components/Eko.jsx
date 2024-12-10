@@ -31,12 +31,6 @@ export default function Eko() {
           spašavanja, planinarska društva i sve ljubitelje prirode koji traže
           savršenu ravnotežu između aktivnosti i opuštanja.
         </p>
-        <Link
-          href="/restorani"
-          className="text-white border-b-2 mr-8 hover:bg-black hover:text-white transition-all duration-150 border-white rounded-sm font-bold px-8 py-3 bg-green-500 backdrop-blur-sm self-start"
-        >
-          Više informacija
-        </Link>
       </div>
 
       {/* Image Section */}

@@ -27,17 +27,17 @@ export default function Footer() {
               </Link>
             </li>
             <li className="mb-2">
-              <Link href="/skijanje" className="hover:text-blue-500">
+              <Link href="/skiing" className="hover:text-blue-500">
                 Skijanje
               </Link>
             </li>
             <li className="mb-2">
-              <Link href="/restorani" className="hover:text-blue-500">
+              <Link href="/restaurants" className="hover:text-blue-500">
                 Restorani
               </Link>
             </li>
             <li className="mb-2">
-              <Link href="/prebivalista" className="hover:text-blue-500">
+              <Link href="/lodging" className="hover:text-blue-500">
                 Prebivališta
               </Link>
             </li>

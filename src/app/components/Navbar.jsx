@@ -24,13 +24,13 @@ export default function Navbar() {
           <Link href="/">Početna</Link>
         </li>
         <li className="mr-10 transition-all duration-150 hover:text-black">
-          <Link href="/skijanje">Skijanje</Link>
+          <Link href="/skiing">Skijanje</Link>
         </li>
         <li className="mr-10 transition-all duration-150 hover:text-black">
-          <Link href="/restorani">Restorani</Link>
+          <Link href="/restaurants">Restorani</Link>
         </li>
         <li className="mr-10 transition-all duration-150 hover:text-black">
-          <Link href="/stay">Prebivališta</Link>
+          <Link href="/lodging">Prebivališta</Link>
         </li>
         <li className="mr-10 transition-all duration-150 hover:text-black">
           <Link href="/activities">Aktivnosti</Link>

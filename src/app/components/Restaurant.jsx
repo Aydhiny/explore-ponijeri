@@ -55,13 +55,6 @@ export default function Restaurant() {
             <p className="text-green-800 font-bold">Raznovrsna hrana</p>
           </div>
         </div>
-
-        <Link
-          href="/restorani"
-          className="text-white border-b-2 mr-8 hover:bg-black hover:text-white transition-all duration-150 border-white rounded-sm font-bold px-8 py-3 bg-green-500 backdrop-blur-sm self-start"
-        >
-          Više informacija
-        </Link>
       </div>
     </div>
   );
