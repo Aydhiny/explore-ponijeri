@@ -4,7 +4,7 @@ import AboutImage from "../images/ponijeri-about.jpg";
 import AboutImage2 from "../images/ponijeri-about2.jpg";
 export default function About() {
   return (
-    <div className="px-24 cursor-default py-12 text-gray-600 flex">
+    <div id="about" className="px-24 cursor-default py-12 text-gray-600 flex">
       <div className="px-8 py-1 bg-gray-600 m-2 h-0"></div>
       <h1 className="text-5xl font-bold font-playwrite-hr text-gray-600">
         Planinsko Izletište

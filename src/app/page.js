@@ -23,7 +23,6 @@ export default function Home() {
       <Restaurant />
       <PromoSki />
       <SkiInfo />
-      <Footer />
     </div>
   );
 }

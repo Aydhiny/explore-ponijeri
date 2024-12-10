@@ -31,6 +31,7 @@ export default function VideoSection() {
 
   return (
     <div
+      id="showcase"
       ref={sectionRef}
       className="w-full h-screen cursor-default relative bg-cover shadow-2xl bg-center"
       style={{

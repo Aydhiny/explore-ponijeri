@@ -8,22 +8,20 @@ const backgroundImage = new URL("../images/ponijeri.jpg", import.meta.url);
 
 export default function Header() {
   const [snowflakes, setSnowflakes] = useState([]);
-
   useEffect(() => {
-    // Only run this on the client
     const generateSnowflakes = () => {
       const numOfSnowflakes = 20;
       const snowflakeArray = [];
-      const snowflakeColors = ["#ffffff", "#a9d6e8", "#b0b0b0"]; // White, Light Blue, Grey
+      const snowflakeColors = ["#ffffff", "#a9d6e8", "#b0b0b0"];
 
       for (let i = 0; i < numOfSnowflakes; i++) {
         snowflakeArray.push({
-          left: `${Math.random() * 100}%`, // Randomize starting position
-          animationDuration: `${Math.random() * 5 + 5}s`, // Randomize duration
-          animationDelay: `${Math.random() * 5}s`, // Randomize delay
-          size: `${Math.random() * 10 + 5}px`, // Randomize size
+          left: `${Math.random() * 100}%`,
+          animationDuration: `${Math.random() * 5 + 5}s`,
+          animationDelay: `${Math.random() * 5}s`,
+          size: `${Math.random() * 10 + 5}px`,
           color:
-            snowflakeColors[Math.floor(Math.random() * snowflakeColors.length)], // Random color
+            snowflakeColors[Math.floor(Math.random() * snowflakeColors.length)],
         });
       }
 
@@ -100,6 +98,11 @@ export default function Header() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.1, duration: 1 }}
+              onClick={() =>
+                document
+                  .getElementById("showcase")
+                  .scrollIntoView({ behavior: "smooth" })
+              }
             >
               Obilazak
             </motion.button>
@@ -108,6 +111,11 @@ export default function Header() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.2, duration: 1 }}
+              onClick={() =>
+                document
+                  .getElementById("about")
+                  .scrollIntoView({ behavior: "smooth" })
+              }
             >
               O nama
             </motion.button>

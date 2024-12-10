@@ -1,6 +1,8 @@
 import React from "react";
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
-
+import LinkImage from "../images/kakanj.png";
+import Image from "next/image";
+import Link from "next/link";
 export default function Footer() {
   return (
     <div className="p-10 bg-blue-50 text-gray-600 md:p-20">
@@ -20,29 +22,29 @@ export default function Footer() {
           <h2 className="text-2xl font-semibold mb-5">Brzi linkovi</h2>
           <ul>
             <li className="mb-2">
-              <a href="#about" className="hover:text-blue-500">
+              <Link href="/about" className="hover:text-blue-500">
                 O nama
-              </a>
+              </Link>
             </li>
             <li className="mb-2">
-              <a href="#services" className="hover:text-blue-500">
-                Slike
-              </a>
+              <Link href="/skijanje" className="hover:text-blue-500">
+                Skijanje
+              </Link>
             </li>
             <li className="mb-2">
-              <a href="#contact" className="hover:text-blue-500">
+              <Link href="/restorani" className="hover:text-blue-500">
                 Restorani
-              </a>
+              </Link>
             </li>
             <li className="mb-2">
-              <a href="#gallery" className="hover:text-blue-500">
+              <Link href="/prebivalista" className="hover:text-blue-500">
                 Prebivališta
-              </a>
+              </Link>
             </li>
             <li className="mb-2">
-              <a href="#gallery" className="hover:text-blue-500">
+              <Link href="/blog" className="hover:text-blue-500">
                 Aktivnosti
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -52,25 +54,25 @@ export default function Footer() {
           <h2 className="text-2xl font-semibold mb-5">Pratite nas</h2>
           <div className="flex space-x-5">
             <a
-              href="#"
+              href="https://www.facebook.com/p/Ponijeri-Kakanj-100054256310829/?locale=hr_HR"
               className="text-blue-500 hover:text-blue-600"
               aria-label="Facebook"
             >
               <FaFacebookF size={28} />
             </a>
             <a
-              href="#"
+              href="https://www.instagram.com/visit.ponijeri/?hl=en"
               className="text-blue-500 hover:text-blue-600"
               aria-label="Instagram"
             >
               <FaInstagram size={28} />
             </a>
             <a
-              href="#"
+              href="https://kakanj.gov.ba/"
               className="text-blue-500 hover:text-blue-600"
-              aria-label="LinkedIn"
+              aria-label="Website"
             >
-              <FaLinkedinIn size={28} />
+              <Image alt="image" src={LinkImage} height={25} width={25} />
             </a>
           </div>
         </div>
