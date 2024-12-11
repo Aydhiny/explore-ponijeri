@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function SkiInfo() {
   return (
-    <div className="px-24 py-16 bg-gradient-to-t from-gray-800 to-gray-900 cursor-default text-white flex flex-col items-center">
+    <div className="px-4 xl:px-24 py-16 bg-gradient-to-t from-gray-800 to-gray-900 cursor-default text-white flex flex-col items-center">
       {/* Text Section */}
       <div className="text-center max-w-3xl space-y-8">
         <h1 className="font-playwrite-hr text-6xl font-bold text-white leading-tight">

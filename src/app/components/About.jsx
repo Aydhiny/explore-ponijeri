@@ -2,14 +2,18 @@ import Image from "next/image";
 import React from "react";
 import AboutImage from "../images/ponijeri-about.jpg";
 import AboutImage2 from "../images/ponijeri-about2.jpg";
+
 export default function About() {
   return (
-    <div id="about" className="px-24 cursor-default py-12 text-gray-600 flex">
-      <div className="px-8 py-1 bg-gray-600 m-2 h-0"></div>
-      <h1 className="text-5xl font-bold font-playwrite-hr text-gray-600">
+    <div
+      id="about"
+      className="px-4 sm:px-6 md:px-12 lg:px-20 xl:px-24 cursor-default py-12 text-gray-600 flex flex-col xl:flex-row"
+    >
+      <div className="px-8 py-1 bg-gray-600 m-2 h-0 hidden xl:block"></div>
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-playwrite-hr text-gray-600 text-center xl:text-left">
         Planinsko Izletište
       </h1>
-      <div className="mt-24 text-lg flex  items-end text-justify flex-col">
+      <div className="mt-8 xl:mt-24 text-base sm:text-lg flex flex-col xl:items-end text-justify">
         <p className="text-lg font-bold leading-relaxed mb-6">
           Ponijeri su planinsko izletište na nadmorskoj visini od 1200 metara,
           koje je udaljeno oko 20 kilometara od centra Kaknja. Zbog nadmorske
@@ -42,12 +46,12 @@ export default function About() {
           kvarca, jaspisa, limonita, serpentina, olivina, opala, hematita,
           kalcita, gipsa i liksuna.
         </p>
-        <div className="p-[2px] -rotate-1 w-full bg-gray-600"></div>
-        <div className="flex">
+        <div className="p-[2px] -rotate-1 w-full bg-gray-600 hidden xl:block"></div>
+        <div className="flex flex-col sm:flex-row sm:justify-center xl:justify-start">
           <Image
             alt="ponijeri"
             src={AboutImage}
-            className="border-2 mr-4 hover:rotate-3 cursor-pointer hover:shadow-2xl transition-all duration-150 border-main-color-lighter-green mt-4 rounded-sm border-opacity-50"
+            className="border-2 sm:mr-4 hover:rotate-3 cursor-pointer hover:shadow-2xl transition-all duration-150 border-main-color-lighter-green mt-4 rounded-sm border-opacity-50"
             height={500}
             width={500}
           />

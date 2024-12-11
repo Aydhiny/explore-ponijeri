@@ -10,7 +10,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="p-4 w-full fixed top-0 z-50 bg-gradient-to-l from-[#a7cdffe5] to-[#cfe2ff85] backdrop-blur-md shadow-md border-b-2 border-opacity-35 border-y-main-color-lighter-green">
+    <div className="p-4 w-full xl:static fixed top-0 z-50 bg-gradient-to-l from-[#a7cdffe5] to-[#cfe2ff85] backdrop-blur-md shadow-md border-b-2 border-opacity-35 border-y-main-color-lighter-green">
       {/* Desktop Navbar */}
       <ul className="hidden md:flex justify-between items-center text-main-color-dark-green text-sm">
         <div className="flex items-center">

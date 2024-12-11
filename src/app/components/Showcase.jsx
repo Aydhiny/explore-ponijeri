@@ -2,6 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 const backgroundImage = new URL("../images/ponijeri.png", import.meta.url);
+
 export default function VideoSection() {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
@@ -39,11 +40,11 @@ export default function VideoSection() {
       }}
     >
       {/* Content in the center */}
-      <div className="absolute inset-0 items-center justify-center flex flex-col z-10">
+      <div className="absolute inset-0 items-center justify-center flex flex-col z-10 px-4">
         {isVisible && (
           <>
             <motion.h1
-              className="text-6xl mb-8 font-playwrite-hr font-bold text-main-color-lighter-green text-center"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-8 font-playwrite-hr font-bold text-main-color-lighter-green text-center"
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
@@ -52,7 +53,7 @@ export default function VideoSection() {
             </motion.h1>
 
             <motion.div
-              className="relative w-full h-[60%] max-w-5xl rounded-xl overflow-hidden shadow-2xl"
+              className="relative w-full h-[50%] sm:h-[60%] max-w-2xl sm:max-w-3xl lg:max-w-5xl rounded-xl overflow-hidden shadow-2xl"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3, duration: 1 }}

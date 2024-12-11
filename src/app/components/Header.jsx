@@ -8,9 +8,10 @@ const backgroundImage = new URL("../images/ponijeri.jpg", import.meta.url);
 
 export default function Header() {
   const [snowflakes, setSnowflakes] = useState([]);
+
   useEffect(() => {
     const generateSnowflakes = () => {
-      const numOfSnowflakes = 20;
+      const numOfSnowflakes = window.innerWidth < 768 ? 10 : 20;
       const snowflakeArray = [];
       const snowflakeColors = ["#ffffff", "#a9d6e8", "#b0b0b0"];
 
@@ -57,7 +58,7 @@ export default function Header() {
       </div>
 
       {/* Content in the center */}
-      <div className="absolute inset-0 items-center justify-center flex flex-col z-10">
+      <div className="absolute inset-0 items-center justify-center flex flex-col z-10 px-4 sm:px-8">
         <motion.div
           className="text-center items-center flex flex-col"
           initial={{ opacity: 0 }}
@@ -65,7 +66,7 @@ export default function Header() {
           transition={{ duration: 1 }}
         >
           <motion.p
-            className="text-main-color-lighter-green text-2xl"
+            className="text-main-color-lighter-green text-lg sm:text-2xl"
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 1 }}
@@ -73,7 +74,7 @@ export default function Header() {
             Dobrodošli
           </motion.p>
           <motion.h1
-            className="text-8xl m-4 font-playwrite-hr font-semibold text-gray-600"
+            className="text-4xl sm:text-6xl md:text-8xl m-2 sm:m-4 font-playwrite-hr font-semibold text-gray-600"
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 1 }}
@@ -82,19 +83,19 @@ export default function Header() {
             <span className="text-main-color-lighter-green">PONIJERI</span>
           </motion.h1>
           <motion.div
-            className="mt-4 h-1 w-1/3 mx-auto bg-gradient-to-t from-main-color-lighter-green via-blue-500 to-blue-700 rounded-full"
+            className="mt-2 sm:mt-4 h-1 w-2/3 sm:w-1/3 mx-auto bg-gradient-to-t from-main-color-lighter-green via-blue-500 to-blue-700 rounded-full"
             initial={{ opacity: 0, width: 0 }}
-            animate={{ opacity: 1, width: "33%" }}
+            animate={{ opacity: 1, width: "66%" }}
             transition={{ delay: 0.7, duration: 1 }}
           />
           <motion.div
-            className="flex m-4"
+            className="flex flex-col sm:flex-row items-center justify-center m-4 space-y-4 sm:space-y-0 sm:space-x-8"
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9, duration: 1 }}
           >
             <motion.button
-              className="text-white border-b-2 mr-8 hover:bg-black hover:text-white transition-all duration-150 border-white rounded-sm font-bold shadow-xl px-8 py-3 bg-blue-600 bg-opacity-60 backdrop-blur-sm"
+              className="text-white border-b-2 hover:bg-black hover:text-white transition-all duration-150 border-white rounded-sm font-bold shadow-xl px-6 sm:px-8 py-2 sm:py-3 bg-blue-600 bg-opacity-60 backdrop-blur-sm"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.1, duration: 1 }}
@@ -107,7 +108,7 @@ export default function Header() {
               Obilazak
             </motion.button>
             <motion.button
-              className="text-white border-2 hover:bg-main-color-lighter-green transition-all duration-150 hover:text-main-color-dark-green bg-[#ffffff28] backdrop-blur-md border-white rounded-sm font-bold shadow-xl px-8 py-3 bg-none"
+              className="text-white border-2 hover:bg-main-color-lighter-green transition-all duration-150 hover:text-main-color-dark-green bg-[#ffffff28] backdrop-blur-md border-white rounded-sm font-bold shadow-xl px-6 sm:px-8 py-2 sm:py-3 bg-none"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.2, duration: 1 }}
@@ -128,14 +129,14 @@ export default function Header() {
             <Image
               alt="opcina"
               src={opcina}
-              className="cursor-pointer mt-8 hover:bg-white hover:shadow-lg transition-all duration-150 bg-gradient-to-t rounded-full p-4 from-[#a7cdffe5] to-[#cfe2ff85] backdrop-blur-sm border-b-4 border-y-main-color-lighter-green border-opacity-35"
-              height={300}
-              width={300}
+              className="cursor-pointer mt-8 sm:mt-12 hover:bg-white hover:shadow-lg transition-all duration-150 bg-gradient-to-t rounded-full p-2 sm:p-4 from-[#a7cdffe5] to-[#cfe2ff85] backdrop-blur-sm border-b-4 border-y-main-color-lighter-green border-opacity-35"
+              height={200}
+              width={200}
             />
           </motion.div>
         </motion.div>
         <div className="text-white p-4 absolute bottom-0 left-0">
-          <div className="flex items-center text-center">
+          <div className="flex items-center text-center text-sm sm:text-base">
             <FaLocationDot className="mr-2 text-white size-10" />
             <p>Ponijeri, Kakanj</p>
           </div>
