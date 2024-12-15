@@ -1,18 +1,17 @@
 import Image from "next/image";
 import React from "react";
 import EkoKuca from "../images/eko-kuca.jpg";
-import Link from "next/link";
 
 export default function Eko() {
   return (
-    <div className="bg-white px-24 cursor-default py-16 text-gray-700 flex justify-between items-center">
+    <div className="bg-white px-6 sm:px-12 md:px-16 lg:px-24 cursor-default py-8 sm:py-12 md:py-16 text-gray-700 flex flex-col lg:flex-row justify-center lg:justify-between items-center gap-8 lg:gap-0">
       {/* Text Section */}
-      <div className="flex text-justify flex-col max-w-2xl space-y-8">
-        <h1 className="font-playwrite-hr text-6xl font-bold text-green-900 leading-tight">
+      <div className="flex text-justify flex-col space-y-6 sm:space-y-8 max-w-3xl lg:max-w-2xl">
+        <h1 className="font-playwrite-hr text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-green-900 leading-tight">
           Eko Kuća Ponijeri
         </h1>
         <div className="p-1 bg-green-800"></div>
-        <p className="text-lg leading-relaxed">
+        <p className="text-sm sm:text-base md:text-lg leading-relaxed">
           Eko kuća Ponijeri nudi osam luksuzno opremljenih apartmana,
           osmišljenih kako bi pružili maksimalnu udobnost i spoj modernog
           dizajna s prirodnim okruženjem. Svaki apartman opremljen je najnovijom

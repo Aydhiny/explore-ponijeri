@@ -13,14 +13,16 @@ export default function Navbar() {
     <div className="p-4 w-full xl:static fixed top-0 z-50 bg-gradient-to-l from-[#a7cdffe5] to-[#cfe2ff85] backdrop-blur-md shadow-md border-b-2 border-opacity-35 border-y-main-color-lighter-green">
       {/* Desktop Navbar */}
       <ul className="hidden md:flex justify-between items-center text-main-color-dark-green text-sm">
-        <div className="flex items-center">
-          <Image
-            alt="kakanj"
-            className="mr-6 -rotate-12"
-            src={kakanj}
-            height={26}
-            width={26}
-          />
+        <div className="flex cursor-pointer items-center">
+          <Link href="/">
+            <Image
+              alt="kakanj"
+              className="mr-6 -rotate-12"
+              src={kakanj}
+              height={26}
+              width={26}
+            />
+          </Link>
           <div className="flex items-center">
             <FaCloudRain className="size-6 mr-2" />
             <p>-3 °C</p>

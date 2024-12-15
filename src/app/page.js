@@ -19,20 +19,20 @@ export default function Home() {
       <Activities />
       <Showcase />
       <Eko />
-      <div className="bg-white px-24 pb-12">
+      <div className="bg-white xl:items-start xl:justify-start justify-center flex items-center px-24 pb-12">
         <Link
           href="/restaurants"
-          className="text-white border-b-2 mr-8 hover:bg-black hover:text-white transition-all duration-150 border-white rounded-sm font-bold px-8 py-3 bg-green-500 backdrop-blur-sm self-start"
+          className="text-white border-b-2 xl:mr-8 mx-0 hover:bg-black hover:text-white transition-all duration-150 border-white rounded-sm font-bold px-8 py-3 bg-green-500 backdrop-blur-sm"
         >
           Više informacija
         </Link>
       </div>
       <Promo />
       <Restaurant />
-      <div className="px-24 pb-12 justify-end bg-white items-end flex">
+      <div className="xl:pr-16 px-4 pb-12 justify-end bg-white items-end flex">
         <Link
           href="/restaurants"
-          className="text-white border-b-2 mr-8 hover:bg-black hover:text-white transition-all duration-150 border-white rounded-sm font-bold px-8 py-3 bg-green-500 backdrop-blur-sm self-start"
+          className="text-white border-b-2 xl:mr-8 mx-auto hover:bg-black hover:text-white transition-all duration-150 border-white rounded-sm font-bold px-8 py-3 bg-green-500 backdrop-blur-sm self-start"
         >
           Više informacija
         </Link>

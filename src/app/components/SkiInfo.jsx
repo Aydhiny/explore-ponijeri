@@ -66,10 +66,10 @@ export default function SkiInfo() {
       </div>
 
       {/* Link Section */}
-      <div className="mt-12 flex justify-center">
+      <div className="mt-12 flex items-center text-center mx-auto justify-center">
         <Link
           href="/skiing"
-          className="text-white border-b-2 mr-8 hover:bg-black hover:text-white transition-all duration-150 border-white rounded-sm font-bold px-8 py-3 bg-main-color-lighter-green backdrop-blur-sm self-start"
+          className="text-white border-b-2 xl:mr-8 mr-0 hover:bg-black hover:text-white transition-all duration-150 border-white rounded-sm font-bold px-8 py-3 bg-main-color-lighter-green backdrop-blur-sm self-start"
         >
           Raspored i Ski Škola
         </Link>

@@ -1,16 +1,12 @@
 import Image from "next/image";
 import React from "react";
 import PashaImg from "../images/pasha.jpg";
-import Link from "next/link";
-import { LuDonut } from "react-icons/lu";
-import { IoPricetagOutline } from "react-icons/io5";
-import { GiFoodChain } from "react-icons/gi";
 
 export default function Pasha() {
   return (
-    <div className="bg-white px-24 cursor-default py-16 text-gray-700 flex justify-between items-center">
+    <div className="bg-white px-6 sm:px-12 md:px-16 lg:px-24 py-8 sm:py-12 md:py-16 cursor-default text-gray-700 flex flex-wrap lg:flex-nowrap justify-center lg:justify-between items-center">
       {/* Image Section */}
-      <div className="relative group cursor-pointer">
+      <div className="relative group cursor-pointer mb-8 lg:mb-0 flex-shrink-0 w-full sm:w-auto">
         <Image
           className="border-4 border-green-300 rounded-sm transition-transform duration-300 transform group-hover:rotate-6"
           alt="eko"
@@ -20,12 +16,12 @@ export default function Pasha() {
         />
       </div>
       {/* Text Section */}
-      <div className="flex text-justify flex-col max-w-2xl space-y-8">
-        <h1 className="font-playwrite-hr text-6xl font-bold text-green-900 leading-tight">
+      <div className="flex flex-col text-justify max-w-full sm:max-w-xl lg:max-w-2xl space-y-8">
+        <h1 className="font-playwrite-hr text-4xl sm:text-5xl md:text-6xl font-bold text-green-900 leading-tight">
           Sofra Pasha
         </h1>
         <div className="p-1 bg-green-800"></div>
-        <p className="text-lg leading-relaxed">
+        <p className="text-base sm:text-lg md:text-xl leading-relaxed">
           Sofra Pasha predstavlja jedinstveno utočište koje spaja luksuz,
           prirodu i autentičnost. Svojim posjetiteljima nudi deset moderno
           opremljenih apartmana koji odišu toplinom i pažljivo biranim

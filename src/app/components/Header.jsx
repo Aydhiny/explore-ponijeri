@@ -40,7 +40,7 @@ export default function Header() {
       }}
     >
       {/* Snow effect */}
-      <div className="absolute inset-0 z-0 snow-container">
+      <div className="absolute inset-0 -z-10 snow-container">
         {snowflakes.map((snowflake, index) => (
           <div
             key={index}
