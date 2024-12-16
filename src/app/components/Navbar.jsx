@@ -5,12 +5,16 @@ import Tree from "../images/tree.png";
 import kakanj from "../images/kakanj.png";
 import Image from "next/image";
 import { FaCloudRain, FaBars, FaTimes } from "react-icons/fa";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (path) => pathname === path;
 
   return (
-    <div className="p-4 w-full xl:static fixed top-0 z-50 bg-gradient-to-l from-[#a7cdffe5] to-[#cfe2ff85] backdrop-blur-md shadow-md border-b-2 border-opacity-35 border-y-main-color-lighter-green">
+    <div className="p-4 w-full xl:static fixed top-0 z-50 bg-gradient-to-l from-[#a7cdfff5] to-[#cfe2ffc2] backdrop-blur-md shadow-md border-b-2 border-opacity-35 border-y-main-color-lighter-green">
       {/* Desktop Navbar */}
       <ul className="hidden md:flex justify-between items-center text-main-color-dark-green text-sm">
         <div className="flex cursor-pointer items-center">
@@ -29,24 +33,23 @@ export default function Navbar() {
           </div>
         </div>
         <div className="flex">
-          <li className="mx-4 transition-all duration-150 hover:text-black">
-            <Link href="/">Početna</Link>
-          </li>
-          <li className="mx-4 transition-all duration-150 hover:text-black">
-            <Link href="/skiing">Skijanje</Link>
-          </li>
-          <li className="mx-4 transition-all duration-150 hover:text-black">
-            <Link href="/restaurants">Restorani</Link>
-          </li>
-          <li className="mx-4 transition-all duration-150 hover:text-black">
-            <Link href="/lodging">Prebivališta</Link>
-          </li>
-          <li className="mx-4 transition-all duration-150 hover:text-black">
-            <Link href="/activities">Aktivnosti</Link>
-          </li>
-          <li className="mx-4 transition-all duration-150 hover:text-black">
-            <Link href="/about">O nama</Link>
-          </li>
+          {[
+            { path: "/", label: "Početna" },
+            { path: "/skiing", label: "Skijanje" },
+            { path: "/restaurants", label: "Restorani" },
+            { path: "/lodging", label: "Prebivališta" },
+            { path: "/activities", label: "Aktivnosti" },
+            { path: "/about", label: "O nama" },
+          ].map(({ path, label }) => (
+            <li
+              key={path}
+              className={`mx-4 transition-all duration-150 ${
+                isActive(path) ? "text-black font-bold" : "hover:text-black"
+              }`}
+            >
+              <Link href={path}>{label}</Link>
+            </li>
+          ))}
         </div>
         <Image
           alt="tree"
@@ -75,26 +78,25 @@ export default function Navbar() {
       </div>
 
       {menuOpen && (
-        <div className="absolute top-16 left-0 w-full bg-gradient-to-l from-[#a7cdffe5] to-[#cfe2ff85] backdrop-blur-md shadow-lg">
+        <div className="absolute top-16 left-0 w-full bg-gradient-to-l from-[#a7cdff] to-[#cfe2ff] backdrop-blur-md shadow-lg">
           <ul className="flex flex-col items-center py-4 text-main-color-dark-green text-sm space-y-3">
-            <li className="transition-all duration-150 hover:text-black">
-              <Link href="/">Početna</Link>
-            </li>
-            <li className="transition-all duration-150 hover:text-black">
-              <Link href="/skiing">Skijanje</Link>
-            </li>
-            <li className="transition-all duration-150 hover:text-black">
-              <Link href="/restaurants">Restorani</Link>
-            </li>
-            <li className="transition-all duration-150 hover:text-black">
-              <Link href="/lodging">Prebivališta</Link>
-            </li>
-            <li className="transition-all duration-150 hover:text-black">
-              <Link href="/activities">Aktivnosti</Link>
-            </li>
-            <li className="transition-all duration-150 hover:text-black">
-              <Link href="/about">O nama</Link>
-            </li>
+            {[
+              { path: "/", label: "Početna" },
+              { path: "/skiing", label: "Skijanje" },
+              { path: "/restaurants", label: "Restorani" },
+              { path: "/lodging", label: "Prebivališta" },
+              { path: "/activities", label: "Aktivnosti" },
+              { path: "/about", label: "O nama" },
+            ].map(({ path, label }) => (
+              <li
+                key={path}
+                className={`transition-all duration-150 ${
+                  isActive(path) ? "text-black font-bold" : "hover:text-black"
+                }`}
+              >
+                <Link href={path}>{label}</Link>
+              </li>
+            ))}
           </ul>
         </div>
       )}

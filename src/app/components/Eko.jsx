@@ -1,16 +1,37 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import EkoKuca from "../images/eko-kuca.jpg";
 
 export default function Eko() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true }); // Trigger animation only once
+
   return (
-    <div className="bg-white px-6 sm:px-12 md:px-16 lg:px-24 cursor-default py-8 sm:py-12 md:py-16 text-gray-700 flex flex-col lg:flex-row justify-center lg:justify-between items-center gap-8 lg:gap-0">
+    <motion.div
+      ref={ref}
+      className="bg-white px-6 sm:px-12 md:px-16 lg:px-24 cursor-default py-8 sm:py-12 md:py-16 text-gray-700 flex flex-col lg:flex-row justify-center lg:justify-between items-center gap-8 lg:gap-0"
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8 }}
+    >
       {/* Text Section */}
-      <div className="flex text-justify flex-col space-y-6 sm:space-y-8 max-w-3xl lg:max-w-2xl">
+      <motion.div
+        className="flex text-justify flex-col space-y-6 sm:space-y-8 max-w-3xl lg:max-w-2xl"
+        initial={{ x: -100, opacity: 0 }}
+        animate={isInView ? { x: 0, opacity: 1 } : {}}
+        transition={{ duration: 1 }}
+      >
         <h1 className="font-playwrite-hr text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-green-900 leading-tight">
           Eko Kuća Ponijeri
         </h1>
-        <div className="p-1 bg-green-800"></div>
+        <motion.div
+          className="p-1 bg-green-800"
+          initial={{ scaleX: 0 }}
+          animate={isInView ? { scaleX: 1 } : {}}
+          transition={{ duration: 1, ease: "easeInOut" }}
+        ></motion.div>
         <p className="text-sm sm:text-base md:text-lg leading-relaxed">
           Eko kuća Ponijeri nudi osam luksuzno opremljenih apartmana,
           osmišljenih kako bi pružili maksimalnu udobnost i spoj modernog
@@ -30,18 +51,28 @@ export default function Eko() {
           spašavanja, planinarska društva i sve ljubitelje prirode koji traže
           savršenu ravnotežu između aktivnosti i opuštanja.
         </p>
-      </div>
+      </motion.div>
 
       {/* Image Section */}
-      <div className="relative group cursor-pointer">
-        <Image
-          className="border-4 border-green-300 rounded-sm transition-transform duration-300 transform group-hover:rotate-6"
-          alt="eko"
-          src={EkoKuca}
-          width={800}
-          height={800}
-        />
-      </div>
-    </div>
+      <motion.div
+        className="relative group cursor-pointer"
+        whileHover={{ scale: 1.05, rotate: 6 }}
+        transition={{ duration: 0.3 }}
+      >
+        <motion.div
+          initial={{ opacity: 0, x: 100 }}
+          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 1 }}
+        >
+          <Image
+            className="border-4 border-green-300 rounded-sm transition-transform duration-300"
+            alt="eko"
+            src={EkoKuca}
+            width={800}
+            height={800}
+          />
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 }
