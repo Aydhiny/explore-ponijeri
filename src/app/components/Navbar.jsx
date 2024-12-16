@@ -38,13 +38,15 @@ export default function Navbar() {
             { path: "/skiing", label: "Skijanje" },
             { path: "/restaurants", label: "Restorani" },
             { path: "/lodging", label: "Prebivališta" },
-            { path: "/activities", label: "Aktivnosti" },
+            { path: "/blog", label: "Blog" },
             { path: "/about", label: "O nama" },
           ].map(({ path, label }) => (
             <li
               key={path}
               className={`mx-4 transition-all duration-150 ${
-                isActive(path) ? "text-black font-bold" : "hover:text-black"
+                isActive(path)
+                  ? "text-blue-950 font-bold"
+                  : "hover:text-blue-950"
               }`}
             >
               <Link href={path}>{label}</Link>
@@ -85,7 +87,7 @@ export default function Navbar() {
               { path: "/skiing", label: "Skijanje" },
               { path: "/restaurants", label: "Restorani" },
               { path: "/lodging", label: "Prebivališta" },
-              { path: "/activities", label: "Aktivnosti" },
+              { path: "/blog", label: "Blog" },
               { path: "/about", label: "O nama" },
             ].map(({ path, label }) => (
               <li
