@@ -14,12 +14,12 @@ export default function About() {
         Planinsko Izletište
       </h1>
       <div className="mt-8 xl:mt-24 text-base sm:text-lg flex flex-col xl:items-end text-justify">
-        <p className="text-lg font-bold leading-relaxed mb-6">
+        <p className="text-base font-bold sm:text-lg md:text-xl leading-relaxed mb-6">
           Ponijeri su planinsko izletište na nadmorskoj visini od 1200 metara,
           koje je udaljeno oko 20 kilometara od centra Kaknja. Zbog nadmorske
           visine ujedno je i zračna banja.
         </p>
-        <p className="text-lg leading-relaxed mb-6">
+        <p className="text-base sm:text-lg md:text-xl leading-relaxed mb-6">
           Izletište Ponijeri se nalaze u sastavu masiva Ravne Planine koja se
           pruža između općina Kakanj, Zavidovići, Vareš i Zenica s najvećim
           vrhom Tajan na nadmorskoj visini od 1297 metara. U podnožju Ponijera
@@ -27,7 +27,7 @@ export default function About() {
           rijeka, Žuća, Ribnica, Mala Rijeka, Boriva i Lužnica. Sastavni je dio
           Spomenika prirode Tajan.
         </p>
-        <p className="text-lg leading-relaxed mb-6">
+        <p className="text-base sm:text-lg md:text-xl leading-relaxed mb-6">
           Geološki, područje Ponijera je veoma zanimljivo. Centralni dio
           Ponijera izgrađen je od trijaskih vapnanaca koji se pružaju od izvora
           Žuće na zapadu do Omlatka i Prašume Trstionica na istoku. Uz prisustvo
@@ -35,7 +35,7 @@ export default function About() {
           poput malog kraškog polja u centru Ponijera, 3 veće kraške uvale,
           mnogobrojne ponore, pećine, i jame.
         </p>
-        <p className="text-lg leading-relaxed mb-6">
+        <p className="text-base sm:text-lg md:text-xl leading-relaxed mb-6">
           Vode koje poniru s područja Ponijerskog polja i Opake Ravni (njih 6)
           javljaju se kao vrelo rijeke Žuća, zakonom zaštićeno kao strogi
           prirodni rezervat, dok ponori s područja Močila i Omlatka izviru kao
@@ -46,19 +46,18 @@ export default function About() {
           kvarca, jaspisa, limonita, serpentina, olivina, opala, hematita,
           kalcita, gipsa i liksuna.
         </p>
-        <div className="p-[2px] -rotate-1 w-full bg-gray-600 hidden xl:block"></div>
         <div className="flex flex-col sm:flex-row sm:justify-center xl:justify-start">
           <Image
             alt="ponijeri"
             src={AboutImage}
-            className="border-2 sm:mr-4 hover:rotate-3 cursor-pointer hover:shadow-2xl transition-all duration-150 border-main-color-lighter-green mt-4 rounded-sm border-opacity-50"
+            className="rounded-lg border border-main-color-lighter-green sm:mr-4 hover:rotate-3 cursor-pointer hover:shadow-2xl transition-all duration-150 mt-4 border-opacity-50"
             height={500}
             width={500}
           />
           <Image
             alt="ponijeri2"
             src={AboutImage2}
-            className="border-2 hover:rotate-3 cursor-pointer hover:shadow-2xl transition-all duration-150 border-main-color-lighter-green mt-4 rounded-sm border-opacity-50"
+            className="rounded-lg border border-main-color-lighter-green hover:rotate-3 cursor-pointer hover:shadow-2xl transition-all duration-150 mt-4 border-opacity-50"
             height={500}
             width={500}
           />

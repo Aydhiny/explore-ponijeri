@@ -1,7 +1,8 @@
 ---
 title: "Proljetni Festival na Ponijerima!"
 subtitle: "Šta vas očekuje ove sezone?"
-date: "2024-13-12"
+date: "2024-08-27"
+image: "/images/ponijeri.jpg"
 ---
 
 # **Proljetni Festival na Ponijerima 🎉**

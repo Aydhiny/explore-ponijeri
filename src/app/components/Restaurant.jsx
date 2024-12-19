@@ -12,7 +12,7 @@ export default function Restaurant() {
       {/* Image Section */}
       <div className="relative group cursor-pointer flex-shrink-0 mx-auto lg:mx-0">
         <Image
-          className="border-4 border-green-300 rounded-sm transition-transform duration-300 transform group-hover:rotate-6"
+          className="rounded-lg border-4 border-main-color-lighter-green hover:shadow-xl transition-transform duration-300 transform group-hover:rotate-6"
           alt="eko"
           src={Medena}
           width={800}
@@ -21,11 +21,11 @@ export default function Restaurant() {
       </div>
       {/* Text Section */}
       <div className="flex flex-col text-justify max-w-2xl space-y-8 mx-auto lg:mx-0">
-        <h1 className="font-playwrite-hr text-4xl sm:text-5xl lg:text-6xl font-bold text-green-900 leading-tight">
+        <h1 className="font-playwrite-hr text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-600 leading-tight">
           Medena Dolina Ponijeri
         </h1>
-        <div className="p-1 bg-green-800"></div>
-        <p className="text-base sm:text-lg leading-relaxed">
+        <div className="p-1 bg-gray-600"></div>
+        <p className="text-base sm:text-lg md:text-xl leading-relaxed">
           Medena Dolina Ponijeri predstavlja jedinstveno utočište koje spaja
           luksuz, prirodu i autentičnost. Svojim posjetiteljima nudi deset
           moderno opremljenih apartmana koji odišu toplinom i pažljivo biranim
@@ -41,18 +41,18 @@ export default function Restaurant() {
           nepce. Svaki detalj u pripremi i posluživanju jela osmišljen je kako
           bi pružio nezaboravno iskustvo.
         </p>
-        <div className="p-2 flex flex-wrap justify-center items-center bg-green-800 bg-opacity-50 rounded-sm border-4 border-green-500 border-opacity-50 shadow-xl gap-4">
+        <div className="p-2 flex flex-wrap justify-center items-center bg-blue-800 bg-opacity-50 border-2 rounded-lg border-blue-500 border-opacity-50 shadow-xl gap-4">
           <div className="flex flex-col items-center text-center w-36 sm:w-44 md:w-52">
-            <LuDonut className="text-4xl text-green-800 mb-2" />
-            <p className="text-green-800 font-bold">Tradicionalni uštipci!</p>
+            <LuDonut className="text-4xl text-blue-800 mb-2" />
+            <p className="text-blue-800 font-bold">Tradicionalni uštipci!</p>
           </div>
           <div className="flex flex-col items-center text-center w-36 sm:w-44 md:w-52">
-            <IoPricetagOutline className="text-4xl text-green-800 mb-2" />
-            <p className="text-green-800 font-bold">Povoljne cijene</p>
+            <IoPricetagOutline className="text-4xl text-blue-800 mb-2" />
+            <p className="text-blue-800 font-bold">Povoljne cijene</p>
           </div>
           <div className="flex flex-col items-center text-center w-36 sm:w-44 md:w-52">
-            <GiFoodChain className="text-4xl text-green-800 mb-2" />
-            <p className="text-green-800 font-bold">Raznovrsna hrana</p>
+            <GiFoodChain className="text-4xl text-blue-800 mb-2" />
+            <p className="text-blue-800 font-bold">Raznovrsna hrana</p>
           </div>
         </div>
       </div>

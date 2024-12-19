@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import opcina from "../images/opcina-kakanj.png";
 import { motion } from "framer-motion";
-import { FaLocationDot } from "react-icons/fa6";
+import { FaHeart } from "react-icons/fa6";
 const backgroundImage = new URL("../images/ponijeri.jpg", import.meta.url);
 
 export default function Header() {
@@ -40,7 +40,7 @@ export default function Header() {
       }}
     >
       {/* Snow effect */}
-      <div className="absolute inset-0 -z-10 snow-container">
+      <div className="absolute inset-0 z-1 snow-container">
         {snowflakes.map((snowflake, index) => (
           <div
             key={index}
@@ -58,7 +58,7 @@ export default function Header() {
       </div>
 
       {/* Content in the center */}
-      <div className="absolute inset-0 items-center justify-center flex flex-col z-10 px-4 sm:px-8">
+      <div className="absolute inset-0 items-center justify-center flex flex-col z-20 px-4 sm:px-8">
         <motion.div
           className="text-center items-center flex flex-col"
           initial={{ opacity: 0 }}
@@ -130,15 +130,15 @@ export default function Header() {
               alt="opcina"
               src={opcina}
               className="cursor-pointer mt-8 sm:mt-12 hover:bg-white hover:shadow-lg transition-all duration-150 bg-gradient-to-t rounded-full p-2 sm:p-4 from-[#a7cdffe5] to-[#cfe2ff85] backdrop-blur-sm border-b-4 border-y-main-color-lighter-green border-opacity-35"
-              height={200}
-              width={200}
+              height={350}
+              width={350}
             />
           </motion.div>
         </motion.div>
         <div className="text-white p-4 absolute bottom-0 left-0">
           <div className="flex items-center text-center text-sm sm:text-base">
-            <FaLocationDot className="mr-2 text-white size-10" />
-            <p>Ponijeri, Kakanj</p>
+            <FaHeart className="mr-2 text-white size-10" />
+            <p>Posjetite nas!</p>
           </div>
         </div>
       </div>
@@ -152,7 +152,7 @@ export default function Header() {
           right: 0;
           bottom: 0;
           pointer-events: none;
-          z-index: 1;
+          z-index: 1; /* Ensure snowflakes are behind the content but still in front of the background */
         }
 
         .snowflake {

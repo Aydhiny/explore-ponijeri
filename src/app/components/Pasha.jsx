@@ -8,7 +8,7 @@ export default function Pasha() {
       {/* Image Section */}
       <div className="relative group cursor-pointer mb-8 lg:mb-0 flex-shrink-0 w-full sm:w-auto">
         <Image
-          className="border-4 border-green-300 rounded-sm transition-transform duration-300 transform group-hover:rotate-6"
+          className="border-4 border-blue-300 rounded-lg transition-transform duration-300 transform group-hover:rotate-6"
           alt="eko"
           src={PashaImg}
           width={800}
@@ -17,10 +17,10 @@ export default function Pasha() {
       </div>
       {/* Text Section */}
       <div className="flex flex-col text-justify max-w-full sm:max-w-xl lg:max-w-2xl space-y-8">
-        <h1 className="font-playwrite-hr text-4xl sm:text-5xl md:text-6xl font-bold text-green-900 leading-tight">
+        <h1 className="font-playwrite-hr text-4xl sm:text-5xl md:text-6xl font-bold text-gray-600 leading-tight">
           Sofra Pasha
         </h1>
-        <div className="p-1 bg-green-800"></div>
+        <div className="p-1 bg-gray-600"></div>
         <p className="text-base sm:text-lg md:text-xl leading-relaxed">
           Sofra Pasha predstavlja jedinstveno utočište koje spaja luksuz,
           prirodu i autentičnost. Svojim posjetiteljima nudi deset moderno

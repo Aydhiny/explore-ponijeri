@@ -1,7 +1,8 @@
 ---
 title: "Šta nudimo ove zime?"
 subtitle: "Skijanje i snježne avanture!"
-date: "2024-13-12"
+date: "2024-08-27"
+image: "/images/ponijeri.jpg"
 ---
 
 # **Zimska Sezona na Ponijerima - Skijanje i Snježne Avanture! ❄️⛷️**

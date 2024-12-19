@@ -8,11 +8,11 @@ export default function Eko() {
     <div className="bg-white px-6 sm:px-12 md:px-16 lg:px-24 cursor-default py-8 sm:py-12 md:py-16 text-gray-700 flex flex-col lg:flex-row justify-center lg:justify-between items-center gap-8 lg:gap-0">
       {/* Text Section */}
       <div className="flex text-justify flex-col space-y-6 sm:space-y-8 max-w-3xl lg:max-w-2xl">
-        <h1 className="font-playwrite-hr text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-green-900 leading-tight">
+        <h1 className="font-playwrite-hr text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-600 leading-tight">
           Eko Kuća Ponijeri
         </h1>
-        <div className="p-1 bg-green-800"></div>
-        <p className="text-sm sm:text-base md:text-lg leading-relaxed">
+        <div className="p-1 bg-gray-600"></div>
+        <p className="text-base sm:text-lg md:text-xl leading-relaxed">
           Eko kuća Ponijeri nudi osam luksuzno opremljenih apartmana,
           osmišljenih kako bi pružili maksimalnu udobnost i spoj modernog
           dizajna s prirodnim okruženjem. Svaki apartman opremljen je najnovijom
@@ -37,7 +37,7 @@ export default function Eko() {
       <div className="relative group cursor-pointer">
         <div>
           <Image
-            className="border-4 border-green-300 rounded-sm transition-transform duration-300"
+            className="rounded-lg border-4 border-main-color-lighter-green hover:shadow-xl hover:rotate-2 transition-transform duration-300"
             alt="eko"
             src={EkoKuca}
             width={800}

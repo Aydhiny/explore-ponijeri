@@ -14,7 +14,7 @@ export default function Navbar() {
   const isActive = (path) => pathname === path;
 
   return (
-    <div className="p-4 w-full xl:static fixed top-0 z-50 bg-gradient-to-l from-[#a7cdfff5] to-[#cfe2ffc2] backdrop-blur-md shadow-md border-b-2 border-opacity-35 border-y-main-color-lighter-green">
+    <div className="p-4 w-full xl:static shadow-md fixed top-0 z-50 bg-gradient-to-l from-[#a7cdfff5] to-[#cfe2ffc2] backdrop-blur-md border-b-2 border-opacity-35 border-y-main-color-lighter-green">
       {/* Desktop Navbar */}
       <ul className="hidden md:flex justify-between items-center text-main-color-dark-green text-sm">
         <div className="flex cursor-pointer items-center">
@@ -64,13 +64,15 @@ export default function Navbar() {
 
       {/* Mobile Navbar */}
       <div className="flex md:hidden justify-between items-center">
-        <Image
-          alt="kakanj"
-          className="-rotate-12"
-          src={kakanj}
-          height={26}
-          width={26}
-        />
+        <Link href="/">
+          <Image
+            alt="kakanj"
+            className="-rotate-12"
+            src={kakanj}
+            height={26}
+            width={26}
+          />
+        </Link>
         <div
           className="text-main-color-dark-green cursor-pointer"
           onClick={() => setMenuOpen(!menuOpen)}
