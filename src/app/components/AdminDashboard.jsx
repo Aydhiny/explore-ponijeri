@@ -120,7 +120,7 @@ ${content}`;
 
   return (
     <div className="p-8 bg-gradient-to-b from-gray-800 to-gray-700 min-h-screen">
-      <div className="flex xl:flex-row flex-col text-center items-center">
+      <div className="flex xl:flex-row flex-col xl:mt-0 mt-14 text-center items-center">
         <RiAdminFill className="text-white size-16 mr-4" />
 
         <h1 className="text-5xl font-bold mt-8 font-playwrite-hr text-white mb-8">
