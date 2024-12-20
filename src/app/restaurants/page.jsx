@@ -9,7 +9,7 @@ export default function page() {
       <h1 className="text-6xl mb-12 font-bold text-gray-600 font-playwrite-hr">
         Restorani
       </h1>
-      <div className="shadow-2xl">
+      <div className="shadow-2xl bg-gradient-to-b from-white to-slate-300">
         <Restaurant />
         <Eko />
         <Pasha />

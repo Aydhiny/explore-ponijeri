@@ -4,7 +4,7 @@ import PashaImg from "../images/pasha.jpg";
 
 export default function Pasha() {
   return (
-    <div className="bg-white px-6 sm:px-12 md:px-16 lg:px-24 py-8 sm:py-12 md:py-16 cursor-default text-gray-700 flex flex-wrap lg:flex-nowrap justify-center lg:justify-between items-center">
+    <div className="px-6 sm:px-12 md:px-16 lg:px-24 py-8 sm:py-12 md:py-16 cursor-default text-gray-700 flex flex-wrap lg:flex-nowrap justify-center lg:justify-between items-center">
       {/* Image Section */}
       <div className="relative group cursor-pointer mb-8 lg:mb-0 flex-shrink-0 w-full sm:w-auto">
         <Image

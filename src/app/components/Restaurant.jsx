@@ -8,7 +8,7 @@ import { GiFoodChain } from "react-icons/gi";
 
 export default function Restaurant() {
   return (
-    <div className="bg-white px-6 sm:px-10 md:px-16 lg:px-24 cursor-default py-10 sm:py-12 lg:py-16 text-gray-700 flex flex-col lg:flex-row lg:justify-between lg:items-center space-y-10 lg:space-y-0">
+    <div className="px-6 sm:px-10 md:px-16 lg:px-24 cursor-default py-10 sm:py-12 lg:py-16 text-gray-700 flex flex-col lg:flex-row lg:justify-between lg:items-center space-y-10 lg:space-y-0">
       {/* Image Section */}
       <div className="relative group cursor-pointer flex-shrink-0 mx-auto lg:mx-0">
         <Image

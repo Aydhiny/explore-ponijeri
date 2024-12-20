@@ -3,23 +3,15 @@ import React from "react";
 import Image from "next/image";
 import apartman1 from "../images/apartman1.jpg";
 import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
-import { FaSnowflake, FaTree, FaParking, FaBed } from "react-icons/fa";
 import { motion } from "framer-motion";
-
-const backgroundImage = new URL("../images/ponijeri3.png", import.meta.url);
 
 export default function Page() {
   return (
-    <div
-      className="w-full h-screen cursor-default relative bg-cover bg-center bg-fixed"
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-      }}
-    >
+    <div className="w-full h-screen cursor-default relative">
       <div className="pt-24 px-4 sm:px-8">
         {/* Title Section */}
         <motion.h1
-          className="text-4xl sm:text-5xl md:text-6xl font-playwrite-hr font-bold text-center text-white mb-8"
+          className="text-4xl sm:text-5xl md:text-6xl font-playwrite-hr font-bold text-center text-gray-600 mb-8"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
@@ -56,7 +48,7 @@ export default function Page() {
             </motion.h2>
 
             <motion.p
-              className="text-base sm:text-lg md:text-xl leading-relaxed mb-4 text-white dark:text-white"
+              className="text-base sm:text-lg md:text-xl leading-relaxed mb-4 text-gray-600 dark:text-gray-600"
               initial={{ opacity: 0, y: -30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 1 }}
@@ -69,7 +61,7 @@ export default function Page() {
 
             {/* Feature List */}
             <motion.ul
-              className="list-disc text-white list-inside text-base sm:text-lg md:text-xl leading-relaxed"
+              className="list-disc text-gray-600 list-inside text-base sm:text-lg md:text-xl leading-relaxed"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 1 }}
@@ -87,14 +79,14 @@ export default function Page() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 1 }}
             >
-              <span className="text-xl font-bold text-white">Ocjena:</span>
+              <span className="text-xl font-bold text-gray-600">Ocjena:</span>
               <div className="flex items-center ml-3">
                 <FaStar className="text-yellow-500 text-2xl" />
                 <FaStar className="text-yellow-500 text-2xl" />
                 <FaStar className="text-yellow-500 text-2xl" />
                 <FaStar className="text-yellow-500 text-2xl" />
                 <FaStar className="text-yellow-500 text-2xl" />
-                <span className="ml-3 text-lg text-white">5.0 / 5.0</span>
+                <span className="ml-3 text-lg text-gray-600">5.0 / 5.0</span>
               </div>
             </motion.div>
 
@@ -105,7 +97,7 @@ export default function Page() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7, duration: 1 }}
             >
-              <div className="flex items-center text-lg text-white">
+              <div className="flex items-center text-lg text-gray-600">
                 <FaMapMarkerAlt className="mr-2 text-main-color-dark-green text-xl" />
                 <span className="font-semibold">
                   Ponijeri, Bosna i Hercegovina
@@ -122,7 +114,7 @@ export default function Page() {
             >
               <a
                 href="https://www.booking.com/hotel/ba/apartmani-ponijeri.hr.html"
-                className="inline-block bg-main-color-lighter-green text-white font-semibold py-3 px-6 hover:bg-main-color-dark-green transition-colors rounded-md"
+                className="inline-block bg-main-color-lighter-green text-white font-bold py-3 px-6 hover:bg-main-color-dark-green transition-colors rounded-md"
                 target="_blank"
                 rel="noopener noreferrer"
               >

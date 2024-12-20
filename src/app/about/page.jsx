@@ -4,7 +4,7 @@ import opcina from "../images/opcina-kakanj.png";
 
 export default function page() {
   return (
-    <div className="bg-gradient-to-t cursor-default from-gray-900 to-gray-800 text-white px-8 py-32">
+    <div className="cursor-default text-gray-800 px-8 py-32">
       {/* Header Section */}
       <div className="text-center max-w-4xl mx-auto space-y-8">
         <h1 className="text-6xl font-bold font-playwrite-hr text-main-color-lighter-green">
@@ -47,7 +47,7 @@ export default function page() {
             Email:{" "}
             <a
               href="mailto:opcinaka@bih.net.ba"
-              className="text-blue-400 hover:underline"
+              className="text-blue-500 hover:underline"
             >
               opcinaka@bih.net.ba
             </a>
@@ -56,7 +56,7 @@ export default function page() {
             Telefon:{" "}
             <a
               href="tel:+38732771800"
-              className="text-blue-400 hover:underline"
+              className="text-blue-500 hover:underline"
             >
               +387 32 771 800
             </a>

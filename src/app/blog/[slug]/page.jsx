@@ -27,11 +27,13 @@ const PostPage = (props) => {
           {post.data.title}
         </Link>
       </div>
-      <h1 className="text-6xl font-playwrite-hr pt-12 font-bold">
+      <h1 className="text-6xl font-playwrite-hr py-12 font-bold">
         {post.data.title}
       </h1>
 
-      <Markdown>{post.content}</Markdown>
+      <Markdown className="text-base sm:text-lg md:text-xl leading-relaxed mb-6">
+        {post.content}
+      </Markdown>
     </div>
   );
 };

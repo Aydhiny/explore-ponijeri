@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { FaTrashAlt } from "react-icons/fa";
+import { RiAdminFill } from "react-icons/ri";
 
 export default function AdminDashboard() {
   const [files, setFiles] = useState([]);
@@ -11,6 +13,8 @@ export default function AdminDashboard() {
   const [image, setImage] = useState("");
   const [content, setContent] = useState("");
   const [message, setMessage] = useState("");
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [fileToDelete, setFileToDelete] = useState(null);
 
   useEffect(() => {
     fetch("/api/files")
@@ -28,7 +32,6 @@ export default function AdminDashboard() {
   }, []);
 
   const handleFileCreation = async () => {
-    // Ensure no spaces in file name
     const sanitizedFileName = fileName.replace(/\s+/g, "-").toLowerCase();
     const fileContent = `---\n
 title: "${title}"\n
@@ -38,7 +41,7 @@ image: "${image || "/images/default.jpg"}"\n
 ---\n
 ${content}`;
 
-    const fileNameWithExtension = `${sanitizedFileName}.md`; // Ensure the .md extension
+    const fileNameWithExtension = `${sanitizedFileName}.md`;
 
     const response = await fetch("/api/files", {
       method: "POST",
@@ -50,7 +53,7 @@ ${content}`;
     });
 
     if (response.ok) {
-      setMessage("File created successfully!");
+      setMessage("Datoteka uspješno kreirana!");
       setFileName("");
       setTitle("");
       setSubtitle("");
@@ -58,7 +61,7 @@ ${content}`;
       setContent("");
       fetchFiles();
     } else {
-      setMessage("Error creating file.");
+      setMessage("Greška pri kreiranju datoteke.");
     }
   };
 
@@ -87,99 +90,124 @@ ${content}`;
   const insertImage = () => {
     const imageUrl = prompt("Dodajte link vaše slike:");
     if (imageUrl) {
-      setContent(`${content}\n\n![Image Description](${imageUrl})\n\n`);
+      setContent(`${content}\n\n![Opis slike](${imageUrl})\n\n`);
     }
   };
 
-  return (
-    <div className="p-6 bg-gray-500">
-      <h1 className="text-2xl font-bold mb-4 text-white">Admin Dashboard</h1>
+  const handleDeleteFile = (fileName) => {
+    setFileToDelete(fileName);
+    setShowDeleteConfirmation(true);
+  };
 
-      <div>
-        <h2 className="text-xl font-semibold mb-2 text-white">
-          Kreirajte novi blog file
-        </h2>
-        <input
-          type="text"
-          placeholder="Naziv fajla (bez razmaka)..."
-          value={fileName}
-          onChange={(e) => setFileName(e.target.value)}
-          className="border p-2 rounded mb-2 w-full"
-        />
-        <input
-          type="text"
-          placeholder="Naslov posta"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="border p-2 rounded mb-2 w-full"
-        />
-        <input
-          type="text"
-          placeholder="Podnaslov posta"
-          value={subtitle}
-          onChange={(e) => setSubtitle(e.target.value)}
-          className="border p-2 rounded mb-2 w-full"
-        />
-        <input
-          type="text"
-          placeholder="URL slike (ako želite sliku kao pozadinu)"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-          className="border p-2 rounded mb-2 w-full"
-        />
-        <div className="mb-2">
-          <button
-            onClick={() => applyFormatting("bold")}
-            className="bg-gray-200 p-2 rounded mr-2 hover:bg-blue-500 transition-colors"
-          >
-            Bold
-          </button>
-          <button
-            onClick={() => applyFormatting("italic")}
-            className="bg-gray-200 p-2 rounded mr-2 hover:bg-blue-500 transition-colors"
-          >
-            Italic
-          </button>
-          <button
-            onClick={() => applyFormatting("underline")}
-            className="bg-gray-200 p-2 rounded mr-2 hover:bg-blue-500 transition-colors"
-          >
-            Underline
-          </button>
-          <button
-            onClick={() => applyFormatting("color")}
-            className="bg-gray-200 p-2 rounded mr-2 hover:bg-blue-500 transition-colors"
-          >
-            Text Color
-          </button>
-          <button
-            onClick={insertImage}
-            className="bg-gray-200 p-2 rounded hover:bg-blue-500 transition-colors"
-          >
-            Insert Image
-          </button>
-        </div>
-        <textarea
-          placeholder="Pišite svoj blog ovdje..."
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          className="border p-2 rounded w-full mb-2"
-          rows="10"
-        ></textarea>
-        <button
-          onClick={handleFileCreation}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
-        >
-          Kreiraj fajl
-        </button>
-        {message && <p className="mt-2 text-green-500">{message}</p>}
+  const confirmDelete = async () => {
+    const response = await fetch(`/api/files/${fileToDelete}`, {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      setMessage("Datoteka uspješno obrisana!");
+      setShowDeleteConfirmation(false);
+      fetchFiles();
+    } else {
+      setMessage("Greška pri brisanju datoteke.");
+    }
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteConfirmation(false);
+    setFileToDelete(null);
+  };
+
+  return (
+    <div className="p-8 bg-gradient-to-b from-gray-800 to-gray-700 min-h-screen">
+      <div className="flex xl:flex-row flex-col text-center items-center">
+        <RiAdminFill className="text-white size-16 mr-4" />
+
+        <h1 className="text-5xl font-bold mt-8 font-playwrite-hr text-white mb-8">
+          Admin Dashboard
+        </h1>
       </div>
 
-      <div className="mt-6">
-        <h2 className="text-xl font-semibold mb-2 text-white">
-          Dostupni fajlovi
+      {/* New Post Form */}
+      <div className="bg-gray-700 p-6 rounded-lg shadow-lg">
+        <h2 className="text-xl font-semibold text-white mb-4">
+          Kreiraj novu objavu
         </h2>
-        <div className="flex flex-wrap">
+        <div className="space-y-4">
+          <input
+            type="text"
+            placeholder="Ime datoteke (bez razmaka)"
+            value={fileName}
+            onChange={(e) => setFileName(e.target.value)}
+            className="w-full p-4 rounded-md bg-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="text"
+            placeholder="Naslov objave"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-full p-4 rounded-md bg-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="text"
+            placeholder="Podnaslov objave"
+            value={subtitle}
+            onChange={(e) => setSubtitle(e.target.value)}
+            className="w-full p-4 rounded-md bg-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="text"
+            placeholder="URL slike (opcionalno)"
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+            className="w-full p-4 rounded-md bg-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          {/* Formatting Buttons */}
+          <div className="flex flex-wrap gap-4">
+            {["bold", "italic", "underline", "color"].map((style) => (
+              <button
+                key={style}
+                onClick={() => applyFormatting(style)}
+                className="bg-gray-600 text-white p-3 rounded-md hover:bg-blue-500 transition-colors focus:outline-none"
+              >
+                {style.charAt(0).toUpperCase() + style.slice(1)}
+              </button>
+            ))}
+            <button
+              onClick={insertImage}
+              className="bg-gray-600 text-white p-3 rounded-md hover:bg-blue-500 transition-colors focus:outline-none"
+            >
+              Umetni sliku
+            </button>
+          </div>
+
+          {/* Textarea for Content */}
+          <textarea
+            placeholder="Napišite sadržaj objave ovde..."
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            className="w-full p-4 rounded-md bg-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            rows="10"
+          ></textarea>
+
+          <button
+            onClick={handleFileCreation}
+            className="w-full bg-blue-600 text-white p-4 rounded-md hover:bg-blue-700 transition-colors focus:outline-none"
+          >
+            Kreiraj objavu
+          </button>
+
+          {message && <p className="mt-4 text-green-400">{message}</p>}
+        </div>
+      </div>
+
+      {/* File List Section */}
+      <div className="mt-8">
+        <h2 className="text-xl font-semibold text-white mb-4">
+          Dostupne datoteke
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {files.length > 0 ? (
             files.map((file) => {
               const { image, title, subtitle, date } = file;
@@ -188,40 +216,71 @@ ${content}`;
               return (
                 <div
                   key={file.title}
-                  className="w-96 h-auto mx-auto shadow-lg rounded-lg overflow-hidden bg-white transform transition-transform hover:-translate-y-2 hover:shadow-2xl border border-gray-200 m-4"
+                  className="bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform hover:-translate-y-2 hover:shadow-xl"
                 >
-                  <div className="relative h-48">
+                  <div className="relative">
                     <Image
-                      alt={title || "Post Image"}
+                      alt={title || "Slika objave"}
                       src={image || "/images/default.jpg"}
                       width={500}
                       height={300}
-                      className="w-full h-full object-cover"
+                      className="w-full h-48 object-cover"
                     />
                     <div className="absolute bottom-0 left-0 bg-blue-600 bg-opacity-75 text-white text-sm px-3 py-1 rounded-tr-lg">
                       {formattedDate}
                     </div>
+                    {/* Trash Can Icon */}
+                    <div
+                      onClick={() => handleDeleteFile(file.title)}
+                      className="absolute bottom-2 right-2 p-2 bg-gray-800 rounded-sm text-red-500 cursor-pointer"
+                    >
+                      <FaTrashAlt size={24} />
+                    </div>
                   </div>
-
-                  <div className="h-48 p-4 flex flex-col justify-between">
-                    <h2 className="text-lg font-bold text-gray-800 mb-2">
-                      {title || "Untitled"}
-                    </h2>
-                    <p className="text-sm text-gray-600 mb-4 line-clamp-3">
-                      {subtitle || "No subtitle available"}
+                  <div className="p-6">
+                    <h3 className="text-lg font-semibold text-gray-800">
+                      {title || "Bez naslova"}
+                    </h3>
+                    <p className="text-gray-600 text-sm line-clamp-3">
+                      {subtitle || "Nema dostupnog podnaslova"}
                     </p>
-                    <div className="text-blue-600 font-semibold hover:underline cursor-pointer">
-                      Uredi fajl →
+                    <div className="mt-4 text-blue-600 font-semibold hover:underline cursor-pointer">
+                      Uredi datoteku →
                     </div>
                   </div>
                 </div>
               );
             })
           ) : (
-            <p className="text-white">Nema dostupnih fajlova.</p>
+            <p className="text-white">Nema dostupnih datoteka.</p>
           )}
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirmation && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg">
+            <h3 className="text-lg font-semibold text-gray-800">
+              Jeste li sigurni da želite obrisati ovu datoteku?
+            </h3>
+            <div className="mt-4 flex space-x-4">
+              <button
+                onClick={confirmDelete}
+                className="bg-red-600 text-white p-3 rounded-md hover:bg-red-700 transition-colors"
+              >
+                Da, obriši
+              </button>
+              <button
+                onClick={cancelDelete}
+                className="bg-gray-600 text-white p-3 rounded-md hover:bg-gray-700 transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

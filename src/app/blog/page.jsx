@@ -7,7 +7,7 @@ export default function Page() {
 
   return (
     <div
-      className="cursor-default relative bg-cover bg-center"
+      className="w-full h-full cursor-default relative bg-cover bg-center"
       style={{
         backgroundImage: `url(${backgroundImage})`,
       }}

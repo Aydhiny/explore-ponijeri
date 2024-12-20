@@ -110,7 +110,7 @@ export default function SkiSchoolInfo() {
       <div className="mt-12 flex justify-center">
         <Link
           href="/"
-          className="text-white border-b-2 mr-8 hover:bg-black hover:text-white transition-all duration-150 border-white rounded-sm font-bold px-8 py-3 bg-main-color-lighter-green backdrop-blur-sm self-start"
+          className="text-white border-b-2 hover:bg-black hover:text-white transition-all duration-150 border-white rounded-sm font-bold px-8 py-3 bg-main-color-lighter-green backdrop-blur-sm self-start"
         >
           Nazad
         </Link>
