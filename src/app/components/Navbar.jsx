@@ -74,15 +74,20 @@ export default function Navbar() {
           />
         </Link>
         <div
-          className="text-main-color-dark-green cursor-pointer"
+          className="text-main-color-dark-green cursor-pointer relative z-20"
           onClick={() => setMenuOpen(!menuOpen)}
         >
-          {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+          {/* Hamburger icon animation */}
+          <div className={`hamburger-icon ${menuOpen ? "open" : ""}`}>
+            <div className="line line-1"></div>
+            <div className="line line-2"></div>
+            <div className="line line-3"></div>
+          </div>
         </div>
       </div>
 
       {menuOpen && (
-        <div className="absolute top-16 left-0 w-full bg-gradient-to-l from-[#a7cdff] to-[#cfe2ff] backdrop-blur-md shadow-lg">
+        <div className="absolute top-16 left-0 w-full bg-gradient-to-l from-[#a7cdff] to-[#cfe2ff] backdrop-blur-md shadow-lg slide-in">
           <ul className="flex flex-col items-center py-4 text-main-color-dark-green text-sm space-y-3">
             {[
               { path: "/", label: "Početna" },

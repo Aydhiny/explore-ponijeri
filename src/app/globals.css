@@ -31,5 +31,48 @@ body {
 
 ::-webkit-scrollbar-track {
   background: #b8b8b8; /* Track color */
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+}
+
+.hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 25px;
+  height: 18px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.line {
+  height: 4px;
+  background-color: #000;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* When menu is open */
+.hamburger-icon.open .line-1 {
+  transform: rotate(45deg) translateY(7px);
+}
+
+.hamburger-icon.open .line-2 {
+  opacity: 0;
+}
+
+.hamburger-icon.open .line-3 {
+  transform: rotate(-45deg) translateY(-7px);
+}
+
+/* Slide-in menu animation */
+.slide-in {
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    top: -100%;
+  }
+  to {
+    top: 16px;
+  }
 }

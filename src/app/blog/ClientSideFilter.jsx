@@ -78,7 +78,7 @@ export default function ClientSideFilter({ postsData }) {
 
   return (
     <div className="px-6 sm:px-12 lg:px-24 text-center py-12">
-      <h1 className="text-4xl sm:text-5xl lg:text-6xl mb-12 font-playwrite-hr font-bold text-gray-700">
+      <h1 className="text-4xl sm:text-5xl lg:text-6xl mb-12 mt-12 font-playwrite-hr font-bold text-gray-700">
         Dobrodošli na Blog Ponijeri!
       </h1>
       {/* Sorting ComboBox with Filter Icon */}
@@ -141,7 +141,8 @@ export default function ClientSideFilter({ postsData }) {
         href="/login"
         className="flex w-fit items-center px-4 py-2 my-8 bg-gray-200 text-gray-800 hover:bg-blue-600 hover:text-white transition-all duration-300"
       >
-        Dodajte novu objavu
+        Dodajte novu objavu{" "}
+        <span className="font-extrabold ml-2 text-2xl"> +</span>
       </Link>
     </div>
   );

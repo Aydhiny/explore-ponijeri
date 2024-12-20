@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 
 export default function Page() {
   return (
-    <div className="w-full h-screen cursor-default relative">
+    <div className="w-full h-full cursor-default relative">
       <div className="pt-24 px-4 sm:px-8">
         {/* Title Section */}
         <motion.h1
@@ -114,7 +114,7 @@ export default function Page() {
             >
               <a
                 href="https://www.booking.com/hotel/ba/apartmani-ponijeri.hr.html"
-                className="inline-block bg-main-color-lighter-green text-white font-bold py-3 px-6 hover:bg-main-color-dark-green transition-colors rounded-md"
+                className="inline-block bg-main-color-lighter-green text-white font-bold py-3 px-6 mb-12 hover:bg-main-color-dark-green transition-colors rounded-md"
                 target="_blank"
                 rel="noopener noreferrer"
               >
