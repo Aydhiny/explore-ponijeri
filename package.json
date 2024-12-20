@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tiptap/react": "^2.10.4",
     "@tsparticles/engine": "^3.7.1",
     "@tsparticles/react": "^3.0.0",
     "framer-motion": "^11.13.1",
@@ -20,6 +21,7 @@
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0",
     "react-intersection-observer": "^9.13.1",
+    "react-quill": "^2.0.0",
     "tsparticles": "^3.7.1"
   },
   "devDependencies": {

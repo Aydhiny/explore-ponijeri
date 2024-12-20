@@ -3,31 +3,28 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { FaFilter } from "react-icons/fa"; // Import the filter icon
+import { FaFilter } from "react-icons/fa";
 
-// Client-side component to handle sorting/filtering
 export default function ClientSideFilter({ postsData }) {
   const [sortOrder, setSortOrder] = useState("newest-oldest");
   const [filteredPosts, setFilteredPosts] = useState(postsData);
 
-  // Filter function for sorting
   useEffect(() => {
     const sorted = [...postsData].sort((a, b) => {
       if (sortOrder === "newest-oldest") {
-        return b.date - a.date; // Newest to Oldest
+        return b.date - a.date;
       } else {
-        return a.date - b.date; // Oldest to Newest
+        return a.date - b.date;
       }
     });
     setFilteredPosts(sorted);
   }, [sortOrder, postsData]);
 
   const postPreviews = filteredPosts.map((post) => {
-    // Ensure post.date is valid before calling toLocaleDateString()
     const formattedDate =
       post.date instanceof Date && !isNaN(post.date)
         ? post.date.toLocaleDateString()
-        : "Date not available"; // Fallback text in case of invalid date
+        : "Date not available";
 
     return (
       <div
