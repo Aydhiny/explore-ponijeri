@@ -129,7 +129,7 @@ export default function Header() {
             <Image
               alt="opcina"
               src={opcina}
-              className="cursor-pointer mt-8 sm:mt-12 hover:bg-white hover:shadow-lg transition-all duration-150 bg-gradient-to-t rounded-full p-2 sm:p-4 from-[#a7cdffe5] to-[#cfe2ff85] backdrop-blur-sm border-b-4 border-y-main-color-lighter-green border-opacity-35"
+              className="cursor-pointer xl:w-96 w-56 mt-8 sm:mt-12 hover:bg-white hover:shadow-lg transition-all duration-150 bg-gradient-to-t rounded-full p-2 sm:p-4 from-[#a7cdffe5] to-[#cfe2ff85] backdrop-blur-sm border-b-4 border-y-main-color-lighter-green border-opacity-35"
               height={350}
               width={350}
             />

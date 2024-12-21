@@ -6,6 +6,7 @@ import kakanj from "../images/kakanj.png";
 import Image from "next/image";
 import { FaCloudRain, FaBars, FaTimes } from "react-icons/fa";
 import { usePathname } from "next/navigation";
+import WeatherDisplay from "./WeatherDisplay";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -27,10 +28,13 @@ export default function Navbar() {
               width={26}
             />
           </Link>
-          <div className="flex items-center">
-            <FaCloudRain className="size-6 mr-2" />
-            <p>-3 °C</p>
-          </div>
+
+          <WeatherDisplay />
+          {/*
+        <div className="flex items-center">   
+                 <p>-3 °C</p>
+                 <FaCloudRain className="size-6 mr-2" />
+          </div> */}
         </div>
         <div className="flex">
           {[
@@ -73,6 +77,7 @@ export default function Navbar() {
             width={26}
           />
         </Link>
+        <WeatherDisplay />
         <div
           className="text-main-color-dark-green cursor-pointer relative z-20"
           onClick={() => setMenuOpen(!menuOpen)}
