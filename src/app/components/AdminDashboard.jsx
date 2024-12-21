@@ -18,13 +18,15 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     fetch("/api/files")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.files && Array.isArray(data.files)) {
-          setFiles(data.files);
-        } else {
-          console.error("Error: Invalid file data structure");
+      .then((response) => {
+        if (!response.ok) {
+          console.error("Error response:", response);
+          return Promise.reject("Failed to fetch files");
         }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Fetched files:", data);
       })
       .catch((error) => {
         console.error("Error fetching files:", error);
@@ -198,7 +200,7 @@ ${content}`;
             Kreiraj objavu
           </button>
 
-          {message && <p className="mt-4 text-green-400">{message}</p>}
+          {message && <p className="mt-4 text-red-400">{message}</p>}
         </div>
       </div>
 
@@ -231,7 +233,7 @@ ${content}`;
                     </div>
                     {/* Trash Can Icon */}
                     <div
-                      onClick={() => handleDeleteFile(file.title)}
+                      onClick={() => handleDeleteFile(file.slug + ".md")}
                       className="absolute bottom-2 right-2 p-2 bg-gray-800 rounded-sm text-red-500 cursor-pointer"
                     >
                       <FaTrashAlt size={24} />
