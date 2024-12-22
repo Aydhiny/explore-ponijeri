@@ -1,15 +1,31 @@
+import fs from "fs";
+import path from "path";
+
 export async function DELETE(req, { params }) {
   try {
-    const fileName = params.id?.[0];
+    const { id } = await params;
 
-    if (!fileName) {
-      return new Response(JSON.stringify({ error: "File name is required." }), {
+    const fileName = id?.[0];
+
+    if (!fileName || fileName.includes("..") || fileName.includes("/")) {
+      return new Response(JSON.stringify({ error: "Invalid file name." }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });
     }
 
     const postsDirectory = path.join(process.cwd(), "posts");
+
+    if (!fs.existsSync(postsDirectory)) {
+      return new Response(
+        JSON.stringify({ error: "Posts directory does not exist." }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
     const filePath = path.join(postsDirectory, fileName);
 
     if (fs.existsSync(filePath)) {

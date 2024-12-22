@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { FaTrashAlt } from "react-icons/fa";
 import { RiAdminFill } from "react-icons/ri";
-
+import { IoMdRefreshCircle } from "react-icons/io";
+import { FiInfo } from "react-icons/fi";
 export default function AdminDashboard() {
   const [files, setFiles] = useState([]);
   const [fileName, setFileName] = useState("");
@@ -15,22 +16,16 @@ export default function AdminDashboard() {
   const [message, setMessage] = useState("");
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [fileToDelete, setFileToDelete] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/files")
-      .then((response) => {
-        if (!response.ok) {
-          console.error("Error response:", response);
-          return Promise.reject("Failed to fetch files");
-        }
-        return response.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
         console.log("Fetched files:", data);
+        setFiles(data);
       })
-      .catch((error) => {
-        console.error("Error fetching files:", error);
-      });
+      .catch((error) => console.error("Error fetching files:", error));
   }, []);
 
   const handleFileCreation = async () => {
@@ -67,12 +62,18 @@ ${content}`;
     }
   };
 
-  const fetchFiles = () => {
-    fetch("/api/files")
-      .then((res) => res.json())
-      .then((data) => setFiles(data.files));
+  const fetchFiles = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch("/api/files");
+      const data = await response.json();
+      setFiles(data.files);
+    } catch (error) {
+      console.error("Error fetching files:", error);
+    } finally {
+      setLoading(false);
+    }
   };
-
   const applyFormatting = (type) => {
     const selection = window.getSelection();
     const selectedText = selection.toString();
@@ -96,23 +97,29 @@ ${content}`;
     }
   };
 
-  const handleDeleteFile = (fileName) => {
-    setFileToDelete(fileName);
+  const handleDeleteFile = async (fileSlug) => {
+    try {
+      await fetch(`/api/files/${fileSlug}.md`, {
+        method: "DELETE",
+      });
+      fetchFiles();
+    } catch (error) {
+      console.error("Error deleting file:", error);
+    }
+  };
+
+  const handleDeleteFileWithConfirmation = (fileSlug) => {
+    setFileToDelete(fileSlug);
     setShowDeleteConfirmation(true);
   };
 
   const confirmDelete = async () => {
-    const response = await fetch(`/api/files/${fileToDelete}`, {
-      method: "DELETE",
-    });
+    if (!fileToDelete) return;
 
-    if (response.ok) {
-      setMessage("Datoteka uspješno obrisana!");
-      setShowDeleteConfirmation(false);
-      fetchFiles();
-    } else {
-      setMessage("Greška pri brisanju datoteke.");
-    }
+    await handleDeleteFile(fileToDelete);
+
+    setShowDeleteConfirmation(false);
+    setFileToDelete(null);
   };
 
   const cancelDelete = () => {
@@ -128,6 +135,14 @@ ${content}`;
         <h1 className="text-5xl font-bold mt-8 font-playwrite-hr text-white mb-8">
           Admin Dashboard
         </h1>
+      </div>
+      <div className="flex xl:justify-start justify-center p-4 my-4 text-center items-center text-green-400 border border-green-400 border-opacity-50 shadow-xl flex-wrap">
+        <FiInfo className="text-2xl xl:mr-4 mr-0 xl:mb-0 mb-4" />
+        <p className="text-sm md:text-base lg:text-lg">
+          Za kreiranje objave morate ispuniti navedena polja, te pritisnuti
+          dugme{" "}
+          <span className="text-orange-400 font-bold">"KREIRAJ OBJAVU"</span>.
+        </p>
       </div>
 
       {/* New Post Form */}
@@ -206,18 +221,30 @@ ${content}`;
 
       {/* File List Section */}
       <div className="mt-8">
-        <h2 className="text-xl font-semibold text-white mb-4">
-          Dostupne datoteke
-        </h2>
+        <h2 className="text-4xl font-semibold text-white">Dostupne datoteke</h2>
+        <div className="flex xl:justify-start justify-center p-4 my-4 text-center items-center text-green-400 border border-green-400 border-opacity-50 shadow-xl flex-wrap">
+          <FiInfo className="text-2xl md:text-3xl mr-4" />
+          <p className="text-sm md:text-base lg:text-lg">
+            Za prvobitni prikaz morate pritisnuti dugme za učitavanje ispod.
+          </p>
+        </div>
+        <div className="flex xl:justify-start justify-center py-10">
+          <IoMdRefreshCircle
+            className="cursor-pointer hover:text-white transition-all duration-150 xl:mb-0 mb-4 text-blue-500 size-16"
+            onClick={fetchFiles}
+          />
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {files.length > 0 ? (
+          {loading ? (
+            <p className="text-white">Učitavanje fajlova...</p>
+          ) : files?.length > 0 ? (
             files.map((file) => {
-              const { image, title, subtitle, date } = file;
+              const { image, title, subtitle, date, slug } = file;
               const formattedDate = new Date(date).toLocaleDateString();
 
               return (
                 <div
-                  key={file.title}
+                  key={slug}
                   className="bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform hover:-translate-y-2 hover:shadow-xl"
                 >
                   <div className="relative">
@@ -231,9 +258,8 @@ ${content}`;
                     <div className="absolute bottom-0 left-0 bg-blue-600 bg-opacity-75 text-white text-sm px-3 py-1 rounded-tr-lg">
                       {formattedDate}
                     </div>
-                    {/* Trash Can Icon */}
                     <div
-                      onClick={() => handleDeleteFile(file.slug + ".md")}
+                      onClick={() => handleDeleteFileWithConfirmation(slug)}
                       className="absolute bottom-2 right-2 p-2 bg-gray-800 rounded-sm text-red-500 cursor-pointer"
                     >
                       <FaTrashAlt size={24} />
