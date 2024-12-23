@@ -29,6 +29,11 @@ export default function AdminDashboard() {
   }, []);
 
   const handleFileCreation = async () => {
+    if (!fileName.trim()) {
+      setMessage("Naziv datoteke ne može biti prazan!");
+      return;
+    }
+
     const sanitizedFileName = fileName.replace(/\s+/g, "-").toLowerCase();
     const fileContent = `---\n
 title: "${title}"\n
@@ -272,9 +277,6 @@ ${content}`;
                     <p className="text-gray-600 text-sm line-clamp-3">
                       {subtitle || "Nema dostupnog podnaslova"}
                     </p>
-                    <div className="mt-4 text-blue-600 font-semibold hover:underline cursor-pointer">
-                      Uredi datoteku →
-                    </div>
                   </div>
                 </div>
               );

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FaFilter } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 export default function ClientSideFilter({ postsData }) {
   const postsPerPage = 4;
@@ -22,7 +23,6 @@ export default function ClientSideFilter({ postsData }) {
     setFilteredPosts(sorted);
   }, [sortOrder, postsData]);
 
-  // Paginate posts
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
@@ -34,9 +34,12 @@ export default function ClientSideFilter({ postsData }) {
         : "Date not available";
 
     return (
-      <div
+      <motion.div
         key={post.slug}
         className="w-full sm:w-96 lg:w-96 h-auto mx-auto shadow-lg rounded-lg overflow-hidden bg-white transform transition-transform hover:-translate-y-2 hover:shadow-2xl border border-gray-200 m-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
       >
         <Link href={`/blog/${post.slug}`}>
           {/* Image Section */}
@@ -61,14 +64,13 @@ export default function ClientSideFilter({ postsData }) {
             <p className="text-sm text-gray-600 mb-4 line-clamp-3">
               {post.subtitle}
             </p>
-            <div className="text-blue-600 font-semibold">Read More →</div>
+            <div className="text-blue-600 font-semibold">Pročitajte više →</div>
           </div>
         </Link>
-      </div>
+      </motion.div>
     );
   });
 
-  // Pagination Controls
   const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
@@ -79,7 +81,7 @@ export default function ClientSideFilter({ postsData }) {
   return (
     <div className="px-6 sm:px-12 lg:px-24 text-center py-12">
       <h1 className="text-4xl sm:text-5xl lg:text-6xl mb-12 mt-12 font-playwrite-hr font-bold text-gray-700">
-        Dobrodošli na Blog Ponijeri!
+        Dobrodošli na Blog Ponijeri
       </h1>
       {/* Sorting ComboBox with Filter Icon */}
       <div className="relative inline-block mb-8">
@@ -106,7 +108,12 @@ export default function ClientSideFilter({ postsData }) {
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-center space-x-4 my-8">
+      <motion.div
+        className="flex justify-center space-x-4 my-8"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           className="px-4 py-2 bg-gray-200 text-gray-800 hover:bg-blue-600 hover:text-white transition-all duration-300"
@@ -134,16 +141,20 @@ export default function ClientSideFilter({ postsData }) {
         >
           Poslije
         </button>
-      </div>
+      </motion.div>
 
       {/* Add Post Button */}
-      <Link
-        href="/login"
+      <motion.div
         className="flex w-fit items-center px-4 py-2 my-8 bg-gray-200 text-gray-800 hover:bg-blue-600 hover:text-white transition-all duration-300"
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 0.5 }}
       >
-        Dodajte novu objavu{" "}
-        <span className="font-extrabold ml-2 text-2xl"> +</span>
-      </Link>
+        <Link href="/login">
+          Dodajte novu objavu{" "}
+          <span className="font-extrabold ml-2 text-2xl"> +</span>
+        </Link>
+      </motion.div>
     </div>
   );
 }

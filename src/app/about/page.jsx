@@ -1,12 +1,19 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import opcina from "../images/opcina-kakanj.png";
+import { motion } from "framer-motion";
 
-export default function page() {
+export default function Page() {
   return (
     <div className="cursor-default text-gray-800 px-8 py-32">
       {/* Header Section */}
-      <div className="text-center max-w-4xl mx-auto space-y-8">
+      <motion.div
+        className="text-center max-w-4xl mx-auto space-y-8"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+      >
         <h1 className="text-6xl font-bold font-playwrite-hr text-main-color-lighter-green">
           O Ponijerima Kakanj
         </h1>
@@ -19,10 +26,15 @@ export default function page() {
           regije. Bilo da ste početnik ili iskusan skijaš, Ponijeri nudi idealne
           uvjete za zimske sportove i nezaboravno iskustvo.
         </p>
-      </div>
+      </motion.div>
 
       {/* Image Section */}
-      <div className="flex justify-center mt-12">
+      <motion.div
+        className="flex justify-center mt-12"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1 }}
+      >
         <Image
           alt="opcina"
           src={opcina}
@@ -30,10 +42,15 @@ export default function page() {
           height={300}
           width={300}
         />
-      </div>
+      </motion.div>
 
       {/* Contact Information Section */}
-      <div className="mt-16 text-center space-y-6">
+      <motion.div
+        className="mt-16 text-center space-y-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3, duration: 1 }}
+      >
         <h2 className="text-4xl font-bold text-main-color-lighter-green">
           Kontakt informacije
         </h2>
@@ -62,7 +79,7 @@ export default function page() {
             </a>
           </p>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

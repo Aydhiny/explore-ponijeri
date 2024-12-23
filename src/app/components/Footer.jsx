@@ -15,7 +15,7 @@ export default function Footer() {
           </h1>
           <p className="text-base md:text-lg">Općina Kakanj</p>
           <p className="text-base md:text-lg">72240</p>
-          <p className="text-base md:text-lg">Mobilni tel: +387 123 456 789</p>
+          <p className="text-base md:text-lg">Mobilni tel: +387 32 771 800</p>
         </div>
 
         {/* Navigation Links */}
@@ -46,7 +46,7 @@ export default function Footer() {
             </li>
             <li>
               <Link href="/blog" className="hover:text-blue-500">
-                Aktivnosti
+                Blog
               </Link>
             </li>
           </ul>

@@ -9,6 +9,7 @@ import Restaurant from "./components/Restaurant";
 import Showcase from "./components/Showcase";
 import SkiInfo from "./components/SkiInfo";
 import Travel from "./components/Travel";
+import Chatbot from "./components/Chatbot";
 
 export default function Home() {
   return (
@@ -39,6 +40,7 @@ export default function Home() {
       </div>
       <PromoSki />
       <SkiInfo />
+      <Chatbot />
     </div>
   );
 }
