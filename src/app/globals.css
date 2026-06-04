@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Henny+Penny&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Space+Grotesk:wght@300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -11,66 +11,53 @@
   --blue-dark:  #002F5A;
   --blue-deep:  #060d1a;
   --surface:    #f4f9ff;
-  --surface-2:  #eaf4ff;
 
   --glass-bg:     rgba(255,255,255,0.08);
-  --glass-border: rgba(255,255,255,0.14);
-
-  /* Section vertical rhythm — each value is a CSS var so sections
-     chain together without visible seams. */
-  --section-light-bg:  #f4f9ff;
-  --section-mid-bg:    #eaf4ff;
-  --section-dark-bg:   #060d1a;
-  --section-dark2-bg:  #030810;
+  --glass-border: rgba(255,255,255,0.12);
 }
 
-/* ─── Base ───────────────────────────────────────────────────── */
-html { scroll-behavior: auto; }   /* Lenis owns this */
+html { scroll-behavior: auto; }
 
 body {
-  /* No pattern. Just a clean, almost-white surface that reads neutral. */
   background: var(--surface);
-  font-family: "Space Grotesk", "Inter", system-ui, sans-serif;
+  font-family: "Outfit", "Plus Jakarta Sans", system-ui, sans-serif;
   color: #0a1628;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* ─── Scrollbar ───────────────────────────────────────────────── */
-::-webkit-scrollbar       { width: 5px; }
+/* ─── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #0084FF 0%, #002F5A 100%);
+  background: linear-gradient(180deg, #0084FF, #002F5A);
   border-radius: 99px;
 }
 
-/* ─── Utility layer ───────────────────────────────────────────── */
+/* ─── Utility layer ─────────────────────────────────────────── */
 @layer utilities {
 
-  /* Glassmorphism — 3 levels */
   .glass-sm {
-    background: rgba(255,255,255,0.55);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.60);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.45);
   }
   .glass {
-    background: rgba(255,255,255,0.10);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border: 1px solid rgba(255,255,255,0.16);
-    box-shadow: 0 8px 32px rgba(0,47,90,0.12), inset 0 1px 0 rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.14);
+    box-shadow: 0 8px 32px rgba(0,47,90,0.10), inset 0 1px 0 rgba(255,255,255,0.14);
   }
   .glass-dark {
-    background: rgba(6,13,26,0.65);
+    background: rgba(3,8,16,0.72);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255,255,255,0.08);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.07);
   }
 
-  /* Gradient text */
   .text-gradient {
     background: linear-gradient(135deg, #0084FF 0%, #4fa8ff 60%, #7ec8ff 100%);
     -webkit-background-clip: text;
@@ -84,47 +71,35 @@ body {
     background-clip: text;
   }
 
-  /* Glow shadows */
-  .glow-blue  { box-shadow: 0 0 40px rgba(0,132,255,0.35); }
-  .glow-blue-lg { box-shadow: 0 0 80px rgba(0,132,255,0.25), 0 20px 60px rgba(0,0,0,0.3); }
+  .glow-blue    { box-shadow: 0 0 40px rgba(0,132,255,0.35); }
+  .glow-blue-lg { box-shadow: 0 0 80px rgba(0,132,255,0.22), 0 20px 60px rgba(0,0,0,0.3); }
 
-  /* Section padding */
   .section-py { padding-top: 5rem; padding-bottom: 5rem; }
   @screen md  { .section-py { padding-top: 7rem; padding-bottom: 7rem; } }
   @screen xl  { .section-py { padding-top: 9rem; padding-bottom: 9rem; } }
 
-  /* Card hover lift */
   .lift {
-    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
-                box-shadow 0.35s ease;
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease;
   }
   .lift:hover {
     transform: translateY(-6px);
-    box-shadow: 0 24px 60px rgba(0,47,90,0.18);
+    box-shadow: 0 24px 60px rgba(0,47,90,0.16);
   }
 
-  /* 3-D image tilt */
   .tilt-card {
     transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s ease;
     will-change: transform;
   }
   .tilt-card:hover {
     transform: perspective(900px) rotateY(-3deg) rotateX(1.5deg) scale(1.02);
-    box-shadow: 16px 24px 60px rgba(0,47,90,0.2);
-  }
-
-  /* Thin section rule */
-  .rule {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0,132,255,0.25), transparent);
+    box-shadow: 16px 24px 60px rgba(0,47,90,0.18);
   }
 }
 
-/* ─── Hamburger ───────────────────────────────────────────────── */
+/* ─── Hamburger ─────────────────────────────────────────────── */
 .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; }
-.ham-line  {
+.ham-line {
   width: 22px; height: 1.5px;
-  background: #002F5A;
   border-radius: 2px;
   transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
   transform-origin: center;
@@ -133,7 +108,7 @@ body {
 .hamburger.open .ham-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
 .hamburger.open .ham-line:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
-/* ─── Three.js canvas ─────────────────────────────────────────── */
+/* ─── Three.js canvas ───────────────────────────────────────── */
 .snow-canvas {
   position: absolute;
   inset: 0;
@@ -141,35 +116,40 @@ body {
   z-index: 3;
 }
 
-/* ─── Snowflake CSS fallback ──────────────────────────────────── */
-.snowflake-css {
-  position: absolute;
-  border-radius: 50%;
-  background: radial-gradient(circle, #fff 0%, rgba(255,255,255,0.2) 80%);
-  pointer-events: none;
-  animation: cssFall linear infinite;
-}
-@keyframes cssFall {
-  0%   { transform: translateY(-20px) translateX(0); opacity: 0; }
-  8%   { opacity: 1; }
-  92%  { opacity: 0.6; }
-  100% { transform: translateY(105vh) translateX(20px); opacity: 0; }
+/* ─── CSS Snowflakes ────────────────────────────────────────── */
+@keyframes snowfall {
+  0%   { transform: translateY(-2rem) translateX(0) rotate(0deg); opacity: 0; }
+  6%   { opacity: var(--snow-opacity, 0.55); }
+  94%  { opacity: var(--snow-opacity, 0.55); }
+  100% { transform: translateY(105vh) translateX(var(--snow-drift, 24px)) rotate(var(--snow-rotation, 270deg)); opacity: 0; }
 }
 
-/* ─── Progress bar ────────────────────────────────────────────── */
-.progress-track {
+.snowflake-symbol {
+  position: fixed;
+  top: -2rem;
+  color: white;
+  font-size: var(--snow-size, 0.9rem);
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  z-index: 8;
+  animation: snowfall var(--snow-duration, 12s) linear var(--snow-delay, 0s) infinite;
+  text-shadow: 0 0 6px rgba(120,200,255,0.6);
+}
+
+/* ─── Progress bar ──────────────────────────────────────────── */
+.progress-bar-track {
   position: fixed; top: 0; left: 0; right: 0;
   height: 2px; z-index: 1000;
-  background: transparent;
 }
-.progress-fill {
+.progress-bar-fill {
   height: 100%;
   background: linear-gradient(90deg, #0084FF, #4fa8ff, #7ec8ff);
   transition: width 0.08s linear;
 }
 
-/* ─── Chatbot bounce ──────────────────────────────────────────── */
-@keyframes dotBounce {
-  0%, 60%, 100% { transform: translateY(0); }
-  30%           { transform: translateY(-5px); }
+/* ─── Video play pulse ──────────────────────────────────────── */
+@keyframes pulseRing {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0,132,255,0.4); }
+  50%       { box-shadow: 0 0 0 14px rgba(0,132,255,0); }
 }

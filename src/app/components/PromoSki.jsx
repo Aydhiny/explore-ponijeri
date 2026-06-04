@@ -5,7 +5,7 @@ import Link from "next/link";
 import { FaPersonSkiingNordic } from "react-icons/fa6";
 import { FiArrowRight } from "react-icons/fi";
 
-const BG = new URL("../images/ponijeri.jpg", import.meta.url);
+import BG from "../images/ponijeri.jpg";
 
 export default function PromoSki() {
   const [ref, inView] = useInView({ threshold: 0.15, triggerOnce: true });
@@ -13,7 +13,7 @@ export default function PromoSki() {
   return (
     <div
       className="relative overflow-hidden"
-      style={{ backgroundImage: `url(${BG})`, backgroundSize: "cover", backgroundPosition: "center" }}
+      style={{ backgroundImage: `url(${BG.src})`, backgroundSize: "cover", backgroundPosition: "center" }}
     >
       <div
         className="absolute inset-0"

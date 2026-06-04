@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { FiPlay } from "react-icons/fi";
 
-const BG = new URL("../images/ponijeri.jpg", import.meta.url);
+import BG from "../images/ponijeri.jpg";
 
 export default function Showcase() {
   const [playing, setPlaying] = useState(false);
@@ -17,7 +17,7 @@ export default function Showcase() {
     >
       {/* Full-bleed bg */}
       <div className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${BG})` }} />
+        style={{ backgroundImage: `url(${BG.src})` }} />
       <div
         className="absolute inset-0"
         style={{

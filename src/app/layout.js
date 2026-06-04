@@ -4,6 +4,7 @@ import Footer from "./components/Footer";
 import ScrollProgressBar from "./components/ProgressBar";
 import CreatedBy from "./components/CreatedBy";
 import SmoothScroll from "./components/SmoothScroll";
+import Snowflakes from "./components/Snowflakes";
 
 export const metadata = {
   title: "Explore Ponijeri | Planinsko Izletište Kakanj",
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
     <html lang="bs" className="scroll-smooth">
       <body className="antialiased">
         <SmoothScroll>
+          <Snowflakes />
           <ScrollProgressBar />
           <Navbar />
           <main>{children}</main>
