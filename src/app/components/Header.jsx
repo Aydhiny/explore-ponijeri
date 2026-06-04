@@ -71,7 +71,7 @@ export default function Header() {
           className="flex items-center gap-3 mb-10"
         >
           <span className="h-px w-10 bg-white/20" />
-          <span className="text-white/40 text-[10px] font-semibold tracking-[0.32em] uppercase">
+          <span className="text-white/55 text-[10px] font-semibold tracking-[0.32em] uppercase">
             Kakanj · Bosna i Hercegovina · 1200m
           </span>
         </motion.div>
@@ -82,19 +82,26 @@ export default function Header() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.0, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="font-display leading-[0.88] mb-6"
-          style={{ fontSize: "clamp(4rem, 11vw, 10.5rem)", fontWeight: 800 }}
+          style={{ fontSize: "clamp(4rem, 11vw, 10.5rem)", fontWeight: 700 }}
         >
-          <span className="block text-white italic drop-shadow-[0_4px_32px_rgba(0,0,0,0.6)]">
+          {/* First word: pure white, italic — clean and strong */}
+          <span
+            className="block italic"
+            style={{
+              color: "#ffffff",
+              textShadow: "0 2px 40px rgba(0,0,0,0.5)",
+            }}
+          >
             Explore
           </span>
+          {/* Second word: vertical gradient white → blue, not italic */}
           <span
             className="block not-italic"
             style={{
-              background: "linear-gradient(135deg, #7ec8ff 0%, #4fa8ff 35%, #0084FF 70%)",
+              background: "linear-gradient(to bottom, #ffffff 0%, #7ec8ff 45%, #2277dd 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
-              filter: "drop-shadow(0 0 30px rgba(0,132,255,0.4))",
             }}
           >
             Ponijeri
@@ -109,7 +116,7 @@ export default function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.35, ease: "easeOut" }}
-            className="text-white/38 text-base tracking-[0.15em] font-light"
+            className="text-white/60 text-base tracking-[0.15em] font-light"
           >
             {WORDS[wordIdx]}
           </motion.p>
@@ -120,7 +127,7 @@ export default function Header() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.75 }}
-          className="flex items-center gap-3 mb-10 text-white/28 text-[10px] tracking-[0.22em] uppercase font-medium"
+          className="flex items-center gap-3 mb-10 text-white/55 text-[10px] tracking-[0.22em] uppercase font-medium"
         >
           <span>5 ski staza</span>
           <span className="w-1 h-1 rounded-full bg-white/20" />
