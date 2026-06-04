@@ -1,34 +1,22 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, Suspense, lazy } from "react";
 import Image from "next/image";
-import BG from "../images/ponijeri.jpg";
 import opcina from "../images/opcina-kakanj.png";
 import { motion } from "framer-motion";
 import { FiArrowRight, FiArrowDown } from "react-icons/fi";
+
+const HeroCanvas = lazy(() => import("./HeroCanvas"));
 
 const WORDS = ["Planina.", "Priroda.", "Avangarda."];
 
 export default function Header() {
   const [wordIdx, setWordIdx] = useState(0);
-  const photoRef = useRef(null);
 
   useEffect(() => {
     const id = setInterval(() => setWordIdx(i => (i + 1) % WORDS.length), 2800);
     return () => clearInterval(id);
   }, []);
 
-  // Subtle mouse parallax on photo
-  useEffect(() => {
-    const el = photoRef.current;
-    if (!el) return;
-    const onMove = (e) => {
-      const x = (e.clientX / window.innerWidth  - 0.5) * 18;
-      const y = (e.clientY / window.innerHeight - 0.5) * 10;
-      el.style.transform = `scale(1.08) translate(${-x}px, ${-y}px)`;
-    };
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
-  }, []);
 
   const scrollTo = (id) => {
     const el = document.getElementById(id);
@@ -179,7 +167,7 @@ export default function Header() {
         </motion.button>
       </div>
 
-      {/* ── Right column — photo ─────────────────────────────────────── */}
+      {/* ── Right column — Three.js winter scene ────────────────────── */}
       <div className="hidden lg:block absolute right-0 top-0 bottom-0 w-[50%] overflow-hidden">
 
         {/* Angled left edge — ski slope cut */}
@@ -188,24 +176,17 @@ export default function Header() {
           style={{ clipPath: "polygon(0 0, 12% 0, 0 100%)" }}
         />
 
-        {/* Photo with mouse parallax */}
-        <div ref={photoRef} className="absolute inset-0 transition-transform duration-300 ease-out" style={{ willChange: "transform", transform: "scale(1.08)" }}>
-          <Image
-            src={BG}
-            alt="Ponijeri planina"
-            fill
-            priority
-            quality={90}
-            className="object-cover object-center"
-          />
+        {/* Three.js canvas */}
+        <div className="absolute inset-0">
+          <Suspense fallback={<div style={{ background: "#020a1c", width: "100%", height: "100%" }} />}>
+            <HeroCanvas />
+          </Suspense>
         </div>
 
-        {/* Very subtle dark vignette at top only — for visual weight */}
+        {/* Subtle bottom fade into the next section */}
         <div
-          className="absolute inset-0 z-[2]"
-          style={{
-            background: "linear-gradient(to bottom, rgba(3,8,16,0.18) 0%, transparent 40%)",
-          }}
+          className="absolute bottom-0 left-0 right-0 h-32 z-[2]"
+          style={{ background: "linear-gradient(to bottom, transparent, #020a1c)" }}
         />
 
         {/* Opcina badge */}
@@ -232,11 +213,8 @@ export default function Header() {
         </motion.div>
       </div>
 
-      {/* ── Mobile: full-bleed photo below text ─────────────────────── */}
-      <div className="absolute inset-0 lg:hidden z-0">
-        <Image src={BG} alt="Ponijeri" fill priority quality={85} className="object-cover" />
-        <div className="absolute inset-0" style={{ background: "rgba(244,249,255,0.88)" }} />
-      </div>
+      {/* ── Mobile: dark sky fill ────────────────────────────────────── */}
+      <div className="absolute inset-0 lg:hidden z-0" style={{ background: "#f4f9ff" }} />
 
     </section>
   );

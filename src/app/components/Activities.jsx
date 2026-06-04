@@ -14,20 +14,129 @@ const ITEMS = [
   {
     icon: FaSkiing,
     label: "Skijanje",
-    sub: "Staze za sve nivoe",
+    sub: "Ski centar · 1200m n.v.",
     href: "/skiing",
     featured: true,
+    num: "01",
+    accent: "#0084FF",
     desc: "Skijaški centar na 1200m nadmorske visine — moderne žičare, uređene staze i profesionalna škola skijanja za sve uzraste.",
   },
-  { icon: IoRestaurant,     label: "Restorani",    sub: "Lokalna kuhinja",     href: "/restaurants", featured: false },
-  { icon: FaMountainSun,    label: "Planinarenje", sub: "Planinski pohodi",    href: "/about",       featured: false },
-  { icon: FaMonument,       label: "Tajan",        sub: "Prirodni rezervat",   href: "/about",       featured: false },
-  { icon: MdSportsHandball, label: "Sport",        sub: "Aktivnosti vani",     href: "/about",       featured: false },
+  { icon: IoRestaurant,     label: "Restorani",    sub: "Lokalna kuhinja",    href: "/restaurants", num: "02", accent: "#FF7A3D" },
+  { icon: FaMountainSun,    label: "Planinarenje", sub: "Planinski pohodi",   href: "/about",       num: "03", accent: "#34D399" },
+  { icon: FaMonument,       label: "Tajan",        sub: "Prirodni rezervat",  href: "/about",       num: "04", accent: "#A78BFA" },
+  { icon: MdSportsHandball, label: "Sport",        sub: "Aktivnosti vani",    href: "/about",       num: "05", accent: "#FBBF24" },
 ];
 
-function ActivityCard({ icon: Icon, label, sub, href, featured, desc, delay, inView }) {
-  const cardRef  = useRef(null);
-  const [pos,     setPos]     = useState({ x: 0, y: 0 });
+function FeaturedCard({ icon: Icon, label, sub, href, accent, num, desc, delay, inView }) {
+  const cardRef = useRef(null);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [hovered, setHovered] = useState(false);
+
+  const handleMove = useCallback((e) => {
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    setPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.55, delay }}
+      className="col-span-full"
+    >
+      <Link href={href}>
+        <div
+          ref={cardRef}
+          onMouseMove={handleMove}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          className="group relative overflow-hidden rounded-2xl cursor-pointer transition-transform duration-300 hover:-translate-y-1"
+          style={{
+            background: "linear-gradient(135deg, #0a1628 0%, #0d1f3c 60%, #081424 100%)",
+            border: `1px solid rgba(0,132,255,0.18)`,
+            boxShadow: hovered ? `0 0 40px rgba(0,132,255,0.12)` : "none",
+            transition: "box-shadow 0.4s ease, transform 0.3s ease",
+          }}
+        >
+          {/* Mouse-tracking spotlight */}
+          <div
+            className="absolute pointer-events-none rounded-full"
+            style={{
+              width: 420,
+              height: 420,
+              left: pos.x - 210,
+              top: pos.y - 210,
+              background: `radial-gradient(circle, rgba(0,132,255,0.13) 0%, rgba(0,84,200,0.05) 50%, transparent 70%)`,
+              opacity: hovered ? 1 : 0,
+              transition: "opacity 0.3s ease",
+            }}
+          />
+
+          {/* Big decorative number */}
+          <span
+            className="absolute right-6 top-1/2 -translate-y-1/2 font-display font-bold select-none pointer-events-none"
+            style={{
+              fontSize: "clamp(5rem, 10vw, 8rem)",
+              color: "rgba(0,132,255,0.07)",
+              lineHeight: 1,
+            }}
+          >
+            {num}
+          </span>
+
+          <div className="relative z-10 flex flex-col sm:flex-row items-start gap-6 p-8 sm:p-10">
+            {/* Icon */}
+            <div
+              className="flex-shrink-0 rounded-2xl p-5 transition-all duration-300 group-hover:scale-105"
+              style={{
+                background: `rgba(0,132,255,0.15)`,
+                border: `1px solid rgba(0,132,255,0.25)`,
+                boxShadow: hovered ? `0 0 24px rgba(0,132,255,0.3)` : "none",
+                transition: "box-shadow 0.3s ease",
+              }}
+            >
+              <Icon className="text-4xl" style={{ color: accent }} />
+            </div>
+
+            {/* Text */}
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[10px] tracking-[0.3em] font-bold uppercase" style={{ color: `${accent}99` }}>
+                  {sub}
+                </span>
+              </div>
+              <div className="flex items-center gap-2 mb-3">
+                <h3 className="text-white font-display font-bold italic" style={{ fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)" }}>
+                  {label}
+                </h3>
+                <FiArrowUpRight
+                  className="text-white/20 group-hover:text-brand-mid group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-200"
+                  style={{ fontSize: "1.4rem" }}
+                />
+              </div>
+              <p className="text-white/45 text-sm leading-relaxed max-w-lg">{desc}</p>
+            </div>
+          </div>
+
+          {/* Bottom accent line */}
+          <div
+            className="absolute bottom-0 left-0 right-0 h-px"
+            style={{
+              background: `linear-gradient(to right, transparent, ${accent}50, transparent)`,
+              opacity: hovered ? 1 : 0.4,
+              transition: "opacity 0.3s ease",
+            }}
+          />
+        </div>
+      </Link>
+    </motion.div>
+  );
+}
+
+function SmallCard({ icon: Icon, label, sub, href, accent, num, delay, inView }) {
+  const cardRef = useRef(null);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
   const [hovered, setHovered] = useState(false);
 
   const handleMove = useCallback((e) => {
@@ -41,7 +150,6 @@ function ActivityCard({ icon: Icon, label, sub, href, featured, desc, delay, inV
       initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay }}
-      className={cn(featured && "col-span-full")}
     >
       <Link href={href}>
         <div
@@ -49,59 +157,65 @@ function ActivityCard({ icon: Icon, label, sub, href, featured, desc, delay, inV
           onMouseMove={handleMove}
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
-          className={cn(
-            "group relative overflow-hidden rounded-2xl cursor-pointer transition-transform duration-300 hover:-translate-y-1.5",
-            featured ? "flex flex-col sm:flex-row items-start gap-6 p-7" : "flex flex-col items-center text-center p-6"
-          )}
+          className="group relative overflow-hidden rounded-2xl cursor-pointer transition-transform duration-300 hover:-translate-y-1.5"
           style={{
-            background: "rgba(255,255,255,0.03)",
-            border: "1px solid rgba(255,255,255,0.08)",
+            background: "linear-gradient(145deg, #0a1628 0%, #080f1e 100%)",
+            border: `1px solid ${hovered ? `${accent}35` : "rgba(255,255,255,0.06)"}`,
+            boxShadow: hovered ? `0 4px 30px ${accent}18` : "none",
+            transition: "border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease",
+            padding: "1.5rem",
           }}
         >
-          {/* Aceternity mouse-tracking radial spotlight */}
+          {/* Mouse spotlight */}
           <div
             className="absolute pointer-events-none rounded-full"
             style={{
-              width: 260,
-              height: 260,
-              left: pos.x - 130,
-              top: pos.y - 130,
-              background: "radial-gradient(circle, rgba(0,132,255,0.20) 0%, rgba(79,168,255,0.06) 50%, transparent 70%)",
+              width: 200,
+              height: 200,
+              left: pos.x - 100,
+              top: pos.y - 100,
+              background: `radial-gradient(circle, ${accent}22 0%, ${accent}08 50%, transparent 70%)`,
               opacity: hovered ? 1 : 0,
               transition: "opacity 0.25s ease",
             }}
           />
 
+          {/* Number */}
+          <span
+            className="absolute top-3 right-4 font-display font-bold select-none"
+            style={{ fontSize: "0.65rem", letterSpacing: "0.2em", color: `${accent}40` }}
+          >
+            {num}
+          </span>
+
           {/* Icon */}
           <div
-            className={cn(
-              "relative z-10 flex-shrink-0 rounded-xl transition-all duration-300 group-hover:scale-110",
-              featured ? "p-4 mt-0.5" : "p-4 mb-4"
-            )}
+            className="relative z-10 inline-flex rounded-xl p-3.5 mb-4 transition-all duration-300 group-hover:scale-110"
             style={{
-              background: "rgba(0,132,255,0.14)",
-              border: "1px solid rgba(0,132,255,0.22)",
-              boxShadow: hovered ? "0 0 20px rgba(0,132,255,0.25)" : "none",
+              background: `${accent}18`,
+              border: `1px solid ${accent}28`,
+              boxShadow: hovered ? `0 0 16px ${accent}30` : "none",
               transition: "box-shadow 0.3s ease",
             }}
           >
-            <Icon className={cn("text-blue-300", featured ? "text-3xl" : "text-2xl")} />
+            <Icon style={{ fontSize: "1.4rem", color: accent }} />
           </div>
 
           {/* Text */}
-          <div className={cn("relative z-10 flex-1", featured ? "text-left" : "text-center")}>
-            <div className={cn("flex items-center gap-2", !featured && "justify-center")}>
-              <p className="text-white font-semibold text-sm leading-none mb-1">{label}</p>
-              {featured && (
-                <FiArrowUpRight
-                  className="text-white/30 group-hover:text-brand-mid group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-200 text-base"
-                />
-              )}
-            </div>
-            <p className="text-white/40 text-[11px] leading-relaxed">
-              {featured ? desc : sub}
-            </p>
+          <div className="relative z-10">
+            <p className="text-white font-semibold text-sm leading-snug mb-1">{label}</p>
+            <p className="text-white/35 text-[11px] leading-relaxed">{sub}</p>
           </div>
+
+          {/* Bottom accent */}
+          <div
+            className="absolute bottom-0 left-0 right-0 h-px"
+            style={{
+              background: `linear-gradient(to right, transparent, ${accent}40, transparent)`,
+              opacity: hovered ? 1 : 0,
+              transition: "opacity 0.3s ease",
+            }}
+          />
         </div>
       </Link>
     </motion.div>
@@ -114,7 +228,7 @@ export default function Activities() {
   return (
     <section
       style={{
-        background: "linear-gradient(180deg, #ffffff 0%, #060d1a 8%, #060d1a 92%, #ffffff 100%)",
+        background: "linear-gradient(180deg, #ffffff 0%, #060d1a 6%, #060d1a 94%, #ffffff 100%)",
         paddingTop: "5rem",
         paddingBottom: "5rem",
       }}
@@ -141,12 +255,14 @@ export default function Activities() {
           <span className="text-gradient not-italic">Doživljaji</span>
         </motion.h2>
 
-        {/* Bento-style grid: featured + 4 equal */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <ActivityCard {...ITEMS[0]} delay={0.1}  inView={inView} />
-          {ITEMS.slice(1).map((item, i) => (
-            <ActivityCard key={item.label} {...item} delay={0.18 + i * 0.07} inView={inView} />
-          ))}
+        {/* Featured card + 4 small cards */}
+        <div className="flex flex-col gap-3">
+          <FeaturedCard {...ITEMS[0]} delay={0.1} inView={inView} />
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {ITEMS.slice(1).map((item, i) => (
+              <SmallCard key={item.label} {...item} delay={0.2 + i * 0.08} inView={inView} />
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -20,9 +20,9 @@ export default function WeatherDisplay({ scrolled = true }) {
   if (loading || temp === null) return null;
 
   const snowy = temp <= 2;
-  const color = scrolled ? "rgba(0,47,90,0.7)" : "rgba(255,255,255,0.75)";
-  const bg    = scrolled ? "rgba(0,132,255,0.08)" : "rgba(255,255,255,0.1)";
-  const border= scrolled ? "rgba(0,132,255,0.15)" : "rgba(255,255,255,0.18)";
+  const color = "rgba(0,47,90,0.7)";
+  const bg    = "rgba(0,132,255,0.08)";
+  const border= "rgba(0,132,255,0.15)";
 
   return (
     <div
