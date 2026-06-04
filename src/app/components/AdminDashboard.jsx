@@ -146,7 +146,7 @@ ${content}`;
         <p className="text-sm md:text-base lg:text-lg">
           Za kreiranje objave morate ispuniti navedena polja, te pritisnuti
           dugme{" "}
-          <span className="text-orange-400 font-bold">"KREIRAJ OBJAVU"</span>.
+          <span className="text-orange-400 font-bold">&quot;KREIRAJ OBJAVU&quot;</span>.
         </p>
       </div>
 
