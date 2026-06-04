@@ -9,7 +9,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"Fraunces"', '"Instrument Serif"', 'Georgia', 'serif'],
+        display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
         body:    ['"Outfit"', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
         jakarta: ['"Plus Jakarta Sans"', 'system-ui'],
         grotesk: ['"Outfit"', 'system-ui'],
