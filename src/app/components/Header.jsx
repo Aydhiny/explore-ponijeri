@@ -1,23 +1,12 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import BG    from "../images/ponijeri.jpg";
+import BG    from "../images/ponijeri-2.jpg";
 import opcina from "../images/opcina-kakanj.png";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiArrowDown } from "react-icons/fi";
-import { MovingBorder } from "./ui/MovingBorder";
-import { Spotlight }    from "./ui/Spotlight";
-
-// ─── Pure-CSS snowflakes via globals.css .snowflake-symbol ────────────────────
-const SNOW = Array.from({ length: 30 }, (_, i) => ({
-  left:     `${((i / 30) * 100 + (i % 5) * 2.2).toFixed(1)}%`,
-  size:     `${(0.48 + (i % 6) * 0.13).toFixed(2)}rem`,
-  duration: `${(10 + (i * 2.47) % 13).toFixed(1)}s`,
-  delay:    `-${((i * 3.13) % 22).toFixed(1)}s`,
-  opacity:  +(0.25 + (i % 5) * 0.07).toFixed(2),
-  drift:    `${(i % 2 === 0 ? 1 : -1) * (14 + (i * 7) % 24)}px`,
-  rotation: `${180 + i * 37}deg`,
-}));
+import { FiArrowRight, FiArrowDown } from "react-icons/fi";
+import { Spotlight } from "./ui/Spotlight";
+import Snow2D from "./Snow2D";
 
 const TAGLINES = ["Planina.", "Priroda.", "Avangarda."];
 
@@ -31,15 +20,15 @@ export default function Header() {
     return () => clearInterval(id);
   }, []);
 
-  // Two-layer mouse parallax — bg moves less, text moves more → depth
+  // Subtle dual-layer parallax
   useEffect(() => {
     const h = (e) => {
       const nx = e.clientX / window.innerWidth  - 0.5;
       const ny = e.clientY / window.innerHeight - 0.5;
       if (bgRef.current)
-        bgRef.current.style.transform = `scale(1.06) translate(${nx * -9}px, ${ny * -6}px)`;
+        bgRef.current.style.transform = `scale(1.06) translate(${nx * -8}px, ${ny * -5}px)`;
       if (textRef.current)
-        textRef.current.style.transform = `translate(${nx * -16}px, ${ny * -8}px)`;
+        textRef.current.style.transform = `translate(${nx * -14}px, ${ny * -7}px)`;
     };
     window.addEventListener("mousemove", h, { passive: true });
     return () => window.removeEventListener("mousemove", h);
@@ -55,7 +44,8 @@ export default function Header() {
   return (
     <section className="relative w-full h-screen min-h-[640px] overflow-hidden">
 
-      {/* ── Photography ───────────────────────────────────────────── */}
+      {/* ── Background photo ─────────────────────────────────────── */}
+      {/* ponijeri-2.jpg is B&W — the blue tint overlay turns it cinematic deep-winter */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <div
           ref={bgRef}
@@ -68,54 +58,41 @@ export default function Header() {
             fill
             priority
             quality={92}
-            className="object-cover object-center"
+            className="object-cover object-[center_38%]"
+            style={{ filter: "brightness(0.78) contrast(1.08)" }}
           />
         </div>
       </div>
 
-      {/* ── Cinematic overlays ────────────────────────────────────── */}
-      {/* Darken top & bottom while letting the mountain layers breathe */}
+      {/* ── Blue tint — turns B&W photo into deep winter navy ────── */}
       <div
         className="absolute inset-0 z-[1]"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(3,10,28,0.82) 0%, rgba(3,10,28,0.42) 36%, rgba(3,10,28,0.38) 64%, rgba(3,10,28,0.74) 90%, rgba(3,10,28,0.88) 100%)",
-        }}
+        style={{ background: "rgba(8,28,88,0.58)" }}
       />
-      {/* Blue cast to harmonise photo with brand */}
+
+      {/* ── Edge vignette + top darkness for text readability ────── */}
       <div
         className="absolute inset-0 z-[2]"
-        style={{ background: "rgba(8,28,80,0.22)", mixBlendMode: "color" }}
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(2,8,30,0.55) 0%, transparent 38%, transparent 58%, rgba(2,8,30,0.65) 100%)",
+        }}
+      />
+      <div
+        className="absolute inset-0 z-[2]"
+        style={{
+          background:
+            "radial-gradient(ellipse at 60% 45%, transparent 35%, rgba(2,6,22,0.45) 100%)",
+        }}
       />
 
-      {/* ── Aceternity spotlight sweep (once on load) ─────────────── */}
-      <Spotlight
-        className="z-[3] -top-24 -left-10 lg:left-8"
-        fill="#3d8fff"
-      />
+      {/* ── Aceternity spotlight (fires once on load) ────────────── */}
+      <Spotlight className="z-[3] -top-20 left-0 lg:left-10" fill="#5599ff" />
 
-      {/* ── CSS snowflakes (pure CSS, zero WebGL) ────────────────── */}
-      <div className="absolute inset-0 z-[4] overflow-hidden pointer-events-none" aria-hidden="true">
-        {SNOW.map((f, i) => (
-          <span
-            key={i}
-            className="snowflake-symbol"
-            style={{
-              left: f.left,
-              "--snow-size":     f.size,
-              "--snow-duration": f.duration,
-              "--snow-delay":    f.delay,
-              "--snow-opacity":  f.opacity,
-              "--snow-drift":    f.drift,
-              "--snow-rotation": f.rotation,
-            }}
-          >
-            ❄
-          </span>
-        ))}
-      </div>
+      {/* ── 2D Canvas snow — soft circles, no WebGL ──────────────── */}
+      <Snow2D />
 
-      {/* ── Content overlay ──────────────────────────────────────── */}
+      {/* ── Content ──────────────────────────────────────────────── */}
       <div className="absolute inset-0 z-10 flex flex-col justify-center px-10 sm:px-16 xl:px-24 pb-20">
         <div
           ref={textRef}
@@ -129,25 +106,22 @@ export default function Header() {
             transition={{ duration: 0.55, delay: 0.2 }}
             className="flex items-center gap-3 mb-8"
           >
-            <span className="h-px w-8" style={{ background: "rgba(255,255,255,0.25)" }} />
-            <span className="text-[10px] tracking-[0.35em] font-bold uppercase text-white/42">
+            <span className="h-px w-8 bg-white/25" />
+            <span className="text-[10px] tracking-[0.35em] font-bold uppercase text-white/45">
               Kakanj · Bosna i Hercegovina · 1200m
             </span>
           </motion.div>
 
-          {/* Headline */}
+          {/* Main headline */}
           <motion.h1
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.0, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display leading-[0.85] mb-8 select-none"
+            className="font-display leading-[0.85] mb-9 select-none"
             style={{ fontSize: "clamp(4.5rem, 12vw, 10.5rem)" }}
           >
-            {/* Ghost "Explore" */}
-            <span
-              className="block font-light italic"
-              style={{ color: "rgba(255,255,255,0.13)" }}
-            >
+            {/* Ghost italic "Explore" */}
+            <span className="block font-light italic" style={{ color: "rgba(255,255,255,0.11)" }}>
               Explore
             </span>
             {/* "Ponijeri" — strong vertical blue gradient */}
@@ -155,7 +129,7 @@ export default function Header() {
               className="block font-bold not-italic"
               style={{
                 background:
-                  "linear-gradient(180deg, #f0f8ff 0%, #b8dcff 20%, #4dabff 50%, #1055dd 78%, #002299 100%)",
+                  "linear-gradient(180deg, #f0f8ff 0%, #b0d8ff 22%, #4aaaff 52%, #0d5add 78%, #001e88 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -174,7 +148,7 @@ export default function Header() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -7 }}
                 transition={{ duration: 0.22 }}
-                className="text-[11px] tracking-[0.3em] uppercase font-medium text-white/35"
+                className="text-[11px] tracking-[0.32em] uppercase font-medium text-white/38"
               >
                 {TAGLINES[tagIdx]}
               </motion.p>
@@ -188,22 +162,31 @@ export default function Header() {
             transition={{ duration: 0.55, delay: 0.72 }}
             className="flex items-center gap-6 mb-14"
           >
-            <MovingBorder
-              duration={3400}
-              containerClassName="rounded-full"
-              className="px-8 py-3.5 rounded-full"
+            {/* Primary — frosted glass pill */}
+            <button
+              onClick={() => scrollTo("showcase")}
+              className="group relative flex items-center gap-3 px-8 py-3.5 rounded-full overflow-hidden"
+              style={{
+                background: "rgba(255,255,255,0.10)",
+                border: "1px solid rgba(255,255,255,0.22)",
+                backdropFilter: "blur(18px)",
+                WebkitBackdropFilter: "blur(18px)",
+              }}
             >
-              <button
-                onClick={() => scrollTo("showcase")}
-                className="text-[11px] font-bold tracking-[0.24em] uppercase whitespace-nowrap text-white/85"
-              >
+              <span
+                className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{ background: "rgba(255,255,255,0.07)" }}
+              />
+              <span className="relative text-[11px] font-bold tracking-[0.24em] uppercase text-white/88">
                 Istraži Resort
-              </button>
-            </MovingBorder>
+              </span>
+              <FiArrowRight className="relative text-white/55 group-hover:translate-x-0.5 transition-transform duration-200 text-xs" />
+            </button>
 
+            {/* Secondary — text only */}
             <button
               onClick={() => scrollTo("about")}
-              className="group flex items-center gap-2 text-[11px] font-medium tracking-[0.22em] uppercase text-white/32 hover:text-white/58 transition-colors duration-200"
+              className="group flex items-center gap-2 text-[11px] font-medium tracking-[0.22em] uppercase text-white/34 hover:text-white/60 transition-colors duration-200"
             >
               O nama
               <span className="h-px w-0 group-hover:w-5 bg-white/28 transition-all duration-300 block" />
@@ -215,12 +198,8 @@ export default function Header() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 1.0 }}
-            className="flex items-center gap-7"
-            style={{
-              borderTop: "1px solid rgba(255,255,255,0.10)",
-              paddingTop: "1.4rem",
-              maxWidth: "460px",
-            }}
+            className="flex items-center gap-8"
+            style={{ borderTop: "1px solid rgba(255,255,255,0.10)", paddingTop: "1.4rem", maxWidth: "460px" }}
           >
             {[
               { val: "5",     sub: "ski staza"  },
@@ -229,12 +208,8 @@ export default function Header() {
               { val: "Noćno", sub: "skijanje"   },
             ].map((s, i) => (
               <div key={i} className="flex flex-col gap-0.5">
-                <span className="font-display font-bold text-base leading-none text-white/80">
-                  {s.val}
-                </span>
-                <span className="text-[8px] tracking-[0.24em] uppercase text-white/26">
-                  {s.sub}
-                </span>
+                <span className="font-display font-bold text-base leading-none text-white/82">{s.val}</span>
+                <span className="text-[8px] tracking-[0.24em] uppercase text-white/28">{s.sub}</span>
               </div>
             ))}
           </motion.div>
@@ -267,7 +242,7 @@ export default function Header() {
       {/* ── Scroll cue ───────────────────────────────────────────── */}
       <motion.button
         onClick={() => scrollTo("about")}
-        className="absolute bottom-7 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-white/22 hover:text-white/48 transition-colors"
+        className="absolute bottom-7 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-white/22 hover:text-white/50 transition-colors"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.5 }}
@@ -278,7 +253,7 @@ export default function Header() {
         </motion.div>
       </motion.button>
 
-      {/* ── Fade hero bottom into next (white) section ───────────── */}
+      {/* ── Fade to next section ─────────────────────────────────── */}
       <div
         className="absolute bottom-0 inset-x-0 z-[3] pointer-events-none"
         style={{ height: "130px", background: "linear-gradient(to bottom, transparent, white)" }}
