@@ -66,7 +66,6 @@ export default function Navbar() {
             <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
               <Image
                 src={kakanj} alt="Ponijeri" width={30} height={30}
-                style={{ filter: "brightness(0) invert(1)" }}
                 className="group-hover:scale-105 transition-transform duration-300"
               />
               <span className="text-white font-display text-sm font-bold tracking-[0.18em] uppercase hidden sm:block">

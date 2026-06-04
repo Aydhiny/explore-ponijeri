@@ -135,15 +135,13 @@ export default function SkiInfo() {
         >
           <Link
             href="/skiing"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-semibold text-white transition-all duration-300 hover:scale-105 hover:brightness-110"
-            style={{
-              background: "linear-gradient(135deg, #0084FF, #005fcc)",
-              boxShadow: "0 0 40px rgba(0,132,255,0.3), 0 4px 20px rgba(0,0,0,0.3)",
-            }}
+            className="group relative inline-flex items-center gap-4 px-8 py-3.5 text-[11px] font-bold tracking-[0.26em] uppercase text-white overflow-hidden"
+            style={{ border: "1px solid rgba(255,255,255,0.28)" }}
           >
-            <FaSkiing />
-            Raspored i Ski Škola
-            <FiArrowRight />
+            <span className="absolute inset-0 -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" style={{ background: "rgba(255,255,255,0.06)" }} />
+            <FaSkiing className="relative z-10 text-white/60" />
+            <span className="relative z-10">Raspored i Ski Škola</span>
+            <FiArrowRight className="relative z-10 text-white/55 group-hover:translate-x-1 transition-transform duration-300" />
           </Link>
         </motion.div>
       </div>

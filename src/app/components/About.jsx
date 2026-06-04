@@ -5,148 +5,120 @@ import { useInView } from "react-intersection-observer";
 import AboutImage  from "../images/ponijeri-about.jpg";
 import AboutImage2 from "../images/ponijeri-about2.jpg";
 
-function Reveal({ children, delay = 0, className = "" }) {
-  const [ref, inView] = useInView({ threshold: 0.12, triggerOnce: true });
-  return (
-    <motion.div
-      ref={ref}
-      className={className}
-      initial={{ opacity: 0, y: 28 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
 const STATS = [
   { value: "1200m", label: "Nadmorska visina" },
-  { value: "20 km", label: "Od Kaknja" },
-  { value: "1297m", label: "Vrh Tajan" },
+  { value: "20 km", label: "Od Kaknja"        },
+  { value: "1297m", label: "Vrh Tajan"        },
 ];
 
 export default function About() {
+  const [ref, inView] = useInView({ threshold: 0.08, triggerOnce: true });
+
   return (
-    /* Seamless blend: surface → white */
     <section
       id="about"
-      className="relative overflow-hidden"
-      style={{
-        background: "linear-gradient(180deg, #f4f9ff 0%, #ffffff 100%)",
-        paddingTop: "6rem",
-        paddingBottom: "7rem",
-      }}
+      ref={ref}
+      className="py-24 sm:py-36 bg-white overflow-hidden"
     >
-      {/* Very faint radial accent — not a pattern, just atmosphere */}
-      <div
-        className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(0,132,255,0.04) 0%, transparent 65%)" }}
-      />
-
       <div className="max-w-7xl mx-auto px-6 sm:px-10 xl:px-16">
 
-        {/* Eyebrow */}
-        <Reveal className="flex items-center gap-3 mb-5">
-          <span className="h-px w-8 bg-brand opacity-60" />
-          <span className="text-brand text-[11px] font-semibold tracking-[0.22em] uppercase">
-            O destinaciji
+        {/* Section marker — editorial, not the clichéd eyebrow-with-line */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5 }}
+          className="flex items-center gap-4 mb-12"
+        >
+          <span className="h-px flex-1 max-w-[3rem] bg-brand/20" />
+          <span className="text-[10px] tracking-[0.32em] font-bold uppercase text-gray-300">
+            01 — Destinacija
           </span>
-        </Reveal>
+        </motion.div>
 
-        {/* Heading */}
-        <Reveal delay={0.05} className="mb-14">
-          <h2
-            className="font-display font-bold text-brand-dark leading-tight"
-            style={{ fontSize: "clamp(2.2rem, 5vw, 4rem)" }}
+        {/* Massive heading */}
+        <motion.h2
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+          className="font-display font-bold italic text-brand-dark leading-[0.88] mb-16"
+          style={{ fontSize: "clamp(3.5rem, 9vw, 7.5rem)" }}
+        >
+          Planinsko<br />
+          <span className="text-gradient not-italic">Izletište</span>
+        </motion.h2>
+
+        {/* 5-col grid: text (2) + images (3) */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 xl:gap-20 items-start">
+
+          {/* ── Text column ─────────────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-2 space-y-6"
           >
-            Planinsko{" "}
-            <span className="text-gradient">Izletište</span>
-          </h2>
-        </Reveal>
+            <p className="text-brand-dark/75 font-semibold text-[1.05rem] leading-relaxed">
+              Ponijeri su planinsko izletište na nadmorskoj visini od 1200 metara,
+              udaljeno oko 20 km od centra Kaknja — prirodna zračna banja i zimski
+              dragulj Bosne.
+            </p>
+            <p className="text-gray-400 leading-relaxed text-[15px]">
+              Izletište se nalazi u sastavu masiva Ravne Planine koja se pruža između
+              općina Kakanj, Zavidovići, Vareš i Zenica. Kraški fenomeni — polja,
+              uvale, ponori, pećine i jame — čine ga geološkim biserjem.
+            </p>
+            <p className="text-gray-400 leading-relaxed text-[15px]">
+              Minerali kvarca, jaspisa, olivina, opala i hematita svjedoče o
+              bogatoj geološkoj prošlosti. Sastavni je dio Spomenika prirode Tajan.
+            </p>
 
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-14 xl:gap-24 items-start">
-
-          {/* ── Text column ────────────────────────────────── */}
-          <div className="space-y-7">
-            <Reveal delay={0.1}>
-              <p className="text-brand-dark/80 font-semibold text-lg leading-relaxed"
-                style={{
-                  borderLeft: "3px solid #0084FF",
-                  paddingLeft: "1.25rem",
-                }}>
-                Ponijeri su planinsko izletište na nadmorskoj visini od 1200 metara,
-                udaljeno oko 20 km od centra Kaknja. Zbog nadmorske visine ujedno je
-                i prirodna zračna banja.
-              </p>
-            </Reveal>
-
-            <Reveal delay={0.15}>
-              <p className="text-gray-500 leading-relaxed text-[15px]">
-                Izletište se nalazi u sastavu masiva Ravne Planine koja se pruža između
-                općina Kakanj, Zavidovići, Vareš i Zenica. Kraški fenomeni —
-                polja, uvale, ponori, pećine i jame — čine ga geološkim biserjem.
-              </p>
-            </Reveal>
-
-            <Reveal delay={0.2}>
-              <p className="text-gray-500 leading-relaxed text-[15px]">
-                Minerali kvarca, jaspisa, olivina, opala i hematita svjedoče o
-                bogatoj geološkoj prošlosti. Sastavni je dio Spomenika prirode Tajan.
-              </p>
-            </Reveal>
-
-            {/* Stats */}
-            <Reveal delay={0.28}>
-              <div className="grid grid-cols-3 gap-3 pt-4">
-                {STATS.map(({ value, label }) => (
-                  <div
-                    key={label}
-                    className="text-center py-4 rounded-2xl"
-                    style={{
-                      background: "rgba(0,132,255,0.05)",
-                      border: "1px solid rgba(0,132,255,0.1)",
-                    }}
-                  >
-                    <div className="text-2xl font-bold text-brand leading-none mb-1">{value}</div>
-                    <div className="text-[11px] text-gray-400 leading-tight">{label}</div>
+            {/* Stats — no boxes, just big numbers */}
+            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-gray-100">
+              {STATS.map(({ value, label }) => (
+                <div key={label}>
+                  <div className="font-display font-bold text-brand text-2xl leading-none mb-1">
+                    {value}
                   </div>
-                ))}
-              </div>
-            </Reveal>
-          </div>
+                  <div className="text-[10px] uppercase tracking-[0.18em] text-gray-400">
+                    {label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
 
-          {/* ── Image column ────────────────────────────────── */}
-          <div className="grid grid-cols-2 gap-4">
-            <Reveal delay={0.18} className="col-span-1">
-              <div
-                className="tilt-card relative rounded-2xl overflow-hidden aspect-[3/4]"
-                style={{ border: "1px solid rgba(0,132,255,0.12)" }}
-              >
-                <Image
-                  src={AboutImage}
-                  alt="Ponijeri ljeto"
-                  fill
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover"
-                />
-              </div>
-            </Reveal>
-            <Reveal delay={0.28} className="col-span-1 mt-10">
-              <div
-                className="tilt-card relative rounded-2xl overflow-hidden aspect-[3/4]"
-                style={{ border: "1px solid rgba(0,132,255,0.12)" }}
-              >
-                <Image
-                  src={AboutImage2}
-                  alt="Ponijeri priroda"
-                  fill
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover"
-                />
-              </div>
-            </Reveal>
-          </div>
+          {/* ── Images column — overlapping editorial treatment ── */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.85, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-3 relative"
+          >
+            {/* Primary large image */}
+            <div className="relative rounded-2xl overflow-hidden aspect-[4/3] shadow-2xl">
+              <Image
+                src={AboutImage}
+                alt="Ponijeri ljeto"
+                fill
+                sizes="(max-width: 1024px) 100vw, 55vw"
+                className="object-cover"
+              />
+            </div>
+
+            {/* Secondary — overlapping bottom-right corner */}
+            <div
+              className="absolute -bottom-8 -right-4 sm:-right-8 w-2/5 rounded-xl overflow-hidden shadow-2xl"
+              style={{ border: "4px solid white", aspectRatio: "1" }}
+            >
+              <Image
+                src={AboutImage2}
+                alt="Ponijeri priroda"
+                fill
+                sizes="25vw"
+                className="object-cover"
+              />
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
