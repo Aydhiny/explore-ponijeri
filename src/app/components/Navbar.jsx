@@ -61,14 +61,15 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.3 }}
-            className="fixed top-0 left-0 right-0 z-50 px-6 sm:px-10 py-6 flex items-center justify-between"
+            className="fixed top-0 left-0 right-0 z-50 px-6 sm:px-10 py-5 flex items-center justify-between"
+            style={{ background: "rgba(244,249,255,0.85)", backdropFilter: "blur(16px)", borderBottom: "1px solid rgba(0,47,90,0.07)" }}
           >
             <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
               <Image
                 src={kakanj} alt="Ponijeri" width={30} height={30}
                 className="group-hover:scale-105 transition-transform duration-300"
               />
-              <span className="text-white font-display text-sm font-bold tracking-[0.18em] uppercase hidden sm:block">
+              <span className="text-brand-dark font-display text-sm font-bold tracking-[0.18em] uppercase hidden sm:block">
                 Ponijeri
               </span>
             </Link>
@@ -80,7 +81,7 @@ export default function Navbar() {
                   href={path}
                   className={cn(
                     "relative px-4 py-2 text-[13px] font-medium rounded-full transition-colors duration-200",
-                    active(path) ? "text-white" : "text-white/60 hover:text-white"
+                    active(path) ? "text-brand-dark" : "text-brand-dark/55 hover:text-brand-dark"
                   )}
                 >
                   {active(path) && (
@@ -99,7 +100,7 @@ export default function Navbar() {
               <WeatherDisplay scrolled={false} />
               <button
                 onClick={() => setOpen(o => !o)}
-                className="md:hidden text-white/80 hover:text-white p-1.5 transition-colors"
+                className="md:hidden text-brand-dark/70 hover:text-brand-dark p-1.5 transition-colors"
                 aria-label="Toggle menu"
               >
                 <AnimatePresence mode="wait">
