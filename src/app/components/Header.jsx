@@ -1,251 +1,204 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import opcina from "../images/opcina-kakanj.png";
-import { motion, useMotionValue, useSpring } from "framer-motion";
-import { FaChevronDown } from "react-icons/fa";
-import Link from "next/link";
+import { motion } from "framer-motion";
+import { FiArrowDown } from "react-icons/fi";
+import dynamic from "next/dynamic";
 
-const backgroundImage = new URL("../images/ponijeri.jpg", import.meta.url);
+// Load Three.js snow only client-side (no SSR)
+const SnowCanvas = dynamic(() => import("./SnowCanvas"), { ssr: false });
 
-const SNOWFLAKE_COUNT = 30;
+const BG = new URL("../images/ponijeri.jpg", import.meta.url);
 
-function generateSnowflakes() {
-  return Array.from({ length: SNOWFLAKE_COUNT }, (_, i) => ({
-    id: i,
-    left: `${Math.random() * 100}%`,
-    size: Math.random() * 6 + 3,
-    duration: Math.random() * 8 + 6,
-    delay: Math.random() * 8,
-    drift: Math.random() * 40 - 20,
-    opacity: Math.random() * 0.6 + 0.4,
-  }));
-}
+const WORDS = ["Planina.", "Priroda.", "Avangarda."];
 
 export default function Header() {
-  const [snowflakes] = useState(generateSnowflakes);
-  const [mounted, setMounted] = useState(false);
-  const heroRef = useRef(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const spotlightX = useSpring(mouseX, { stiffness: 60, damping: 20 });
-  const spotlightY = useSpring(mouseY, { stiffness: 60, damping: 20 });
+  const [wordIdx, setWordIdx] = useState(0);
 
+  // Cycling subtitle word
   useEffect(() => {
-    setMounted(true);
-    const el = heroRef.current;
-    if (!el) return;
-    const onMove = (e) => {
-      const rect = el.getBoundingClientRect();
-      mouseX.set(((e.clientX - rect.left) / rect.width) * 100);
-      mouseY.set(((e.clientY - rect.top) / rect.height) * 100);
-    };
-    el.addEventListener("mousemove", onMove);
-    return () => el.removeEventListener("mousemove", onMove);
+    const id = setInterval(() => setWordIdx((i) => (i + 1) % WORDS.length), 2600);
+    return () => clearInterval(id);
   }, []);
 
-  const scrollToSection = (id) => {
+  const scrollTo = (id) => {
     const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (el) {
+      if (window.__lenis) {
+        window.__lenis.scrollTo(el, { offset: -72, duration: 1.4 });
+      } else {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }
   };
 
   return (
-    <div
-      ref={heroRef}
-      className="w-full h-screen relative bg-cover bg-center overflow-hidden"
-      style={{ backgroundImage: `url(${backgroundImage})` }}
-    >
-      {/* Dark overlay with depth */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60 z-[1]" />
+    <section className="relative w-full h-screen min-h-[600px] overflow-hidden">
 
-      {/* Spotlight */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none z-[2]"
-        style={{
-          background: mounted
-            ? `radial-gradient(500px circle at ${spotlightX.get()}% ${spotlightY.get()}%, rgba(0,132,255,0.12), transparent 60%)`
-            : "none",
-        }}
-      />
-
-      {/* Snowflakes */}
-      {mounted && snowflakes.map((sf) => (
-        <div
-          key={sf.id}
-          className="snowflake absolute z-[3]"
-          style={{
-            left: sf.left,
-            width: sf.size,
-            height: sf.size,
-            opacity: sf.opacity,
-            animationDuration: `${sf.duration}s`,
-            animationDelay: `${sf.delay}s`,
-          }}
+      {/* ── Background photo ───────────────────────────────── */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src={BG}
+          alt="Ponijeri planina"
+          fill
+          priority
+          className="object-cover object-center"
+          quality={90}
         />
-      ))}
+      </div>
 
-      {/* Ice crystal overlay at bottom */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-32 z-[4] pointer-events-none"
+      {/* ── Vertical gradient overlays — dark top + dark bottom ── */}
+      <div className="absolute inset-0 z-[1]"
         style={{
-          background: "linear-gradient(to top, rgba(207,237,255,0.25) 0%, transparent 100%)",
+          background:
+            "linear-gradient(to bottom," +
+            "  rgba(6,13,26,0.55) 0%," +
+            "  rgba(6,13,26,0.15) 35%," +
+            "  rgba(6,13,26,0.05) 55%," +
+            "  rgba(6,13,26,0.55) 80%," +
+            "  rgba(6,13,26,0.85) 100%)",
+        }}
+      />
+      {/* subtle blue cast at very bottom to blend into next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 z-[2]"
+        style={{
+          background: "linear-gradient(to bottom, transparent, rgba(244,249,255,0.9))",
         }}
       />
 
-      {/* Main Content */}
-      <div className="absolute inset-0 z-[5] flex flex-col items-center justify-center px-4 sm:px-8 text-center">
-        {/* Badge */}
+      {/* ── Three.js snow ─────────────────────────────────── */}
+      <SnowCanvas />
+
+      {/* ── Hero content ──────────────────────────────────── */}
+      <div className="absolute inset-0 z-[5] flex flex-col justify-center items-start px-6 sm:px-12 lg:px-20 xl:px-28 pb-24">
+
+        {/* eyebrow */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
-          className="mb-6"
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="flex items-center gap-3 mb-6"
         >
-          <span
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium text-white/90"
-            style={{
-              background: "rgba(0,132,255,0.2)",
-              border: "1px solid rgba(0,132,255,0.4)",
-              backdropFilter: "blur(12px)",
-            }}
-          >
-            <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-            Dobrodošli u Ponijere
+          <span className="block w-8 h-px bg-brand-mid opacity-80" />
+          <span className="text-brand-mid text-xs font-semibold tracking-[0.25em] uppercase">
+            Općina Kakanj · Bosna i Hercegovina
           </span>
         </motion.div>
 
-        {/* Main heading */}
+        {/* Main headline */}
         <motion.h1
-          className="font-playwrite-hr font-bold leading-none mb-6"
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          className="font-display font-bold leading-[0.92] mb-4"
+          style={{ fontSize: "clamp(3.5rem, 9vw, 8rem)" }}
         >
-          <span
-            className="block text-5xl sm:text-7xl md:text-8xl xl:text-9xl"
-            style={{
-              background: "linear-gradient(135deg, #ffffff 30%, #c5e8ff 60%, #7ec8ff 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-              filter: "drop-shadow(0 0 30px rgba(0,132,255,0.5))",
-            }}
-          >
-            EXPLORE
+          {/* White line */}
+          <span className="block text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.5)]">
+            Explore
           </span>
+          {/* Blue gradient line */}
           <span
-            className="block text-5xl sm:text-7xl md:text-8xl xl:text-9xl"
+            className="block"
             style={{
-              background: "linear-gradient(135deg, #0084FF 0%, #4fa8ff 50%, #002F5A 100%)",
+              background: "linear-gradient(135deg, #4fa8ff 0%, #0084FF 40%, #7ec8ff 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
+              filter: "drop-shadow(0 0 30px rgba(0,132,255,0.45))",
             }}
           >
-            PONIJERI
+            Ponijeri
           </span>
         </motion.h1>
 
-        {/* Separator */}
-        <motion.div
-          initial={{ scaleX: 0, opacity: 0 }}
-          animate={{ scaleX: 1, opacity: 1 }}
-          transition={{ delay: 0.8, duration: 0.8 }}
-          className="h-px w-40 sm:w-64 mb-6"
-          style={{
-            background: "linear-gradient(90deg, transparent, rgba(0,132,255,0.7), rgba(255,255,255,0.5), transparent)",
-          }}
-        />
+        {/* Cycling word */}
+        <div className="h-10 mb-10 overflow-hidden">
+          <motion.p
+            key={wordIdx}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+            className="text-white/60 text-lg sm:text-xl font-light tracking-wide"
+          >
+            {WORDS[wordIdx]}
+          </motion.p>
+        </div>
 
-        {/* Subtitle */}
-        <motion.p
-          className="text-white/80 text-base sm:text-lg md:text-xl max-w-lg mb-10 font-light tracking-wide"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.0, duration: 0.8 }}
-        >
-          Planinsko izletište na 1200m nadmorske visine — gdje priroda susreće avanturu
-        </motion.p>
-
-        {/* CTA Buttons */}
+        {/* CTAs */}
         <motion.div
-          className="flex flex-col sm:flex-row gap-4 mb-12"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.8 }}
+          transition={{ duration: 0.8, delay: 0.7 }}
+          className="flex flex-wrap gap-3"
         >
           <button
-            onClick={() => scrollToSection("showcase")}
-            className="group relative px-8 py-3.5 rounded-xl font-semibold text-white overflow-hidden transition-all duration-300 hover:scale-105"
+            onClick={() => scrollTo("showcase")}
+            className="group flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold text-white transition-all duration-300 hover:scale-105"
             style={{
-              background: "linear-gradient(135deg, #0084FF, #005fcc)",
-              boxShadow: "0 0 30px rgba(0,132,255,0.4), 0 4px 20px rgba(0,0,0,0.3)",
+              background: "linear-gradient(135deg, #0084FF 0%, #005fcc 100%)",
+              boxShadow: "0 0 32px rgba(0,132,255,0.45), 0 4px 16px rgba(0,0,0,0.25)",
             }}
           >
-            <span className="relative z-10 flex items-center gap-2">
-              Obilazak
-              <span className="group-hover:translate-x-1 transition-transform duration-200">→</span>
-            </span>
-            <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+            Istraži
+            <FiArrowDown className="group-hover:translate-y-0.5 transition-transform text-sm" />
           </button>
 
           <button
-            onClick={() => scrollToSection("about")}
-            className="group px-8 py-3.5 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-105"
+            onClick={() => scrollTo("about")}
+            className="px-7 py-3.5 rounded-full text-sm font-semibold text-white/90 transition-all duration-300 hover:bg-white/20"
             style={{
-              background: "rgba(255,255,255,0.12)",
-              border: "1px solid rgba(255,255,255,0.3)",
-              backdropFilter: "blur(12px)",
+              background: "rgba(255,255,255,0.1)",
+              border: "1px solid rgba(255,255,255,0.22)",
+              backdropFilter: "blur(10px)",
             }}
           >
-            <span className="flex items-center gap-2">
-              O nama
-              <span className="group-hover:translate-x-1 transition-transform duration-200">→</span>
-            </span>
+            O nama
           </button>
-        </motion.div>
-
-        {/* Logo badge */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1.4, duration: 0.8 }}
-          className="animate-float"
-        >
-          <Image
-            alt="Općina Kakanj"
-            src={opcina}
-            className="cursor-pointer transition-all duration-300 hover:scale-105"
-            height={120}
-            width={120}
-            style={{
-              borderRadius: "50%",
-              padding: "12px",
-              background: "rgba(207, 237, 255, 0.25)",
-              backdropFilter: "blur(16px)",
-              border: "2px solid rgba(0,132,255,0.3)",
-              boxShadow: "0 0 30px rgba(0,132,255,0.25)",
-            }}
-          />
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[5] flex flex-col items-center gap-2 cursor-pointer"
+      {/* ── Bottom scroll cue ──────────────────────────────── */}
+      <motion.button
+        onClick={() => scrollTo("about")}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-[6] flex flex-col items-center gap-2 text-white/40 hover:text-white/70 transition-colors"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 0.6 }}
-        onClick={() => scrollToSection("about")}
+        transition={{ delay: 2, duration: 0.8 }}
       >
-        <span className="text-white/50 text-xs tracking-widest uppercase">Scroll</span>
+        <span className="text-[10px] tracking-[0.3em] uppercase">Scroll</span>
         <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+          animate={{ y: [0, 5, 0] }}
+          transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
         >
-          <FaChevronDown className="text-white/50 text-sm" />
+          <FiArrowDown className="text-base" />
         </motion.div>
+      </motion.button>
+
+      {/* ── Opcina badge — bottom-right ────────────────────── */}
+      <motion.div
+        className="absolute bottom-10 right-6 sm:right-12 z-[6] animate-float"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 1.4, duration: 0.7 }}
+      >
+        <Image
+          alt="Općina Kakanj"
+          src={opcina}
+          width={64}
+          height={64}
+          className="opacity-80 hover:opacity-100 transition-opacity"
+          style={{
+            borderRadius: "50%",
+            padding: 8,
+            background: "rgba(255,255,255,0.1)",
+            border: "1px solid rgba(255,255,255,0.2)",
+            backdropFilter: "blur(10px)",
+          }}
+        />
       </motion.div>
-    </div>
+    </section>
   );
 }

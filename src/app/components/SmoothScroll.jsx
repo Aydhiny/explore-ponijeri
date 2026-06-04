@@ -5,33 +5,27 @@ import Lenis from "lenis";
 export default function SmoothScroll({ children }) {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smooth: true,
+      duration:    1.1,
+      easing:      (t) => 1 - Math.pow(1 - t, 4), // easeOutQuart — feels physical
+      smoothWheel: true,
       smoothTouch: false,
+      touchMultiplier: 2,
     });
 
+    // Expose on window so other components can call lenis.scrollTo()
+    window.__lenis = lenis;
+
+    let rafId;
     function raf(time) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
-
-    const id = requestAnimationFrame(raf);
-
-    // Allow anchor links to use Lenis smooth scroll
-    const handleClick = (e) => {
-      const anchor = e.target.closest("a[href^='#']");
-      if (!anchor) return;
-      e.preventDefault();
-      const target = document.querySelector(anchor.getAttribute("href"));
-      if (target) lenis.scrollTo(target, { offset: -80, duration: 1.4 });
-    };
-    document.addEventListener("click", handleClick);
+    rafId = requestAnimationFrame(raf);
 
     return () => {
-      cancelAnimationFrame(id);
+      cancelAnimationFrame(rafId);
       lenis.destroy();
-      document.removeEventListener("click", handleClick);
+      delete window.__lenis;
     };
   }, []);
 

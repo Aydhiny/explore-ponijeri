@@ -1,103 +1,73 @@
-import React from "react";
 import { FaFacebookF, FaInstagram, FaPhone, FaMapMarkerAlt, FaEnvelope } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
 import kakanj from "../images/kakanj.png";
 
-const NAV_LINKS = [
-  { path: "/about", label: "O nama" },
-  { path: "/skiing", label: "Skijanje" },
-  { path: "/restaurants", label: "Restorani" },
-  { path: "/lodging", label: "Smještaj" },
-  { path: "/blog", label: "Blog" },
+const NAV = [
+  { href: "/about",       label: "O nama"    },
+  { href: "/skiing",      label: "Skijanje"  },
+  { href: "/restaurants", label: "Restorani" },
+  { href: "/lodging",     label: "Smještaj"  },
+  { href: "/blog",        label: "Blog"      },
 ];
 
 export default function Footer() {
   return (
     <footer
-      className="relative overflow-hidden"
       style={{
-        background: "linear-gradient(160deg, #0a1628 0%, #001f3f 40%, #002F5A 100%)",
+        background: "linear-gradient(180deg, #030810 0%, #020609 100%)",
+        borderTop: "1px solid rgba(255,255,255,0.05)",
       }}
     >
-      {/* Top glow line */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(0,132,255,0.4), transparent)" }}
-      />
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 pt-16 pb-8">
 
-      {/* Background radial */}
-      <div
-        className="absolute bottom-0 right-0 w-96 h-96 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(0,132,255,0.07) 0%, transparent 70%)" }}
-      />
+        {/* Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 pt-16 pb-8 relative z-10">
-        {/* Main footer grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-12">
-          {/* Brand column */}
-          <div className="space-y-5">
+          {/* Brand */}
+          <div className="space-y-4">
             <Link href="/" className="flex items-center gap-3">
               <div
                 className="p-2 rounded-xl"
-                style={{ background: "rgba(0,132,255,0.15)", border: "1px solid rgba(0,132,255,0.2)" }}
+                style={{ background: "rgba(0,132,255,0.12)", border: "1px solid rgba(0,132,255,0.18)" }}
               >
-                <Image alt="Ponijeri logo" src={kakanj} height={28} width={28} className="-rotate-12" />
+                <Image src={kakanj} alt="logo" width={22} height={22} className="-rotate-12 opacity-80" />
               </div>
-              <span className="font-playwrite-hr text-white text-lg font-bold">Explore Ponijeri</span>
+              <span className="font-display text-white text-base font-bold">Explore Ponijeri</span>
             </Link>
-
-            <p className="text-white/50 text-sm leading-relaxed max-w-xs">
-              Planinsko izletište na 1200m nadmorske visine. Skijanje, planinarenje,
-              gastronomija i smještaj u srcu bosanske prirode.
+            <p className="text-white/30 text-[13px] leading-relaxed max-w-xs">
+              Planinsko izletište na 1200m nadmorske visine — skijanje, priroda i gostoprimstvo u srcu Bosne.
             </p>
-
-            {/* Social links */}
-            <div className="flex items-center gap-3">
-              <a
-                href="https://www.facebook.com/p/Ponijeri-Kakanj-100054256310829/?locale=hr_HR"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook"
-                className="p-2.5 rounded-xl transition-all duration-200 hover:scale-110"
-                style={{
-                  background: "rgba(255,255,255,0.06)",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                }}
-              >
-                <FaFacebookF className="text-white/70 hover:text-white text-sm" />
-              </a>
-              <a
-                href="https://www.instagram.com/visit.ponijeri/?hl=en"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="p-2.5 rounded-xl transition-all duration-200 hover:scale-110"
-                style={{
-                  background: "rgba(255,255,255,0.06)",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                }}
-              >
-                <FaInstagram className="text-white/70 hover:text-white text-sm" />
-              </a>
+            <div className="flex gap-2.5 pt-1">
+              {[
+                { href: "https://www.facebook.com/p/Ponijeri-Kakanj-100054256310829/", Icon: FaFacebookF, label: "Facebook" },
+                { href: "https://www.instagram.com/visit.ponijeri/",                   Icon: FaInstagram,  label: "Instagram" },
+              ].map(({ href, Icon, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200 hover:scale-110"
+                  style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
+                >
+                  <Icon className="text-white/50 text-sm hover:text-white" />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Navigation */}
-          <div className="space-y-5">
-            <h3 className="text-white font-semibold text-sm uppercase tracking-widest">
-              Navigacija
-            </h3>
+          {/* Nav */}
+          <div>
+            <h4 className="text-white/40 text-[10px] font-semibold tracking-[0.22em] uppercase mb-5">Navigacija</h4>
             <ul className="space-y-2.5">
-              {NAV_LINKS.map(({ path, label }) => (
-                <li key={path}>
+              {NAV.map(({ href, label }) => (
+                <li key={href}>
                   <Link
-                    href={path}
-                    className="text-white/50 hover:text-white text-sm transition-colors duration-200 flex items-center gap-2 group"
+                    href={href}
+                    className="text-white/40 hover:text-white/80 text-[13px] transition-colors duration-150"
                   >
-                    <span
-                      className="w-1 h-1 rounded-full bg-main-color-lighter-green opacity-0 group-hover:opacity-100 transition-opacity"
-                    />
                     {label}
                   </Link>
                 </li>
@@ -106,30 +76,24 @@ export default function Footer() {
           </div>
 
           {/* Contact */}
-          <div className="space-y-5">
-            <h3 className="text-white font-semibold text-sm uppercase tracking-widest">
-              Kontakt
-            </h3>
+          <div>
+            <h4 className="text-white/40 text-[10px] font-semibold tracking-[0.22em] uppercase mb-5">Kontakt</h4>
             <ul className="space-y-3">
-              <li className="flex items-start gap-3 text-sm text-white/50">
-                <FaMapMarkerAlt className="text-main-color-lighter-green mt-0.5 flex-shrink-0" />
-                <span>Ponijeri, Općina Kakanj<br />72240, Bosna i Hercegovina</span>
+              <li>
+                <span className="flex items-start gap-2.5 text-[13px] text-white/40">
+                  <FaMapMarkerAlt className="text-brand mt-0.5 flex-shrink-0 text-xs" />
+                  Ponijeri, Općina Kakanj<br />72240, BiH
+                </span>
               </li>
               <li>
-                <a
-                  href="tel:+38732771800"
-                  className="flex items-center gap-3 text-sm text-white/50 hover:text-white transition-colors"
-                >
-                  <FaPhone className="text-main-color-lighter-green flex-shrink-0" />
+                <a href="tel:+38732771800" className="flex items-center gap-2.5 text-[13px] text-white/40 hover:text-white/70 transition-colors">
+                  <FaPhone className="text-brand flex-shrink-0 text-xs" />
                   +387 32 771 800
                 </a>
               </li>
               <li>
-                <a
-                  href="mailto:opcinaka@bih.net.ba"
-                  className="flex items-center gap-3 text-sm text-white/50 hover:text-white transition-colors"
-                >
-                  <FaEnvelope className="text-main-color-lighter-green flex-shrink-0" />
+                <a href="mailto:opcinaka@bih.net.ba" className="flex items-center gap-2.5 text-[13px] text-white/40 hover:text-white/70 transition-colors">
+                  <FaEnvelope className="text-brand flex-shrink-0 text-xs" />
                   opcinaka@bih.net.ba
                 </a>
               </li>
@@ -137,17 +101,15 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
+        {/* Bottom */}
         <div
-          className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-3"
-          style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}
+          className="flex flex-col sm:flex-row items-center justify-between gap-2 pt-6"
+          style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
         >
-          <p className="text-white/30 text-xs">
+          <p className="text-white/20 text-[11px]">
             © {new Date().getFullYear()} Općina Kakanj. Sva prava zadržana.
           </p>
-          <p className="text-white/20 text-xs">
-            Explore Ponijeri — Kakanj, BiH
-          </p>
+          <p className="text-white/15 text-[11px]">Ponijeri, Bosna i Hercegovina</p>
         </div>
       </div>
     </footer>

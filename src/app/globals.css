@@ -1,314 +1,175 @@
-@import url("https://fonts.googleapis.com/css2?family=Henny+Penny&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Space+Grotesk:wght@300..700&family=Inter:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Henny+Penny&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Space+Grotesk:wght@300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Design tokens ─────────────────────────────────────────── */
 :root {
-  --background: #e8f2ff;
-  --foreground: #0a0f1e;
+  --blue:       #0084FF;
+  --blue-mid:   #4fa8ff;
+  --blue-dark:  #002F5A;
+  --blue-deep:  #060d1a;
+  --surface:    #f4f9ff;
+  --surface-2:  #eaf4ff;
 
-  /* Brand palette */
-  --blue-accent: #0084FF;
-  --blue-dark: #002F5A;
-  --blue-light: #E9FFCF;
-  --blue-mid: #4fa8ff;
+  --glass-bg:     rgba(255,255,255,0.08);
+  --glass-border: rgba(255,255,255,0.14);
 
-  /* Glassmorphism */
-  --glass-bg: rgba(255, 255, 255, 0.07);
-  --glass-border: rgba(255, 255, 255, 0.15);
-  --glass-shadow: 0 8px 32px rgba(0, 47, 90, 0.15);
-
-  /* Winter theme */
-  --snow-white: rgba(255, 255, 255, 0.9);
-  --ice-blue: rgba(207, 237, 255, 0.6);
+  /* Section vertical rhythm — each value is a CSS var so sections
+     chain together without visible seams. */
+  --section-light-bg:  #f4f9ff;
+  --section-mid-bg:    #eaf4ff;
+  --section-dark-bg:   #060d1a;
+  --section-dark2-bg:  #030810;
 }
 
-html {
-  scroll-behavior: auto; /* Lenis handles smooth scroll */
-}
+/* ─── Base ───────────────────────────────────────────────────── */
+html { scroll-behavior: auto; }   /* Lenis owns this */
 
 body {
-  background-color: #d8ecff;
-  background-image:
-    radial-gradient(ellipse at 20% 0%, rgba(0, 132, 255, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 100%, rgba(0, 47, 90, 0.08) 0%, transparent 50%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle fill='%23ffffff' cx='30' cy='30' r='30'/%3E%3C/svg%3E");
-  background-size: auto, auto, 60px 60px;
-  background-attachment: fixed;
-  font-family: "Space Grotesk", "Inter", sans-serif;
-  color: var(--foreground);
+  /* No pattern. Just a clean, almost-white surface that reads neutral. */
+  background: var(--surface);
+  font-family: "Space Grotesk", "Inter", system-ui, sans-serif;
+  color: #0a1628;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-/* ===================== Scrollbar ===================== */
-::-webkit-scrollbar {
-  width: 6px;
-}
+/* ─── Scrollbar ───────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #0084FF, #002F5A);
+  background: linear-gradient(180deg, #0084FF 0%, #002F5A 100%);
   border-radius: 99px;
 }
-::-webkit-scrollbar-track {
-  background: rgba(207, 237, 255, 0.5);
-}
 
-/* ===================== Glassmorphism Utilities ===================== */
+/* ─── Utility layer ───────────────────────────────────────────── */
 @layer utilities {
+
+  /* Glassmorphism — 3 levels */
+  .glass-sm {
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.4);
+  }
   .glass {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 8px 32px rgba(0, 47, 90, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    background: rgba(255,255,255,0.10);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.16);
+    box-shadow: 0 8px 32px rgba(0,47,90,0.12), inset 0 1px 0 rgba(255,255,255,0.18);
   }
-
   .glass-dark {
-    background: rgba(0, 47, 90, 0.45);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    background: rgba(6,13,26,0.65);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
   }
 
-  .glass-white {
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 4px 24px rgba(0, 47, 90, 0.1);
+  /* Gradient text */
+  .text-gradient {
+    background: linear-gradient(135deg, #0084FF 0%, #4fa8ff 60%, #7ec8ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
-
-  .glass-card {
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 24px rgba(0, 47, 90, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-    transition: all 0.3s ease;
-  }
-
-  .glass-card:hover {
-    background: rgba(255, 255, 255, 0.18);
-    box-shadow: 0 8px 40px rgba(0, 47, 90, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    transform: translateY(-4px);
-  }
-
-  .gradient-text {
-    background: linear-gradient(135deg, #0084FF 0%, #4fa8ff 50%, #002F5A 100%);
+  .text-gradient-white {
+    background: linear-gradient(160deg, #ffffff 40%, #b8dbff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  .gradient-text-white {
-    background: linear-gradient(135deg, #ffffff 0%, #c5e8ff 50%, #a8d4ff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  /* Glow shadows */
+  .glow-blue  { box-shadow: 0 0 40px rgba(0,132,255,0.35); }
+  .glow-blue-lg { box-shadow: 0 0 80px rgba(0,132,255,0.25), 0 20px 60px rgba(0,0,0,0.3); }
+
+  /* Section padding */
+  .section-py { padding-top: 5rem; padding-bottom: 5rem; }
+  @screen md  { .section-py { padding-top: 7rem; padding-bottom: 7rem; } }
+  @screen xl  { .section-py { padding-top: 9rem; padding-bottom: 9rem; } }
+
+  /* Card hover lift */
+  .lift {
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
+                box-shadow 0.35s ease;
+  }
+  .lift:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(0,47,90,0.18);
   }
 
-  .shimmer-button {
-    background: linear-gradient(
-      110deg,
-      #0084FF 25%,
-      #4fa8ff 50%,
-      #0084FF 75%
-    );
-    background-size: 200% 100%;
-    animation: shimmer 2s linear infinite;
+  /* 3-D image tilt */
+  .tilt-card {
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s ease;
+    will-change: transform;
+  }
+  .tilt-card:hover {
+    transform: perspective(900px) rotateY(-3deg) rotateX(1.5deg) scale(1.02);
+    box-shadow: 16px 24px 60px rgba(0,47,90,0.2);
   }
 
-  .border-gradient {
-    border: 1px solid transparent;
-    background-clip: padding-box;
-    position: relative;
-  }
-
-  .border-gradient::before {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    background: linear-gradient(135deg, rgba(0, 132, 255, 0.5), rgba(255, 255, 255, 0.2), rgba(0, 47, 90, 0.3));
-    z-index: -1;
-  }
-
-  .text-shadow-glow {
-    text-shadow: 0 0 30px rgba(0, 132, 255, 0.5);
-  }
-
-  .glow-blue {
-    box-shadow: 0 0 30px rgba(0, 132, 255, 0.4), 0 0 60px rgba(0, 132, 255, 0.15);
-  }
-
-  .section-padding {
-    padding: 5rem 1.5rem;
-  }
-
-  @media (min-width: 768px) {
-    .section-padding {
-      padding: 7rem 3rem;
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .section-padding {
-      padding: 8rem 6rem;
-    }
+  /* Thin section rule */
+  .rule {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,132,255,0.25), transparent);
   }
 }
 
-/* ===================== Snowflake Animation ===================== */
-.snowflake {
-  position: absolute;
-  top: -10px;
-  border-radius: 50%;
-  animation: snowFall linear infinite;
-  pointer-events: none;
-  background: radial-gradient(circle, #ffffff 0%, rgba(255,255,255,0.3) 70%);
-  box-shadow: 0 0 6px rgba(255,255,255,0.8);
-}
-
-@keyframes snowFall {
-  0% {
-    transform: translateY(-20px) translateX(0) rotate(0deg);
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 0.6;
-  }
-  100% {
-    transform: translateY(110vh) translateX(30px) rotate(360deg);
-    opacity: 0;
-  }
-}
-
-/* ===================== Hamburger Menu ===================== */
-.hamburger-icon {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 24px;
-  height: 16px;
-  cursor: pointer;
-}
-.line {
-  height: 2px;
-  background-color: #002F5A;
+/* ─── Hamburger ───────────────────────────────────────────────── */
+.hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; }
+.ham-line  {
+  width: 22px; height: 1.5px;
+  background: #002F5A;
   border-radius: 2px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  transform-origin: center;
 }
-.hamburger-icon.open .line-1 {
-  transform: rotate(45deg) translateY(7px);
-}
-.hamburger-icon.open .line-2 {
-  opacity: 0;
-  transform: scaleX(0);
-}
-.hamburger-icon.open .line-3 {
-  transform: rotate(-45deg) translateY(-7px);
-}
+.hamburger.open .ham-line:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.open .ham-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open .ham-line:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
-/* ===================== Slide-in Mobile Menu ===================== */
-@keyframes menuSlide {
-  from {
-    opacity: 0;
-    transform: translateY(-12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.menu-slide {
-  animation: menuSlide 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-/* ===================== Page Transition ===================== */
-@keyframes pageEnter {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.page-enter {
-  animation: pageEnter 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-/* ===================== Spotlight Effect ===================== */
-.spotlight {
+/* ─── Three.js canvas ─────────────────────────────────────────── */
+.snow-canvas {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(0, 132, 255, 0.08),
-    transparent 40%
-  );
   pointer-events: none;
-  z-index: 1;
+  z-index: 3;
 }
 
-/* ===================== Animated Border ===================== */
-@keyframes borderRotate {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* ─── Snowflake CSS fallback ──────────────────────────────────── */
+.snowflake-css {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, rgba(255,255,255,0.2) 80%);
+  pointer-events: none;
+  animation: cssFall linear infinite;
 }
-.animated-border {
-  position: relative;
-  padding: 1px;
-  background: linear-gradient(90deg, #0084FF, #4fa8ff, #002F5A, #0084FF);
-  background-size: 300% 300%;
-  animation: borderRotate 4s linear infinite;
-  border-radius: inherit;
+@keyframes cssFall {
+  0%   { transform: translateY(-20px) translateX(0); opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 0.6; }
+  100% { transform: translateY(105vh) translateX(20px); opacity: 0; }
 }
 
-/* ===================== Scroll Progress ===================== */
-.progress-bar-track {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  z-index: 100;
-  background: rgba(207, 237, 255, 0.4);
+/* ─── Progress bar ────────────────────────────────────────────── */
+.progress-track {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 2px; z-index: 1000;
+  background: transparent;
 }
-.progress-bar-fill {
+.progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #0084FF, #4fa8ff, #002F5A);
-  border-radius: 0 2px 2px 0;
-  transition: width 0.1s linear;
+  background: linear-gradient(90deg, #0084FF, #4fa8ff, #7ec8ff);
+  transition: width 0.08s linear;
 }
 
-/* ===================== Card hover glow ===================== */
-.card-hover-glow {
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-.card-hover-glow:hover {
-  box-shadow: 0 0 40px rgba(0, 132, 255, 0.25), 0 20px 60px rgba(0, 47, 90, 0.2);
-  transform: translateY(-6px);
-}
-
-/* ===================== Image tilt card ===================== */
-.tilt-card {
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
-}
-.tilt-card:hover {
-  transform: perspective(800px) rotateY(-4deg) rotateX(2deg) scale(1.02);
-  box-shadow: 12px 20px 50px rgba(0, 47, 90, 0.25);
-}
-
-/* ===================== Section divider ===================== */
-.wave-divider {
-  position: relative;
-  overflow: hidden;
+/* ─── Chatbot bounce ──────────────────────────────────────────── */
+@keyframes dotBounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30%           { transform: translateY(-5px); }
 }
