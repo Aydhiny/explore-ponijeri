@@ -1,5 +1,7 @@
+"use client";
 import React, { useState, useEffect } from "react";
-import { FaCloudRain } from "react-icons/fa";
+import { FaSnowflake, FaCloud } from "react-icons/fa";
+import { WiThermometer } from "react-icons/wi";
 
 const WeatherDisplay = () => {
   const [temperature, setTemperature] = useState(null);
@@ -7,46 +9,51 @@ const WeatherDisplay = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchWeatherData = async () => {
+    const fetchWeather = async () => {
       try {
-        const response = await fetch(
+        const res = await fetch(
           "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Kakanj?unitGroup=metric&key=U8SUTXBXQPRVHGMC37QCQQYFU&contentType=json"
         );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch weather data");
-        }
-
-        const data = await response.json();
-        const currentTemp = data.currentConditions?.temp;
-
-        if (currentTemp !== undefined) {
-          setTemperature(currentTemp);
-        } else {
-          throw new Error("Temperature data is unavailable");
-        }
-      } catch (err) {
-        setError(err.message);
+        if (!res.ok) throw new Error("API error");
+        const data = await res.json();
+        const temp = data.currentConditions?.temp;
+        if (temp === undefined) throw new Error("No temp data");
+        setTemperature(temp);
+      } catch {
+        setError(true);
       } finally {
         setLoading(false);
       }
     };
-
-    fetchWeatherData();
+    fetchWeather();
   }, []);
 
   if (loading) {
-    return <div>Učitavanje podataka...</div>;
+    return (
+      <div
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs text-gray-400"
+        style={{ background: "rgba(0,132,255,0.06)", border: "1px solid rgba(0,132,255,0.1)" }}
+      >
+        <FaCloud className="animate-pulse text-blue-300" />
+        <span>...</span>
+      </div>
+    );
   }
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  if (error) return null;
+
+  const isSnowy = temperature !== null && temperature <= 2;
 
   return (
-    <div className="flex items-center">
-      <FaCloudRain className="text-blue-500 size-6 mr-2" />
-      <p>{temperature} °C</p>
+    <div
+      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-main-color-dark-green"
+      style={{ background: "rgba(0,132,255,0.08)", border: "1px solid rgba(0,132,255,0.15)" }}
+    >
+      {isSnowy
+        ? <FaSnowflake className="text-blue-400 text-xs" />
+        : <FaCloud className="text-blue-400 text-xs" />
+      }
+      <span>{temperature}°C</span>
     </div>
   );
 };

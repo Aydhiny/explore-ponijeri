@@ -1,197 +1,225 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { AiOutlineClose, AiOutlineMessage } from "react-icons/ai";
-import { motion } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FiMessageCircle, FiX, FiSend } from "react-icons/fi";
+import { FaSnowflake } from "react-icons/fa";
 
-const Chatbot = () => {
-  const [chatOpen, setChatOpen] = useState(false);
+const QUICK_QUESTIONS = [
+  "Šta su Ponijeri?",
+  "Kako da stignem do Ponijera?",
+  "Recite mi nešto o Kaknju!",
+];
+
+const getBotReply = (input) => {
+  const q = input.toLowerCase();
+  if (q.includes("ponijeri") || q.includes("šta su"))
+    return "Ponijeri su planinsko izletište na 1200m nadmorske visine, udaljeno oko 20km od Kaknja — idealno za skijanje i planinarenje.";
+  if (q.includes("kakanj"))
+    return "Kakanj je grad bogate historije i prirodnih ljepota u središnjoj Bosni. Poznato je po rijeci Bosni i industrijskom naslijeđu.";
+  if (q.includes("stign") || q.includes("prevoz") || q.includes("bus"))
+    return (
+      <span>
+        Do Ponijera možete doći autobusom iz Kaknja ili automobilom.{" "}
+        <a
+          href="https://www.google.com/maps?daddr=R456,+Vukanovići"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline text-blue-300 hover:text-blue-100"
+        >
+          Pogledajte rutu →
+        </a>
+      </span>
+    );
+  return "Za više informacija kontaktirajte Općinu Kakanj: opcinaka@bih.net.ba ili pozovite +387 32 771 800.";
+};
+
+export default function Chatbot() {
+  const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { text: "Zdravo! Kako Vam mogu pomoći?", sender: "bot", id: 1 },
-    { text: "Postavite pitanje o Ponijerima:", sender: "bot", id: 2 },
+    { text: "Zdravo! Pitajte me nešto o Ponijerima. 🏔️", sender: "bot", id: 0 },
   ]);
-  const [userInput, setUserInput] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
-  const [typingDots, setTypingDots] = useState(".");
+  const [input, setInput] = useState("");
+  const [typing, setTyping] = useState(false);
+  const bottomRef = useRef(null);
 
-  // Typing animation
   useEffect(() => {
-    if (isTyping) {
-      const interval = setInterval(() => {
-        setTypingDots((prev) => (prev.length < 3 ? prev + "." : "."));
-      }, 500);
-      return () => clearInterval(interval);
-    }
-  }, [isTyping]);
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, typing]);
 
-  const handleUserMessage = (e) => {
-    if ((e.key === "Enter" || e.type === "click") && userInput.trim() !== "") {
-      const newMessages = [
-        ...messages,
-        { text: userInput, sender: "user", id: messages.length + 1 },
-        { text: "…", sender: "bot", isTyping: true, id: messages.length + 2 },
-      ];
-      setMessages(newMessages);
-      setUserInput("");
-      setIsTyping(true);
+  const sendMessage = (text) => {
+    const msg = text || input.trim();
+    if (!msg) return;
+    setInput("");
 
-      setTimeout(() => {
-        let botReply =
-          "Šaljemo Vam mejl Općine Kakanj za bilo kakvu pomoć ili informacije: opcinaka@bih.net.ba";
+    setMessages(prev => [...prev, { text: msg, sender: "user", id: Date.now() }]);
+    setTyping(true);
 
-        if (userInput.toLowerCase().includes("ponijeri")) {
-          botReply =
-            "Ponijeri su prekrasna planina u blizini Kaknja, idealna za planinarenje i uživanje u prirodi.";
-        } else if (userInput.toLowerCase().includes("kakanj")) {
-          botReply =
-            "Kakanj je grad bogate istorije i prirodnih ljepota. Posjetite ga da otkrijete više!";
-        } else if (
-          userInput.toLowerCase().includes("kako da stignem do ponijera")
-        ) {
-          botReply = (
-            <>
-              Do Ponijera možete doći iz Kaknja autobusom ili automobilom. Evo
-              rute:{" "}
-              <a
-                href="https://www.google.com/maps?um=1&ie=UTF-8&fb=1&gl=ba&sa=X&geocode=KYsgbz6B3F5HMRlDVnq-xa1Q&daddr=R456,+Vukanovi%C4%87i"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 underline"
-              >
-                Kliknite ovdje za mapu
-              </a>
-              .
-            </>
-          );
-        }
-
-        setMessages((prevMessages) => [
-          ...prevMessages.filter((msg) => !msg.isTyping),
-          { text: botReply, sender: "bot", id: messages.length + 3 },
-        ]);
-        setIsTyping(false);
-      }, 2000);
-    }
+    setTimeout(() => {
+      setTyping(false);
+      setMessages(prev => [...prev, { text: getBotReply(msg), sender: "bot", id: Date.now() + 1 }]);
+    }, 1200);
   };
 
-  const handleQuestionClick = (question) => {
-    setUserInput(question);
-    handleUserMessage({ type: "click" });
-  };
-
-  const toggleChat = () => {
-    setChatOpen(!chatOpen);
-    if (!chatOpen) {
-      setMessages([
-        { text: "Zdravo! Kako Vam mogu pomoći?", sender: "bot", id: 1 },
-        { text: "Postavite pitanje o Ponijerima:", sender: "bot", id: 2 },
-      ]);
-    }
+  const handleKey = (e) => {
+    if (e.key === "Enter") sendMessage();
   };
 
   return (
-    <div>
-      {/* Chat Button */}
-      <motion.div
-        className="fixed bottom-5 right-5 z-[200] cursor-pointer"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5, duration: 0.5 }}
-        onClick={toggleChat}
+    <>
+      {/* Floating button */}
+      <motion.button
+        className="fixed bottom-6 right-6 z-[200] w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300"
+        style={{
+          background: open ? "#002F5A" : "linear-gradient(135deg, #0084FF, #005fcc)",
+          boxShadow: "0 0 30px rgba(0,132,255,0.4)",
+        }}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ delay: 1, type: "spring", bounce: 0.4 }}
+        onClick={() => setOpen(o => !o)}
+        aria-label="Open chat"
       >
-        <AiOutlineMessage size={50} color="blue" />
-      </motion.div>
+        <AnimatePresence mode="wait">
+          {open
+            ? <motion.span key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
+                <FiX className="text-white text-xl" />
+              </motion.span>
+            : <motion.span key="msg" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
+                <FiMessageCircle className="text-white text-xl" />
+              </motion.span>
+          }
+        </AnimatePresence>
+      </motion.button>
 
-      {/* Chat Window */}
-      {chatOpen && (
-        <motion.div
-          className="fixed bottom-10 right-10 z-[200] bg-white shadow-lg rounded-lg w-80 p-4 border border-gray-300"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          {/* Header */}
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold">Pomoć</h3>
-            <AiOutlineClose
-              className="cursor-pointer"
-              size={20}
-              onClick={toggleChat}
-            />
-          </div>
-
-          {/* Messages */}
-          <div className="space-y-4 max-h-60 overflow-y-auto mb-4">
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={`flex ${
-                  message.sender === "user" ? "justify-end" : ""
-                }`}
-              >
+      {/* Chat window */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            key="chat"
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="fixed bottom-24 right-6 z-[200] w-80 sm:w-96 rounded-2xl overflow-hidden flex flex-col"
+            style={{
+              background: "rgba(10,22,50,0.92)",
+              backdropFilter: "blur(20px)",
+              border: "1px solid rgba(0,132,255,0.2)",
+              boxShadow: "0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(0,132,255,0.1)",
+              maxHeight: "480px",
+            }}
+          >
+            {/* Header */}
+            <div
+              className="flex items-center justify-between px-4 py-3"
+              style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+            >
+              <div className="flex items-center gap-2.5">
                 <div
-                  className={`max-w-xs p-2 rounded-lg break-words ${
-                    message.sender === "user"
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-200 text-gray-700"
-                  }`}
+                  className="w-8 h-8 rounded-full flex items-center justify-center"
+                  style={{ background: "rgba(0,132,255,0.2)", border: "1px solid rgba(0,132,255,0.3)" }}
                 >
-                  {message.isTyping ? typingDots : message.text}
+                  <FaSnowflake className="text-blue-300 text-xs" />
+                </div>
+                <div>
+                  <p className="text-white text-sm font-semibold leading-none">Ponijeri Asistent</p>
+                  <p className="text-green-400 text-xs mt-0.5">● Online</p>
                 </div>
               </div>
-            ))}
-          </div>
+              <button onClick={() => setOpen(false)} className="text-white/30 hover:text-white/60 transition-colors">
+                <FiX />
+              </button>
+            </div>
 
-          {/* Questions Section */}
-          {messages[messages.length - 1]?.sender === "bot" &&
-            messages[messages.length - 1]?.text ===
-              "Postavite pitanje o Ponijerima:" && (
-              <div className="flex flex-col space-y-2 mt-4">
-                <button
-                  onClick={() => handleQuestionClick("Šta su Ponijeri?")}
-                  className="bg-blue-500 text-white p-2 rounded-lg"
-                >
-                  Šta su Ponijeri?
-                </button>
-                <button
-                  onClick={() =>
-                    handleQuestionClick("Recite mi nešto zanimljivo o Kaknju!")
-                  }
-                  className="bg-blue-500 text-white p-2 rounded-lg"
-                >
-                  Recite mi nešto zanimljivo o Kaknju!
-                </button>
-                <button
-                  onClick={() =>
-                    handleQuestionClick("Kako da stignem do Ponijera?")
-                  }
-                  className="bg-blue-500 text-white p-2 rounded-lg"
-                >
-                  Kako da stignem do Ponijera?
-                </button>
+            {/* Messages */}
+            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3" style={{ maxHeight: "280px" }}>
+              {messages.map((msg) => (
+                <div key={msg.id} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
+                  <div
+                    className="max-w-[80%] px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed"
+                    style={
+                      msg.sender === "user"
+                        ? { background: "linear-gradient(135deg, #0084FF, #005fcc)", color: "#fff", borderBottomRightRadius: "4px" }
+                        : { background: "rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.85)", borderBottomLeftRadius: "4px", border: "1px solid rgba(255,255,255,0.08)" }
+                    }
+                  >
+                    {msg.text}
+                  </div>
+                </div>
+              ))}
+              {typing && (
+                <div className="flex justify-start">
+                  <div
+                    className="px-4 py-3 rounded-2xl text-sm"
+                    style={{ background: "rgba(255,255,255,0.07)", borderBottomLeftRadius: "4px" }}
+                  >
+                    <span className="flex gap-1">
+                      {[0, 1, 2].map(i => (
+                        <span
+                          key={i}
+                          className="w-1.5 h-1.5 rounded-full bg-blue-400"
+                          style={{ animation: `bounce 1s infinite ${i * 0.2}s` }}
+                        />
+                      ))}
+                    </span>
+                  </div>
+                </div>
+              )}
+              <div ref={bottomRef} />
+            </div>
+
+            {/* Quick questions */}
+            {messages.length <= 2 && (
+              <div className="px-4 pb-3 flex flex-col gap-1.5">
+                {QUICK_QUESTIONS.map((q) => (
+                  <button
+                    key={q}
+                    onClick={() => sendMessage(q)}
+                    className="text-left text-xs px-3 py-2 rounded-xl transition-all duration-150 hover:scale-[1.01] text-blue-200"
+                    style={{ background: "rgba(0,132,255,0.1)", border: "1px solid rgba(0,132,255,0.15)" }}
+                  >
+                    {q}
+                  </button>
+                ))}
               </div>
             )}
 
-          {/* Input Section */}
-          <div className="flex items-center mt-4">
-            <input
-              type="text"
-              className="w-full p-2 border border-gray-300 rounded-lg"
-              placeholder="Postavite pitanje..."
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-              onKeyDown={handleUserMessage}
-            />
-            <button
-              className="ml-2 p-2 bg-blue-500 text-white rounded-lg"
-              onClick={handleUserMessage}
+            {/* Input */}
+            <div
+              className="px-3 py-3 flex gap-2"
+              style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
             >
-              Pošaljite
-            </button>
-          </div>
-        </motion.div>
-      )}
-    </div>
-  );
-};
+              <input
+                type="text"
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                onKeyDown={handleKey}
+                placeholder="Postavite pitanje..."
+                className="flex-1 text-sm px-3 py-2 rounded-xl text-white placeholder-white/30 outline-none"
+                style={{
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                }}
+              />
+              <button
+                onClick={() => sendMessage()}
+                disabled={!input.trim()}
+                className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-150 disabled:opacity-30"
+                style={{ background: "linear-gradient(135deg, #0084FF, #005fcc)" }}
+              >
+                <FiSend className="text-white text-sm" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-export default Chatbot;
+      <style jsx global>{`
+        @keyframes bounce {
+          0%, 60%, 100% { transform: translateY(0); }
+          30% { transform: translateY(-4px); }
+        }
+      `}</style>
+    </>
+  );
+}
