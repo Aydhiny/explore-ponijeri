@@ -2,29 +2,61 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
-// Procedural mountain silhouettes — 4 depth layers + stars + horizon glow
-// Sky gradient is handled by CSS in the parent, this canvas is alpha-transparent
+// ── Noise ──────────────────────────────────────────────────────────────────
+// Hash-based smooth noise — no repeating sine patterns
+const hash = (n) => {
+  const x = Math.sin(n * 127.1 + 311.7) * 43758.5453;
+  return x - Math.floor(x);
+};
 
-// Mountains sit in the LOWER third of the screen.
-// VIEW_H=10 means world space is y=-10 (bottom) to y=+10 (top).
-// Peaks should reach between y=-1 (far) and y=+3 (near).
+const smoothNoise = (x) => {
+  const i = Math.floor(x);
+  const f = x - i;
+  const u = f * f * f * (f * (f * 6 - 15) + 10); // quintic smoothstep
+  return hash(i) + (hash(i + 1) - hash(i)) * u;
+};
+
+const fbm = (x, seed, octaves = 6, lac = 2.08, gain = 0.48) => {
+  let v = 0, a = 0.5, f = 1;
+  for (let o = 0; o < octaves; o++) {
+    v += smoothNoise(x * f + seed + o * 3.7) * a;
+    f *= lac; a *= gain;
+  }
+  return v;
+};
+
+// Ridged noise — creates sharp mountain peaks, smooth valleys
+const ridgedFbm = (x, seed, octaves = 7) => {
+  let v = 0, a = 0.6, f = 1, w = 1;
+  for (let o = 0; o < octaves; o++) {
+    let n = smoothNoise(x * f + seed + o * 2.4);
+    n = 1 - Math.abs(2 * n - 1); // ridge transform
+    n = n * n * w;
+    w = Math.min(1, n * 3.5);
+    v += n * a;
+    f *= 1.97; a *= 0.5;
+  }
+  return v;
+};
+
+// Domain-warped mountain profile — no repeating patterns
+const mountainProfile = (x, seed, scale) => {
+  const wx = fbm(x * 0.28 + seed, 5.1, 4) * 1.6; // warp x domain
+  const ridge = ridgedFbm(x * 0.38 + wx + seed, 7);
+  const base  = fbm(x * 0.18 + seed + 99.1, 5, 2.1, 0.5);
+  return (ridge * 0.70 + base * 0.30) * scale * 8;
+};
+
+// ── Layer configuration ────────────────────────────────────────────────────
 const LAYERS = [
-  { z: -6, hex: 0x1e4278, alpha: 0.45, scale: 0.65, base: -4.5, seed: 1.13 },
-  { z: -4, hex: 0x112d56, alpha: 0.68, scale: 0.95, base: -5.5, seed: 2.71 },
-  { z: -2, hex: 0x081c3a, alpha: 0.88, scale: 1.30, base: -6.5, seed: 4.19 },
-  { z:  0, hex: 0x030c1e, alpha: 1.00, scale: 1.75, base: -8.0, seed: 6.83 },
+  { z: -7, hex: 0x2a5090, alpha: 0.35, scale: 0.60, base: -2.8, seed: 11.3,  snowLine: null },
+  { z: -5, hex: 0x13306a, alpha: 0.58, scale: 0.90, base: -4.0, seed: 27.7,  snowLine: null },
+  { z: -3, hex: 0x071c3e, alpha: 0.84, scale: 1.28, base: -5.6, seed: 41.2,  snowLine: -2.2 },
+  { z: -1, hex: 0x030c1e, alpha: 1.00, scale: 1.72, base: -7.2, seed: 68.8,  snowLine: -3.5 },
 ];
 
-// Reduced high-frequency terms → smoother, broader peaks
-function ridgeHeight(x, seed, scale) {
-  return (
-    Math.sin(x * 0.22 + seed)          * 3.4 +
-    Math.sin(x * 0.55 + seed * 1.70)   * 2.1 +
-    Math.sin(x * 1.10 + seed * 3.10)   * 0.9 +
-    Math.sin(x * 2.30 + seed * 5.80)   * 0.40 +
-    Math.sin(x * 4.60 + seed * 9.40)   * 0.15
-  ) * scale;
-}
+const MOUSE_SPEED  = [0.22, 0.40, 0.65, 1.05]; // x parallax per layer (far → near)
+const SCROLL_SPEED = [0.03, 0.09, 0.20, 0.42]; // y parallax per layer
 
 export default function MountainCanvas() {
   const mountRef = useRef(null);
@@ -36,113 +68,164 @@ export default function MountainCanvas() {
     let W = el.clientWidth;
     let H = el.clientHeight;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    // ── Renderer ──────────────────────────────────────────────────────────
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(W, H);
     renderer.setClearColor(0x000000, 0);
     el.appendChild(renderer.domElement);
 
+    // ── Scene & camera ─────────────────────────────────────────────────────
     const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0x061224, 9, 24); // atmospheric depth
 
     const VIEW_H = 10;
-    let VIEW_W  = VIEW_H * (W / H);
-
+    let VIEW_W = VIEW_H * (W / H);
     const camera = new THREE.OrthographicCamera(-VIEW_W, VIEW_W, VIEW_H, -VIEW_H, 0.1, 100);
     camera.position.z = 10;
 
-    // ── Stars ──────────────────────────────────────────────────
-    const STAR_N   = 260;
-    const starPos  = new Float32Array(STAR_N * 3);
-    const starSize = new Float32Array(STAR_N);
+    // ── Moon ──────────────────────────────────────────────────────────────
+    const moonX = VIEW_W * 0.55;
+    const moonY = VIEW_H * 0.50;
+
+    const mkSphere = (r, col, opaque, opacity) => {
+      const m = new THREE.Mesh(
+        new THREE.SphereGeometry(r, 28, 28),
+        new THREE.MeshBasicMaterial({ color: col, transparent: !opaque, opacity })
+      );
+      m.position.set(moonX, moonY, -8.5);
+      scene.add(m);
+      return m;
+    };
+
+    const moonHalo  = mkSphere(1.20, 0x1a4488, false, 0.07);
+    const moonGlow  = mkSphere(0.68, 0x3366bb, false, 0.16);
+    const moonDisc  = mkSphere(0.38, 0xd0e0f8, true,  1.00);
+    moonHalo.position.z = -8.6;
+    moonGlow.position.z = -8.55;
+    moonDisc.position.z = -8.5;
+
+    // ── Stars ──────────────────────────────────────────────────────────────
+    const STAR_N = 320;
+    const starPos = new Float32Array(STAR_N * 3);
     for (let i = 0; i < STAR_N; i++) {
       starPos[i * 3]     = (Math.random() - 0.5) * VIEW_W * 2.8;
-      starPos[i * 3 + 1] = Math.random() * 9 + 2.5;
+      starPos[i * 3 + 1] = Math.random() * 8.5 + 2;
       starPos[i * 3 + 2] = -9;
-      starSize[i]         = 0.04 + Math.random() * 0.07;
     }
     const starGeo = new THREE.BufferGeometry();
     starGeo.setAttribute("position", new THREE.BufferAttribute(starPos, 3));
-    starGeo.setAttribute("size",     new THREE.BufferAttribute(starSize, 1));
-    const starMat = new THREE.PointsMaterial({
-      color:       0xc8deff,
-      size:        0.055,
-      transparent: true,
-      opacity:     0.70,
-    });
+    const starMat = new THREE.PointsMaterial({ color: 0xc8d8ff, size: 0.046, transparent: true, opacity: 0.70 });
     scene.add(new THREE.Points(starGeo, starMat));
 
-    // ── Horizon glow ───────────────────────────────────────────
-    const glowGeo = new THREE.PlaneGeometry(VIEW_W * 3, 4);
-    const glowMat = new THREE.MeshBasicMaterial({
-      color:       0x1a4a8a,
-      transparent: true,
-      opacity:     0.22,
-    });
-    const glowMesh = new THREE.Mesh(glowGeo, glowMat);
-    glowMesh.position.set(0, -2.5, -5);
-    scene.add(glowMesh);
+    // ── Horizon atmospheric glow ───────────────────────────────────────────
+    const horizonGeo = new THREE.PlaneGeometry(VIEW_W * 3.5, 5.5);
+    const horizonMat = new THREE.MeshBasicMaterial({ color: 0x1a4a9a, transparent: true, opacity: 0.16 });
+    const horizonMesh = new THREE.Mesh(horizonGeo, horizonMat);
+    horizonMesh.position.set(0, -3.0, -5.5);
+    scene.add(horizonMesh);
 
-    // ── Mountain layers ────────────────────────────────────────
-    const RES    = 200;
-    const XRANGE = VIEW_W * 2 * 1.6; // extra width for parallax
+    // ── Mountain geometry ──────────────────────────────────────────────────
+    const RES    = 260;
+    const XRANGE = VIEW_W * 2 * 1.75;
 
-    const mountains = LAYERS.map(({ z, hex, alpha, scale, base, seed }) => {
+    const allMeshes   = []; // [{ mountain, snow? }]
+    const snowPairs   = []; // { mountainMesh, snowMesh }
+
+    LAYERS.forEach(({ z, hex, alpha, scale, base, seed, snowLine }) => {
+      // Mountain silhouette
       const shape = new THREE.Shape();
-
       for (let i = 0; i <= RES; i++) {
         const x = (i / RES) * XRANGE - XRANGE / 2;
-        const y = ridgeHeight(x, seed, scale) + base;
+        const y = mountainProfile(x, seed, scale) + base;
         if (i === 0) shape.moveTo(x, y);
         else shape.lineTo(x, y);
       }
-      shape.lineTo( XRANGE / 2, -18);
+      shape.lineTo(XRANGE / 2, -18);
       shape.lineTo(-XRANGE / 2, -18);
       shape.closePath();
 
-      const geo = new THREE.ShapeGeometry(shape);
-      const mat = new THREE.MeshBasicMaterial({
-        color:       hex,
-        transparent: alpha < 1,
-        opacity:     alpha,
-      });
-      const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.z = z;
-      scene.add(mesh);
-      return mesh;
+      const mGeo = new THREE.ShapeGeometry(shape);
+      const mMat = new THREE.MeshBasicMaterial({ color: hex, transparent: alpha < 1, opacity: alpha });
+      const mMesh = new THREE.Mesh(mGeo, mMat);
+      mMesh.position.z = z;
+      scene.add(mMesh);
+      allMeshes.push(mMesh);
+
+      // Snow cap — fills from snowLine up to ridge
+      if (snowLine !== null) {
+        const sShape = new THREE.Shape();
+        const SL = snowLine - 0.02;
+        sShape.moveTo(-XRANGE / 2, SL);
+        for (let i = 0; i <= RES; i++) {
+          const x = (i / RES) * XRANGE - XRANGE / 2;
+          const y = mountainProfile(x, seed, scale) + base;
+          sShape.lineTo(x, Math.max(y, SL));
+        }
+        sShape.lineTo(XRANGE / 2, SL);
+        sShape.closePath();
+
+        const sGeo = new THREE.ShapeGeometry(sShape);
+        const sMat = new THREE.MeshBasicMaterial({ color: 0xe2ecff, transparent: true, opacity: 0.72 });
+        const sMesh = new THREE.Mesh(sGeo, sMat);
+        sMesh.position.z = z + 0.06; // render on top of mountain
+        scene.add(sMesh);
+        snowPairs.push({ mountainMesh: mMesh, snowMesh: sMesh });
+      }
     });
 
-    // ── Mouse parallax ─────────────────────────────────────────
-    let targetX    = 0;
-    const currentX = mountains.map(() => 0);
+    // ── Parallax state ─────────────────────────────────────────────────────
+    let mouseTargetX  = 0;
+    const mouseCurrentX  = allMeshes.map(() => 0);
+    const scrollCurrentY = allMeshes.map(() => 0);
+    let scrollProgress = 0;
 
-    const onMouse = (e) => {
-      targetX = (e.clientX / W - 0.5) * 2.8;
-    };
+    const onMouse = (e) => { mouseTargetX = (e.clientX / W - 0.5) * 3.2; };
     window.addEventListener("mousemove", onMouse);
 
-    // ── Resize ─────────────────────────────────────────────────
+    const onScroll = () => {
+      const sy = window.__lenis?.animatedScroll ?? window.scrollY;
+      scrollProgress = Math.min(sy / (el.clientHeight || H), 1);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+
     const onResize = () => {
-      W = el.clientWidth;
-      H = el.clientHeight;
+      W = el.clientWidth; H = el.clientHeight;
       VIEW_W = VIEW_H * (W / H);
-      camera.left  = -VIEW_W;
-      camera.right =  VIEW_W;
+      camera.left = -VIEW_W; camera.right = VIEW_W;
       camera.updateProjectionMatrix();
       renderer.setSize(W, H);
-      glowMesh.geometry.dispose();
-      glowMesh.geometry = new THREE.PlaneGeometry(VIEW_W * 3, 4);
     };
     window.addEventListener("resize", onResize);
 
-    // ── Render loop ────────────────────────────────────────────
-    let raf;
+    // ── Render loop ────────────────────────────────────────────────────────
+    let raf, time = 0;
     const tick = () => {
       raf = requestAnimationFrame(tick);
-      mountains.forEach((mesh, i) => {
-        const pull = (i + 1) * 0.38;
-        currentX[i] += (targetX * pull - currentX[i]) * 0.04;
-        mesh.position.x = currentX[i];
+      time += 0.012;
+
+      // Subtle star twinkle
+      starMat.opacity = 0.56 + Math.sin(time * 1.1) * 0.14;
+      // Moon halo breathe
+      moonHalo.material.opacity = 0.055 + Math.sin(time * 0.65) * 0.022;
+
+      allMeshes.forEach((mesh, i) => {
+        // Mouse parallax (horizontal)
+        mouseCurrentX[i] += (mouseTargetX * MOUSE_SPEED[i] - mouseCurrentX[i]) * 0.045;
+        // Scroll parallax (vertical — near layers move more, creating depth)
+        const scrollTarget = -scrollProgress * SCROLL_SPEED[i] * VIEW_H;
+        scrollCurrentY[i] += (scrollTarget - scrollCurrentY[i]) * 0.06;
+
+        mesh.position.x = mouseCurrentX[i];
+        mesh.position.y = scrollCurrentY[i];
       });
+
+      // Keep snow caps locked to their mountain
+      snowPairs.forEach(({ mountainMesh, snowMesh }) => {
+        snowMesh.position.x = mountainMesh.position.x;
+        snowMesh.position.y = mountainMesh.position.y;
+      });
+
       renderer.render(scene, camera);
     };
     tick();
@@ -150,10 +233,12 @@ export default function MountainCanvas() {
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("mousemove", onMouse);
+      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
-      mountains.forEach(m => { m.geometry.dispose(); m.material.dispose(); });
-      starGeo.dispose(); starMat.dispose();
-      glowGeo.dispose(); glowMat.dispose();
+      allMeshes.forEach(m => { m.geometry.dispose(); m.material.dispose(); });
+      snowPairs.forEach(({ snowMesh: m }) => { m.geometry.dispose(); m.material.dispose(); });
+      [starGeo, horizonGeo].forEach(g => g.dispose());
+      [starMat, horizonMat].forEach(m => m.dispose());
       renderer.dispose();
       if (el.contains(renderer.domElement)) el.removeChild(renderer.domElement);
     };

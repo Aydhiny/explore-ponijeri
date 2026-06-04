@@ -2,75 +2,34 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { FaSkiing } from "react-icons/fa";
 import { FiArrowRight } from "react-icons/fi";
-import { MovingBorder } from "./ui/MovingBorder";
 
-const PRICES = [
-  { label: "Poludnevna karta",    price: "10 KM", note: "10:00–13:00 ili 13:00–16:00", pop: false },
-  { label: "Dnevna karta",        price: "15 KM", note: "10:00–16:00",                 pop: true  },
-  { label: "Noćno skijanje",      price: "10 KM", note: "",                             pop: false },
-  { label: "Jedna vožnja",        price: "2 KM",  note: "",                             pop: false },
-  { label: "Parking",             price: "2 KM",  note: "Po vozilu",                   pop: false },
-  { label: "Sedmodnevna karta",   price: "80 KM", note: "",                             pop: false },
-  { label: "Sezonska karta",      price: "300 KM",note: "",                             pop: true  },
-  { label: "Grupa 5–12 odraslih", price: "12 KM", note: "po osobi, dnevna",            pop: false },
-  { label: "Grupa 5–12 djece",    price: "8 KM",  note: "po osobi (ski klubovi)",      pop: false },
+const CATEGORIES = [
+  {
+    title: "Dnevni ulazi",
+    items: [
+      { label: "Poludnevna karta", sub: "am ili pm", price: "10 KM", pop: false },
+      { label: "Dnevna karta",     sub: "10:00 – 16:00", price: "15 KM", pop: true  },
+      { label: "Noćno skijanje",   sub: "",           price: "10 KM", pop: false },
+    ],
+  },
+  {
+    title: "Karte & Sezonske",
+    items: [
+      { label: "Jedna vožnja",   sub: "",           price: "2 KM",   pop: false },
+      { label: "Sedmodnevna",    sub: "",           price: "80 KM",  pop: false },
+      { label: "Sezonska karta", sub: "",           price: "300 KM", pop: true  },
+    ],
+  },
+  {
+    title: "Grupni popusti",
+    items: [
+      { label: "Odrasli 5–12",   sub: "dnevna, po osobi", price: "12 KM", pop: false },
+      { label: "Djeca ski klup", sub: "po osobi",          price: "8 KM",  pop: false },
+      { label: "Parking",        sub: "po vozilu",         price: "2 KM",  pop: false },
+    ],
+  },
 ];
-
-function PriceCard({ label, price, note, pop }) {
-  const inner = (
-    <div
-      className="h-full p-5 rounded-2xl relative"
-      style={!pop ? {
-        background: "rgba(255,255,255,0.03)",
-        border: "1px solid rgba(255,255,255,0.07)",
-      } : {}}
-    >
-      {pop && (
-        <span
-          className="absolute top-3 right-3 text-[9px] font-bold tracking-widest uppercase px-2.5 py-0.5 rounded-full text-brand-mid"
-          style={{ background: "rgba(0,132,255,0.18)", border: "1px solid rgba(0,132,255,0.3)" }}
-        >
-          Popular
-        </span>
-      )}
-      <p className="text-white/45 text-xs font-medium mb-2.5 leading-snug pr-14">{label}</p>
-      <p
-        className="text-2xl font-bold font-display"
-        style={{ color: pop ? "#4fa8ff" : "#ffffff" }}
-      >
-        {price}
-      </p>
-      {note && <p className="text-white/28 text-[11px] mt-1">{note}</p>}
-    </div>
-  );
-
-  if (pop) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 18 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45 }}
-      >
-        <MovingBorder duration={3200} containerClassName="h-full rounded-2xl">
-          {inner}
-        </MovingBorder>
-      </motion.div>
-    );
-  }
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45 }}
-      className="rounded-2xl transition-all duration-300 hover:-translate-y-1"
-    >
-      {inner}
-    </motion.div>
-  );
-}
 
 export default function SkiInfo() {
   const [ref, inView] = useInView({ threshold: 0.07, triggerOnce: true });
@@ -83,65 +42,109 @@ export default function SkiInfo() {
         paddingBottom: "6rem",
       }}
     >
-      {/* Top rule */}
       <div
-        className="mb-0"
         style={{
           height: 1,
-          background: "linear-gradient(90deg, transparent, rgba(0,132,255,0.3), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(0,132,255,0.28), transparent)",
         }}
       />
 
-      <div ref={ref} className="max-w-7xl mx-auto px-6 sm:px-10 pt-16">
+      <div ref={ref} className="max-w-2xl mx-auto px-6 sm:px-10 pt-16">
 
-        {/* Header */}
+        {/* Heading */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.65 }}
-          className="text-center mb-14"
+          className="mb-14"
         >
-          <div className="flex justify-center items-center gap-3 mb-5">
-            <div className="h-px w-10" style={{ background: "linear-gradient(90deg, transparent, rgba(0,132,255,0.5))" }} />
-            <FaSkiing className="text-brand text-lg" />
-            <div className="h-px w-10" style={{ background: "linear-gradient(90deg, rgba(0,132,255,0.5), transparent)" }} />
+          <div className="flex items-center gap-3 mb-5">
+            <span className="h-px w-8 bg-brand/40" />
+            <span className="text-[10px] tracking-[0.32em] font-bold uppercase text-brand-mid">
+              Skijaški centar Ponijeri
+            </span>
           </div>
           <h2
-            className="font-display italic font-bold text-white mb-3 leading-tight"
-            style={{ fontSize: "clamp(2.2rem, 5vw, 4rem)" }}
+            className="font-display italic font-bold text-white leading-tight"
+            style={{ fontSize: "clamp(2.6rem, 6vw, 4.5rem)" }}
           >
             Cijene{" "}
             <span className="text-gradient not-italic">Skijanja</span>
           </h2>
-          <p className="text-white/38 text-[15px] max-w-md mx-auto">
-            Dostupno za sve uzraste — od djece do iskusnih skijaša.
-          </p>
         </motion.div>
 
-        {inView && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {PRICES.map((p) => (
-              <PriceCard key={p.label} {...p} />
-            ))}
-          </div>
-        )}
-
-        {/* CTA */}
+        {/* Editorial pricing table */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.9 }}
-          className="mt-14 text-center"
+          transition={{ duration: 0.55, delay: 0.18 }}
         >
+          {CATEGORIES.map((cat, ci) => (
+            <div key={cat.title} className={ci > 0 ? "mt-10 pt-8 border-t border-white/6" : ""}>
+
+              {/* Category label */}
+              <p className="text-[9px] font-bold tracking-[0.36em] uppercase text-white/22 mb-4">
+                {cat.title}
+              </p>
+
+              {/* Rows */}
+              {cat.items.map(({ label, sub, price, pop }, i) => (
+                <div
+                  key={label}
+                  className={`flex items-baseline justify-between py-3.5 transition-colors duration-200
+                    ${i < cat.items.length - 1 ? "border-b border-white/[0.05]" : ""}
+                    ${pop ? "text-white" : "text-white/50 hover:text-white/70"}
+                  `}
+                >
+                  {/* Label + sub */}
+                  <div className="flex items-baseline gap-2.5">
+                    {pop && (
+                      <span className="w-1 h-1 rounded-full bg-brand self-center flex-shrink-0" />
+                    )}
+                    <span className={`text-[14px] font-medium ${pop ? "" : "ml-[14px]"}`}>
+                      {label}
+                    </span>
+                    {sub && (
+                      <span className="text-[11px] text-white/22">{sub}</span>
+                    )}
+                  </div>
+
+                  {/* Price */}
+                  <span
+                    className={`font-display font-bold tabular-nums ml-6 flex-shrink-0
+                      ${pop ? "text-brand-mid" : ""}
+                    `}
+                    style={{ fontSize: "1.2rem" }}
+                  >
+                    {price}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ))}
+        </motion.div>
+
+        {/* Footer row */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.7 }}
+          className="mt-12 pt-7 border-t border-white/8 flex items-center justify-between gap-4"
+        >
+          <p className="text-white/22 text-[11px] tracking-wide">
+            Sezona 2024/2025 · Ponijeri, Kakanj
+          </p>
           <Link
             href="/skiing"
-            className="group relative inline-flex items-center gap-4 px-8 py-3.5 text-[11px] font-bold tracking-[0.26em] uppercase text-white overflow-hidden"
-            style={{ border: "1px solid rgba(255,255,255,0.28)" }}
+            className="group relative inline-flex items-center gap-3 px-6 py-2.5 text-[11px] font-bold tracking-[0.24em] uppercase text-white overflow-hidden flex-shrink-0"
+            style={{ border: "1px solid rgba(255,255,255,0.22)" }}
           >
-            <span className="absolute inset-0 -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" style={{ background: "rgba(255,255,255,0.06)" }} />
-            <FaSkiing className="relative z-10 text-white/60" />
-            <span className="relative z-10">Raspored i Ski Škola</span>
-            <FiArrowRight className="relative z-10 text-white/55 group-hover:translate-x-1 transition-transform duration-300" />
+            <span
+              className="absolute inset-0 -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"
+              style={{ background: "rgba(255,255,255,0.05)" }}
+            />
+            <span className="relative z-10">Raspored</span>
+            <FiArrowRight className="relative z-10 text-white/45 group-hover:translate-x-1 transition-transform duration-300" />
           </Link>
         </motion.div>
       </div>
