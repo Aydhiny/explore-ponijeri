@@ -1,120 +1,139 @@
+"use client";
 import React from "react";
-import Link from "next/link";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { FaPersonSkiingNordic, FaPhone } from "react-icons/fa6";
+
+const SCHOOL_PRICES = [
+  { label: "1 sat — 1 osoba", price: "10 KM", note: "Bez prevoza", group: "1" },
+  { label: "3 sata — 1 osoba", price: "25 KM", note: "", group: "1" },
+  { label: "5 dana — 1 osoba", price: "150 KM", note: "", group: "1" },
+  { label: "1 sat — 2 osobe", price: "17 KM", note: "Bez prevoza", group: "2" },
+  { label: "3 sata — 2 osobe", price: "45 KM", note: "", group: "2" },
+  { label: "5 dana — 2 osobe", price: "250 KM", note: "", group: "2" },
+  { label: "1 sat — 3 osobe", price: "25 KM", note: "", group: "3" },
+  { label: "3 sata — 3 osobe", price: "60 KM", note: "", group: "3" },
+  { label: "5 dana — 3 osobe", price: "400 KM", note: "", group: "3" },
+  { label: "1 sat — 4 osobe", price: "30 KM", note: "", group: "4" },
+  { label: "3 sata — 4 osobe", price: "75 KM", note: "", group: "4" },
+  { label: "5 dana — 4 osobe", price: "550 KM", note: "", group: "4" },
+];
+
+const GROUP_COLORS = {
+  "1": { bg: "rgba(0,132,255,0.12)", border: "rgba(0,132,255,0.25)", price: "#4fa8ff" },
+  "2": { bg: "rgba(0,200,100,0.1)", border: "rgba(0,200,100,0.25)", price: "#4ade80" },
+  "3": { bg: "rgba(120,80,255,0.1)", border: "rgba(120,80,255,0.25)", price: "#a78bfa" },
+  "4": { bg: "rgba(255,160,0,0.1)", border: "rgba(255,160,0,0.25)", price: "#fbbf24" },
+};
 
 export default function SkiSchoolInfo() {
+  const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
+
   return (
-    <div className="px-4 xl:px-24 py-16 bg-gradient-to-t from-gray-800 to-gray-900 cursor-default text-white flex flex-col items-center">
-      {/* Text Section */}
-      <div className="text-center max-w-3xl space-y-8">
-        <h1 className="font-playwrite-hr text-6xl font-bold text-white leading-tight">
-          Škola Skijanja na Ponijerima
-        </h1>
-        <div className="p-1 bg-gray-600 w-24 mx-auto"></div>
-        <p className="text-lg leading-relaxed text-white">
-          Za sve koji žele naučiti skijati, tu su profesionalni ski instruktori
-          i škola skijanja.
-        </p>
-      </div>
+    <section
+      className="relative py-20 xl:py-28 overflow-hidden"
+      style={{
+        background: "linear-gradient(160deg, #060f22 0%, #001432 50%, #002050 100%)",
+      }}
+    >
+      <div
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-px"
+        style={{ background: "linear-gradient(90deg, transparent, rgba(0,132,255,0.3), transparent)" }}
+      />
 
-      {/* Prices Section */}
-      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-        <div className="bg-gradient-to-t from-[#0044ff94] to-[#0066ffd8] hover:bg-gray-600 shadow-xl backdrop-blur-sm border-2 border-opacity-35 border-main-color-lighter-green text-white text-center py-8 px-6 hover:scale-105 transition-all duration-300">
-          <h3 className="text-3xl font-bold mb-4">Cijena za 1 sat (1 osoba)</h3>
-          <p className="text-5xl font-bold">10 KM</p>
-          <p className="text-2xl mt-2">Bez prevoza</p>
-        </div>
-        <div className="bg-gradient-to-t from-[#0044ff94] to-[#0066ffd8] hover:bg-gray-600 shadow-xl backdrop-blur-sm border-2 border-opacity-35 border-main-color-lighter-green text-white text-center py-8 px-6 hover:scale-105 transition-all duration-300">
-          <h3 className="text-3xl font-bold mb-4">
-            Cijena za 3 sata (1 osoba)
-          </h3>
-          <p className="text-5xl font-bold">25 KM</p>
-        </div>
-        <div className="bg-gradient-to-t from-[#0044ff94] to-[#0066ffd8] hover:bg-gray-600 shadow-xl backdrop-blur-sm border-2 border-opacity-35 border-main-color-lighter-green text-white text-center py-8 px-6 hover:scale-105 transition-all duration-300">
-          <h3 className="text-3xl font-bold mb-4">
-            Cijena za 5 dana (1 osoba)
-          </h3>
-          <p className="text-5xl font-bold">150 KM</p>
-        </div>
-        <div className="bg-gradient-to-t from-[#00ff3794] to-[#00ffaad8] hover:bg-gray-600 shadow-xl backdrop-blur-sm border-2 border-opacity-35 border-green-500 text-white text-center py-8 px-6 hover:scale-105 transition-all duration-300">
-          <h3 className="text-3xl font-bold mb-4">Cijena za 1 sat (2 osobe)</h3>
-          <p className="text-5xl font-bold">17 KM</p>
-          <p className="text-2xl mt-2">Bez prevoza</p>
-        </div>
-        <div className="bg-gradient-to-t from-[#00ff3794] to-[#00ffaad8] hover:bg-gray-600 shadow-xl backdrop-blur-sm border-2 border-opacity-35 border-green-500 text-white text-center py-8 px-6 hover:scale-105 transition-all duration-300">
-          <h3 className="text-3xl font-bold mb-4">
-            Cijena za 3 sata (2 osobe)
-          </h3>
-          <p className="text-5xl font-bold">45 KM</p>
-        </div>
-        <div className="bg-gradient-to-t from-[#00ff3794] to-[#00ffaad8] hover:bg-gray-600 shadow-xl backdrop-blur-sm border-2 border-opacity-35 border-green-500 text-white text-center py-8 px-6 hover:scale-105 transition-all duration-300">
-          <h3 className="text-3xl font-bold mb-4">
-            Cijena za 5 dana (2 osobe)
-          </h3>
-          <p className="text-5xl font-bold">250 KM</p>
-        </div>
-      </div>
-
-      {/* Additional Pricing for More Participants */}
-      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-        <div className="bg-gradient-to-t from-[#0044ff94] to-[#0066ffd8] hover:bg-gray-600 shadow-xl backdrop-blur-sm border-2 border-opacity-35 border-main-color-lighter-green text-white text-center py-8 px-6 hover:scale-105 transition-all duration-300">
-          <h3 className="text-3xl font-bold mb-4">Cijena za 1 sat (3 osobe)</h3>
-          <p className="text-5xl font-bold">25 KM</p>
-        </div>
-        <div className="bg-gradient-to-t from-[#0044ff94] to-[#0066ffd8] hover:bg-gray-600 shadow-xl backdrop-blur-sm border-2 border-opacity-35 border-main-color-lighter-green text-white text-center py-8 px-6 hover:scale-105 transition-all duration-300">
-          <h3 className="text-3xl font-bold mb-4">
-            Cijena za 3 sata (3 osobe)
-          </h3>
-          <p className="text-5xl font-bold">60 KM</p>
-        </div>
-        <div className="bg-gradient-to-t from-[#0044ff94] to-[#0066ffd8] hover:bg-gray-600 shadow-xl backdrop-blur-sm border-2 border-opacity-35 border-main-color-lighter-green text-white text-center py-8 px-6 hover:scale-105 transition-all duration-300">
-          <h3 className="text-3xl font-bold mb-4">
-            Cijena za 5 dana (3 osobe)
-          </h3>
-          <p className="text-5xl font-bold">400 KM</p>
-        </div>
-        <div className="bg-gradient-to-t from-[#00ff3794] to-[#00ffaad8] hover:bg-gray-600 shadow-xl backdrop-blur-sm border-2 border-opacity-35 border-green-500 text-white text-center py-8 px-6 hover:scale-105 transition-all duration-300">
-          <h3 className="text-3xl font-bold mb-4">Cijena za 1 sat (4 osobe)</h3>
-          <p className="text-5xl font-bold">30 KM</p>
-        </div>
-        <div className="bg-gradient-to-t from-[#00ff3794] to-[#00ffaad8] hover:bg-gray-600 shadow-xl backdrop-blur-sm border-2 border-opacity-35 border-green-500 text-white text-center py-8 px-6 hover:scale-105 transition-all duration-300">
-          <h3 className="text-3xl font-bold mb-4">
-            Cijena za 3 sata (4 osobe)
-          </h3>
-          <p className="text-5xl font-bold">75 KM</p>
-        </div>
-        <div className="bg-gradient-to-t from-[#00ff3794] to-[#00ffaad8] hover:bg-gray-600 shadow-xl backdrop-blur-sm border-2 border-opacity-35 border-green-500 text-white text-center py-8 px-6 hover:scale-105 transition-all duration-300">
-          <h3 className="text-3xl font-bold mb-4">
-            Cijena za 5 dana (4 osobe)
-          </h3>
-          <p className="text-5xl font-bold">550 KM</p>
-        </div>
-      </div>
-
-      {/* How to Apply Section */}
-      <div className="mt-12 text-center">
-        <h3 className="text-3xl font-bold mb-4">Kako se prijaviti?</h3>
-        <p className="text-lg text-white">
-          Kontakt telefoni za prijavu: <strong>032-771-920</strong> ili direktno
-          u <strong>SKI centru Ponijeri</strong>.
-        </p>
-        <p className="text-lg text-white">
-          Kontakt osobe: <strong>prof. Irfan Hasagić</strong> i{" "}
-          <strong>prof. Marin Mijač</strong>.
-        </p>
-        <p className="text-lg text-white">
-          Iznajmljivanje ski opreme je moguće direktno u SKI centru Ponijeri.
-        </p>
-      </div>
-
-      {/* Link Section */}
-      <div className="mt-12 flex justify-center">
-        <Link
-          href="/"
-          className="text-white border-b-2 hover:bg-black hover:text-white transition-all duration-150 border-white rounded-sm font-bold px-8 py-3 bg-main-color-lighter-green backdrop-blur-sm self-start"
+      <div ref={ref} className="max-w-7xl mx-auto px-4 sm:px-6">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
+          className="text-center mb-14"
         >
-          Nazad
-        </Link>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="h-px w-12" style={{ background: "linear-gradient(90deg, transparent, rgba(0,132,255,0.5))" }} />
+            <FaPersonSkiingNordic className="text-main-color-lighter-green text-xl" />
+            <div className="h-px w-12" style={{ background: "linear-gradient(90deg, rgba(0,132,255,0.5), transparent)" }} />
+          </div>
+          <h2 className="font-playwrite-hr text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
+            Škola{" "}
+            <span style={{
+              background: "linear-gradient(135deg, #0084FF, #4fa8ff)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}>
+              Skijanja
+            </span>
+          </h2>
+          <p className="text-white/60 text-lg max-w-2xl mx-auto">
+            Za sve koji žele naučiti skijati — profesionalni instruktori za sve uzraste i grupe.
+          </p>
+        </motion.div>
+
+        {/* Legend */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="flex flex-wrap justify-center gap-3 mb-8"
+        >
+          {Object.entries(GROUP_COLORS).map(([group, { border, price }]) => (
+            <div
+              key={group}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium"
+              style={{ border: `1px solid ${border}`, color: price }}
+            >
+              <span className="w-2 h-2 rounded-full" style={{ background: price }} />
+              {group} {group === "1" ? "osoba" : "osobe"}
+            </div>
+          ))}
+        </motion.div>
+
+        {/* Price grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {SCHOOL_PRICES.map(({ label, price, note, group }, i) => {
+            const { bg, border, price: priceColor } = GROUP_COLORS[group];
+            return (
+              <motion.div
+                key={label}
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: i * 0.05 }}
+                className="rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1"
+                style={{ background: bg, border: `1px solid ${border}` }}
+              >
+                <p className="text-white/70 text-sm font-medium mb-3 leading-tight">{label}</p>
+                <p className="text-2xl font-bold" style={{ color: priceColor }}>{price}</p>
+                {note && <p className="text-white/40 text-xs mt-1">{note}</p>}
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Contact info */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.7 }}
+          className="mt-14 max-w-xl mx-auto rounded-2xl p-6 text-center"
+          style={{
+            background: "rgba(255,255,255,0.04)",
+            border: "1px solid rgba(255,255,255,0.08)",
+          }}
+        >
+          <h3 className="font-jakarta font-bold text-white text-xl mb-4">Kako se prijaviti?</h3>
+          <div className="space-y-2 text-white/60 text-sm">
+            <div className="flex items-center justify-center gap-2">
+              <FaPhone className="text-main-color-lighter-green" />
+              <span>032-771-920</span>
+              <span className="text-white/30">ili</span>
+              <span>direktno u SKI centru</span>
+            </div>
+            <p>Kontakt osobe: <span className="text-white/80">prof. Irfan Hasagić</span> i <span className="text-white/80">prof. Marin Mijač</span></p>
+            <p className="text-white/50">Iznajmljivanje ski opreme dostupno direktno u SKI centru.</p>
+          </div>
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 }

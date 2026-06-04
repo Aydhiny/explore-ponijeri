@@ -1,61 +1,114 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import Medena from "../images/medena.jpeg";
-import Link from "next/link";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 import { LuDonut } from "react-icons/lu";
 import { IoPricetagOutline } from "react-icons/io5";
 import { GiFoodChain } from "react-icons/gi";
 
+const HIGHLIGHTS = [
+  { icon: LuDonut, text: "Tradicionalni uštipci" },
+  { icon: IoPricetagOutline, text: "Povoljne cijene" },
+  { icon: GiFoodChain, text: "Raznovrsna hrana" },
+];
+
 export default function Restaurant() {
+  const [ref, inView] = useInView({ threshold: 0.15, triggerOnce: true });
+
   return (
-    <div className="px-6 sm:px-10 md:px-16 lg:px-24 cursor-default py-10 sm:py-12 lg:py-16 text-gray-700 flex flex-col lg:flex-row lg:justify-between lg:items-center space-y-10 lg:space-y-0">
-      {/* Image Section */}
-      <div className="relative group cursor-pointer flex-shrink-0 mx-auto lg:mx-0">
-        <Image
-          className="rounded-lg border-4 border-main-color-lighter-green hover:shadow-xl transition-transform duration-300 transform group-hover:rotate-6"
-          alt="eko"
-          src={Medena}
-          width={800}
-          height={800}
-        />
-      </div>
-      {/* Text Section */}
-      <div className="flex flex-col text-justify max-w-2xl space-y-8 mx-auto lg:mx-0">
-        <h1 className="font-playwrite-hr text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-600 leading-tight">
-          Medena Dolina Ponijeri
-        </h1>
-        <div className="p-1 bg-gray-600"></div>
-        <p className="text-base sm:text-lg md:text-xl leading-relaxed">
-          Medena Dolina Ponijeri predstavlja jedinstveno utočište koje spaja
-          luksuz, prirodu i autentičnost. Svojim posjetiteljima nudi deset
-          moderno opremljenih apartmana koji odišu toplinom i pažljivo biranim
-          detaljima, pružajući maksimalnu udobnost i osjećaj doma daleko od
-          doma. Svaki apartman ima pogled na predivne krajolike Ponijera, koji
-          oduzimaju dah u svako doba godine.
-          <br />
-          <br />
-          Restoran u sklopu kompleksa prava je kulinarska oaza. Gosti mogu
-          uživati u izvrsnim specijalitetima tradicionalne kuhinje,
-          pripremljenim s lokalnim i svježim namirnicama. Tu su i pažljivo
-          osmišljena jela moderne kuhinje, koja zadovoljavaju i najzahtjevnije
-          nepce. Svaki detalj u pripremi i posluživanju jela osmišljen je kako
-          bi pružio nezaboravno iskustvo.
-        </p>
-        <div className="p-2 flex flex-wrap justify-center items-center bg-blue-800 bg-opacity-50 border-2 rounded-lg border-blue-500 border-opacity-50 shadow-xl gap-4">
-          <div className="flex flex-col items-center text-center w-36 sm:w-44 md:w-52">
-            <LuDonut className="text-4xl text-blue-800 mb-2" />
-            <p className="text-blue-800 font-bold">Tradicionalni uštipci!</p>
-          </div>
-          <div className="flex flex-col items-center text-center w-36 sm:w-44 md:w-52">
-            <IoPricetagOutline className="text-4xl text-blue-800 mb-2" />
-            <p className="text-blue-800 font-bold">Povoljne cijene</p>
-          </div>
-          <div className="flex flex-col items-center text-center w-36 sm:w-44 md:w-52">
-            <GiFoodChain className="text-4xl text-blue-800 mb-2" />
-            <p className="text-blue-800 font-bold">Raznovrsna hrana</p>
-          </div>
+    <section className="section-padding relative overflow-hidden">
+      {/* Accent */}
+      <div
+        className="absolute -right-32 top-1/2 -translate-y-1/2 w-96 h-96 rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(0,132,255,0.06) 0%, transparent 70%)" }}
+      />
+
+      <div ref={ref} className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-20 items-center">
+          {/* Image */}
+          <motion.div
+            initial={{ opacity: 0, x: -32 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+          >
+            <div
+              className="tilt-card rounded-2xl overflow-hidden"
+              style={{
+                border: "2px solid rgba(0,132,255,0.15)",
+                boxShadow: "0 20px 60px rgba(0,47,90,0.15)",
+              }}
+            >
+              <Image
+                alt="Medena Dolina Ponijeri"
+                src={Medena}
+                width={700}
+                height={500}
+                className="w-full h-auto object-cover"
+              />
+            </div>
+          </motion.div>
+
+          {/* Text */}
+          <motion.div
+            initial={{ opacity: 0, x: 32 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="space-y-6"
+          >
+            <div className="flex items-center gap-3">
+              <div className="h-px w-12" style={{ background: "linear-gradient(90deg, rgba(0,132,255,0.4), transparent)" }} />
+              <span className="text-main-color-lighter-green text-sm font-semibold uppercase tracking-widest">Restoran</span>
+            </div>
+
+            <h2 className="font-playwrite-hr text-3xl sm:text-4xl md:text-5xl font-bold text-main-color-dark-green leading-tight">
+              Medena Dolina{" "}
+              <span style={{
+                background: "linear-gradient(135deg, #0084FF, #4fa8ff)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}>
+                Ponijeri
+              </span>
+            </h2>
+
+            <div
+              className="h-px w-full"
+              style={{ background: "linear-gradient(90deg, rgba(0,132,255,0.3), transparent)" }}
+            />
+
+            <div className="space-y-4 text-gray-600 text-base sm:text-lg leading-relaxed">
+              <p>
+                Medena Dolina Ponijeri predstavlja jedinstveno utočište koje spaja
+                luksuz, prirodu i autentičnost. Deset moderno opremljenih apartmana
+                s pogledom na predivne krajolike Ponijera.
+              </p>
+              <p>
+                Restoran u sklopu kompleksa prava je kulinarska oaza — tradicionalna
+                kuhinja s lokalnim i svježim namirnicama, te jela moderne kuhinje.
+              </p>
+            </div>
+
+            {/* Feature chips */}
+            <div
+              className="p-4 rounded-2xl grid grid-cols-3 gap-3"
+              style={{
+                background: "rgba(0,132,255,0.06)",
+                border: "1px solid rgba(0,132,255,0.12)",
+              }}
+            >
+              {HIGHLIGHTS.map(({ icon: Icon, text }) => (
+                <div key={text} className="flex flex-col items-center text-center gap-2 p-2">
+                  <Icon className="text-2xl text-main-color-lighter-green" />
+                  <span className="text-xs font-medium text-main-color-dark-green leading-tight">{text}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

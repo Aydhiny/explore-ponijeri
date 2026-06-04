@@ -1,37 +1,33 @@
-import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollProgressBar from "./components/ProgressBar";
 import CreatedBy from "./components/CreatedBy";
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+import SmoothScroll from "./components/SmoothScroll";
 
 export const metadata = {
-  title: "Dobrodošli! | Explore Ponijeri",
+  title: "Explore Ponijeri | Planinsko Izletište Kakanj",
   description:
-    "Explore Ponijeri is a NextJS CMS Application used for showcasing Kakanj's Ponijeri.",
+    "Otkrijte Ponijere — zimski dragulj Bosne. Skijanje, planinarenje, restorani i smještaj na 1200m nadmorske visine.",
+  keywords: "Ponijeri, Kakanj, skijanje, planinsko izletište, Bosna, zimski turizam",
+  openGraph: {
+    title: "Explore Ponijeri",
+    description: "Planinsko izletište Ponijeri — Kakanj, Bosna i Hercegovina",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ScrollProgressBar />
-        <Navbar />
-        {children}
-        <Footer />
-        <CreatedBy />
+    <html lang="bs" className="scroll-smooth">
+      <body className="antialiased">
+        <SmoothScroll>
+          <ScrollProgressBar />
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+          <CreatedBy />
+        </SmoothScroll>
       </body>
     </html>
   );

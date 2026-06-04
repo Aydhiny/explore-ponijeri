@@ -1,32 +1,28 @@
 "use client";
 import { useEffect, useState } from "react";
+import { motion, useSpring } from "framer-motion";
 
 export default function ScrollProgressBar() {
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const springProgress = useSpring(0, { stiffness: 120, damping: 25 });
 
   useEffect(() => {
-    const updateProgress = () => {
+    const update = () => {
       const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight;
-      const winHeight = window.innerHeight;
-      const totalScroll = docHeight - winHeight;
-      const scrollPercentage = (scrollTop / totalScroll) * 100;
-
-      setScrollProgress(Math.min(Math.max(scrollPercentage, 0), 100));
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = Math.min(Math.max((scrollTop / total) * 100, 0), 100);
+      setProgress(pct);
+      springProgress.set(pct);
     };
-
-    window.addEventListener("scroll", updateProgress);
-
-    return () => {
-      window.removeEventListener("scroll", updateProgress);
-    };
-  }, []);
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, [springProgress]);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-1 border-blue-400 bg-gradient-to-r from-[#65ceffd8] to-[rgba(210,238,255,0.81)] z-[70]">
-      <div
-        className="h-full bg-blue-700 transition-all duration-100"
-        style={{ width: `${scrollProgress}%` }}
+    <div className="progress-bar-track">
+      <motion.div
+        className="progress-bar-fill"
+        style={{ width: `${progress}%` }}
       />
     </div>
   );

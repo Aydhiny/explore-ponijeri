@@ -1,73 +1,117 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import { FaInstagram, FaBusAlt } from "react-icons/fa";
 import Autobus from "../images/autobuska.jpg";
 import Insta from "../images/visit.jpg";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+
+function TravelCard({ href, image, icon: Icon, title, subtitle, cta, delay }) {
+  const [ref, inView] = useInView({ threshold: 0.2, triggerOnce: true });
+
+  return (
+    <motion.a
+      ref={ref}
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      initial={{ opacity: 0, y: 32 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.7, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="group flex flex-col"
+    >
+      <div
+        className="rounded-2xl overflow-hidden transition-all duration-400"
+        style={{
+          border: "1px solid rgba(0,132,255,0.15)",
+          boxShadow: "0 4px 24px rgba(0,47,90,0.08)",
+        }}
+      >
+        {/* Image */}
+        <div className="relative overflow-hidden h-64 sm:h-72">
+          <Image
+            alt={title}
+            src={image}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+        </div>
+
+        {/* Content */}
+        <div
+          className="p-6"
+          style={{
+            background: "rgba(255,255,255,0.7)",
+            backdropFilter: "blur(12px)",
+          }}
+        >
+          <div className="flex items-center gap-2 mb-2">
+            <Icon className="text-main-color-lighter-green text-lg" />
+            <span className="text-main-color-lighter-green font-semibold text-sm">{cta}</span>
+          </div>
+          <h3 className="font-jakarta font-bold text-xl text-main-color-dark-green mb-1">
+            {title}
+          </h3>
+          <p className="text-gray-500 text-sm">{subtitle}</p>
+        </div>
+      </div>
+    </motion.a>
+  );
+}
 
 export default function Travel() {
-  return (
-    <div className="flex flex-wrap xl:flex-nowrap bg-gradient-to-b from-white to-gray-100 px-6 md:px-12 xl:px-20 py-8 md:py-12 justify-center items-center text-center cursor-default">
-      {/* Instagram Section */}
-      <div className="flex flex-col items-center text-center mb-8 xl:mb-0 xl:mr-10 group">
-        <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold text-gray-700 font-playwrite-hr">
-          Visit{" "}
-          <span className="text-main-color-lighter-green transition-colors duration-300 group-hover:text-main-color-dark-green">
-            Ponijeri
-          </span>
-        </h1>
-        <p className="text-gray-600 text-base md:text-lg mt-4">
-          Pratite nas na instagramu.
-        </p>
-        <a
-          href="https://www.instagram.com/visit.ponijeri"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex flex-col items-center mt-6 transform transition-transform duration-300 group-hover:scale-105"
-        >
-          <Image
-            alt="Instagram"
-            width={500}
-            height={500}
-            src={Insta}
-            className="rounded-lg border border-gray-300 shadow-md transition-all duration-200 group-hover:shadow-xl"
-          />
-          <div className="flex items-center mt-4 text-main-color-lighter-green font-semibold text-lg space-x-2 group-hover:text-main-color-dark-green">
-            <FaInstagram className="text-xl group-hover:animate-bounce" />
-            <span>Posjetite Instagram</span>
-          </div>
-        </a>
-      </div>
+  const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
 
-      {/* Travel Section */}
-      <div className="flex flex-col items-center text-center group">
-        <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold text-gray-700 font-playwrite-hr">
-          <span className="text-main-color-lighter-green transition-colors duration-300 group-hover:text-main-color-dark-green">
-            Travel
-          </span>{" "}
-          with Us
-        </h1>
-        <p className="text-gray-600 text-base md:text-lg mt-4">
-          Redovna autobuska linija iz Kaknja.
-        </p>
-        <a
-          href="https://www.instagram.com/p/DDKNvetIsgU/?hl=en"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex flex-col items-center mt-6 transform transition-transform duration-300 group-hover:scale-105"
+  return (
+    <section className="section-padding bg-white/40">
+      <div className="max-w-7xl mx-auto" ref={ref}>
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
         >
-          <Image
-            alt="Travel with Us"
-            width={500}
-            height={500}
-            src={Autobus}
-            className="rounded-lg border border-gray-300 shadow-md transition-all duration-200 group-hover:shadow-xl"
-          />
-          <div className="flex items-center mt-4 text-main-color-lighter-green font-semibold text-lg space-x-2 group-hover:text-main-color-dark-green">
-            <FaBusAlt className="text-xl group-hover:animate-bounce" />
-            <span>Provjeri raspored</span>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="h-px w-12" style={{ background: "linear-gradient(90deg, transparent, rgba(0,132,255,0.4))" }} />
+            <span className="text-main-color-lighter-green text-sm font-semibold uppercase tracking-widest">Povežite se s nama</span>
+            <div className="h-px w-12" style={{ background: "linear-gradient(90deg, rgba(0,132,255,0.4), transparent)" }} />
           </div>
-        </a>
+          <h2 className="font-playwrite-hr text-3xl sm:text-4xl md:text-5xl font-bold text-main-color-dark-green">
+            Visit & Travel{" "}
+            <span style={{
+              background: "linear-gradient(135deg, #0084FF, #4fa8ff)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text"
+            }}>Ponijeri</span>
+          </h2>
+        </motion.div>
+
+        {/* Cards grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
+          <TravelCard
+            href="https://www.instagram.com/visit.ponijeri"
+            image={Insta}
+            icon={FaInstagram}
+            title="Visit Ponijeri"
+            subtitle="Pratite nas na Instagramu za najnovije vijesti i fotografije."
+            cta="@visit.ponijeri"
+            delay={0.1}
+          />
+          <TravelCard
+            href="https://www.instagram.com/p/DDKNvetIsgU/?hl=en"
+            image={Autobus}
+            icon={FaBusAlt}
+            title="Autobuska linija"
+            subtitle="Redovna linija iz Kaknja — praktičan prijevoz do Ponijera."
+            cta="Provjeri raspored"
+            delay={0.25}
+          />
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

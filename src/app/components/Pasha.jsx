@@ -1,43 +1,111 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import PashaImg from "../images/pasha.jpg";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { FaUtensils, FaStar, FaLeaf } from "react-icons/fa";
 
 export default function Pasha() {
+  const [ref, inView] = useInView({ threshold: 0.15, triggerOnce: true });
+
   return (
-    <div className="px-6 sm:px-12 md:px-16 lg:px-24 py-8 sm:py-12 md:py-16 cursor-default text-gray-700 flex flex-wrap lg:flex-nowrap justify-center lg:justify-between items-center">
-      {/* Image Section */}
-      <div className="relative group cursor-pointer mb-8 lg:mb-0 flex-shrink-0 w-full sm:w-auto">
-        <Image
-          className="border-4 border-blue-300 rounded-lg transition-transform duration-300 transform group-hover:rotate-6"
-          alt="eko"
-          src={PashaImg}
-          width={800}
-          height={800}
-        />
+    <section
+      className="section-padding relative overflow-hidden"
+      style={{
+        background: "linear-gradient(135deg, rgba(235,246,255,0.8) 0%, rgba(255,255,255,0.9) 100%)",
+      }}
+    >
+      <div ref={ref} className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-20 items-center">
+          {/* Text */}
+          <motion.div
+            initial={{ opacity: 0, x: -32 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="space-y-6 order-2 lg:order-1"
+          >
+            <div className="flex items-center gap-3">
+              <div className="h-px w-12" style={{ background: "linear-gradient(90deg, rgba(0,132,255,0.4), transparent)" }} />
+              <span className="text-main-color-lighter-green text-sm font-semibold uppercase tracking-widest">Restoran</span>
+            </div>
+
+            <h2 className="font-playwrite-hr text-3xl sm:text-4xl md:text-5xl font-bold text-main-color-dark-green leading-tight">
+              Sofra{" "}
+              <span style={{
+                background: "linear-gradient(135deg, #0084FF, #4fa8ff)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}>
+                Pasha
+              </span>
+            </h2>
+
+            <div
+              className="h-px w-full"
+              style={{ background: "linear-gradient(90deg, rgba(0,132,255,0.3), transparent)" }}
+            />
+
+            <div className="space-y-4 text-gray-600 text-base sm:text-lg leading-relaxed">
+              <p>
+                Sofra Pasha predstavlja jedinstveno utočište koje spaja luksuz,
+                prirodu i autentičnost. Deset moderno opremljenih apartmana
+                s pogledom na predivne krajolike Ponijera.
+              </p>
+              <p>
+                Restoran u sklopu kompleksa prava je kulinarska oaza — specijali-
+                teti tradicionalne kuhinje i pažljivo osmišljena jela moderne kuhinje
+                za najzahtjevnije goste.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3 pt-2">
+              {[
+                { icon: FaUtensils, text: "Tradicionalna kuhinja" },
+                { icon: FaStar, text: "Premium iskustvo" },
+                { icon: FaLeaf, text: "Lokalne namirnice" },
+              ].map(({ icon: Icon, text }) => (
+                <div
+                  key={text}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-main-color-dark-green"
+                  style={{
+                    background: "rgba(0,132,255,0.08)",
+                    border: "1px solid rgba(0,132,255,0.15)",
+                  }}
+                >
+                  <Icon className="text-main-color-lighter-green text-sm" />
+                  {text}
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Image */}
+          <motion.div
+            initial={{ opacity: 0, x: 32 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="order-1 lg:order-2"
+          >
+            <div
+              className="tilt-card rounded-2xl overflow-hidden"
+              style={{
+                border: "2px solid rgba(0,132,255,0.15)",
+                boxShadow: "0 20px 60px rgba(0,47,90,0.15)",
+              }}
+            >
+              <Image
+                alt="Sofra Pasha"
+                src={PashaImg}
+                width={700}
+                height={500}
+                className="w-full h-auto object-cover"
+              />
+            </div>
+          </motion.div>
+        </div>
       </div>
-      {/* Text Section */}
-      <div className="flex flex-col text-justify max-w-full sm:max-w-xl lg:max-w-2xl space-y-8">
-        <h1 className="font-playwrite-hr text-4xl sm:text-5xl md:text-6xl font-bold text-gray-600 leading-tight">
-          Sofra Pasha
-        </h1>
-        <div className="p-1 bg-gray-600"></div>
-        <p className="text-base sm:text-lg md:text-xl leading-relaxed">
-          Sofra Pasha predstavlja jedinstveno utočište koje spaja luksuz,
-          prirodu i autentičnost. Svojim posjetiteljima nudi deset moderno
-          opremljenih apartmana koji odišu toplinom i pažljivo biranim
-          detaljima, pružajući maksimalnu udobnost i osjećaj doma daleko od
-          doma. Svaki apartman ima pogled na predivne krajolike Ponijera, koji
-          oduzimaju dah u svako doba godine.
-          <br />
-          <br />
-          Restoran u sklopu kompleksa prava je kulinarska oaza. Gosti mogu
-          uživati u izvrsnim specijalitetima tradicionalne kuhinje,
-          pripremljenim s lokalnim i svježim namirnicama. Tu su i pažljivo
-          osmišljena jela moderne kuhinje, koja zadovoljavaju i najzahtjevnije
-          nepce. Svaki detalj u pripremi i posluživanju jela osmišljen je kako
-          bi pružio nezaboravno iskustvo.
-        </p>
-      </div>
-    </div>
+    </section>
   );
 }

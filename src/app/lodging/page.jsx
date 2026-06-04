@@ -2,126 +2,159 @@
 import React from "react";
 import Image from "next/image";
 import apartman1 from "../images/apartman1.jpg";
-import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
+import { FaMapMarkerAlt, FaStar, FaWifi, FaParking, FaSnowflake } from "react-icons/fa";
+import { MdApartment } from "react-icons/md";
 import { motion } from "framer-motion";
+
+const FEATURES = [
+  { icon: FaSnowflake, label: "Grijane sobe", desc: "Toplo i udobno" },
+  { icon: FaParking, label: "Besplatan parking", desc: "Za sve goste" },
+  { icon: FaMapMarkerAlt, label: "Blizina staza", desc: "Odmah uz skijalište" },
+  { icon: FaWifi, label: "Moderna oprema", desc: "Sve što trebate" },
+];
 
 export default function Page() {
   return (
-    <div className="w-full h-full cursor-default relative">
-      <div className="pt-24 px-4 sm:px-8">
-        {/* Title Section */}
-        <motion.h1
-          className="text-4xl sm:text-5xl md:text-6xl font-playwrite-hr font-bold text-center text-gray-600 mb-8"
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          Apartmani Ponijeri
-        </motion.h1>
-
-        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 max-w-5xl mx-auto">
-          {/* Apartman Image Section */}
+    <div className="min-h-screen pt-20">
+      {/* Header */}
+      <div
+        className="relative py-20 overflow-hidden"
+        style={{ background: "linear-gradient(160deg, #0a1628 0%, #001f3f 50%, #002F5A 100%)" }}
+      >
+        <div className="absolute inset-0"
+          style={{ backgroundImage: "radial-gradient(ellipse at 70% 50%, rgba(0,132,255,0.12) 0%, transparent 60%)" }}
+        />
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <motion.div
-            className="w-full lg:w-2/3 relative"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.2 }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
           >
-            <Image
-              alt="Apartman Ponijeri"
-              src={apartman1}
-              className="shadow-lg rounded-lg hover:scale-105 transition-transform duration-200"
-              width={600}
-              height={400}
-            />
+            <span
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium text-blue-200 mb-6"
+              style={{ background: "rgba(0,132,255,0.2)", border: "1px solid rgba(0,132,255,0.3)" }}
+            >
+              <MdApartment className="text-xs" />
+              Smještaj
+            </span>
+            <h1 className="font-playwrite-hr text-4xl sm:text-6xl font-bold text-white mb-4">
+              Apartmani{" "}
+              <span style={{
+                background: "linear-gradient(135deg, #0084FF, #4fa8ff)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}>Ponijeri</span>
+            </h1>
+            <p className="text-white/60 text-lg max-w-xl mx-auto">
+              Moderni smještaj u srcu planine — idealno za porodice, parove i grupe.
+            </p>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Main content */}
+      <div className="max-w-6xl mx-auto px-6 py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          {/* Image */}
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <div
+              className="tilt-card rounded-2xl overflow-hidden"
+              style={{
+                border: "2px solid rgba(0,132,255,0.15)",
+                boxShadow: "0 20px 60px rgba(0,47,90,0.15)",
+              }}
+            >
+              <Image
+                alt="Apartman Ponijeri"
+                src={apartman1}
+                width={700}
+                height={500}
+                className="w-full h-auto object-cover"
+              />
+            </div>
+
+            {/* Rating */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="flex items-center gap-3 mt-4 px-2"
+            >
+              <div className="flex items-center gap-1">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <FaStar key={i} className="text-yellow-400 text-base" />
+                ))}
+              </div>
+              <span className="text-gray-500 text-sm font-medium">5.0 / 5.0 — Odlično</span>
+            </motion.div>
           </motion.div>
 
-          {/* Apartman Info Section */}
-          <div className="lg:w-1/2 mt-6 lg:mt-0 px-4 sm:px-0">
-            <motion.h2
-              className="text-2xl sm:text-3xl font-bold text-main-color-lighter-green mb-4"
-              initial={{ opacity: 0, y: -30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 1 }}
-            >
-              O Apartmanima
-            </motion.h2>
-
-            <motion.p
-              className="text-base sm:text-lg md:text-xl leading-relaxed mb-4 text-gray-600 dark:text-gray-600"
-              initial={{ opacity: 0, y: -30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 1 }}
-            >
-              Smješteni u srcu Ponijera, apartmani nude idealno mjesto za
-              uživanje u prirodi i miru. Pogodni su za porodice, parove ili
-              grupe prijatelja koji žele bijeg od gradske vreve. Sadržaji
-              uključuju moderno opremljene sobe, kuhinju, i blizinu skijališta.
-            </motion.p>
-
-            {/* Feature List */}
-            <motion.ul
-              className="list-disc text-gray-600 list-inside text-base sm:text-lg md:text-xl leading-relaxed"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 1 }}
-            >
-              <li>Komforni smještaj s grijanim sobama</li>
-              <li>Pristup skijalištu u blizini</li>
-              <li>Prostrano dvorište za aktivnosti na otvorenom</li>
-              <li>Besplatan parking za goste</li>
-            </motion.ul>
-
-            {/* Rating Section */}
-            <motion.div
-              className="mt-6 flex items-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6, duration: 1 }}
-            >
-              <span className="text-xl font-bold text-gray-600">Ocjena:</span>
-              <div className="flex items-center ml-3">
-                <FaStar className="text-yellow-500 text-2xl" />
-                <FaStar className="text-yellow-500 text-2xl" />
-                <FaStar className="text-yellow-500 text-2xl" />
-                <FaStar className="text-yellow-500 text-2xl" />
-                <FaStar className="text-yellow-500 text-2xl" />
-                <span className="ml-3 text-lg text-gray-600">5.0 / 5.0</span>
+          {/* Details */}
+          <motion.div
+            initial={{ opacity: 0, x: 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="space-y-6"
+          >
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="h-px w-12" style={{ background: "linear-gradient(90deg, rgba(0,132,255,0.4), transparent)" }} />
+                <span className="text-main-color-lighter-green text-sm font-semibold uppercase tracking-widest">O apartmanima</span>
               </div>
-            </motion.div>
+              <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
+                Smješteni u srcu Ponijera, apartmani nude idealno mjesto za uživanje
+                u prirodi i miru. Pogodni su za porodice, parove ili grupe prijatelja
+                koji žele bijeg od gradske vreve.
+              </p>
+            </div>
 
-            {/* Location Button */}
-            <motion.div
-              className="mt-6"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7, duration: 1 }}
-            >
-              <div className="flex items-center text-lg text-gray-600">
-                <FaMapMarkerAlt className="mr-2 text-main-color-dark-green text-xl" />
-                <span className="font-semibold">
-                  Ponijeri, Bosna i Hercegovina
-                </span>
-              </div>
-            </motion.div>
+            {/* Features grid */}
+            <div className="grid grid-cols-2 gap-3">
+              {FEATURES.map(({ icon: Icon, label, desc }) => (
+                <div
+                  key={label}
+                  className="flex items-start gap-3 p-4 rounded-xl"
+                  style={{
+                    background: "rgba(0,132,255,0.06)",
+                    border: "1px solid rgba(0,132,255,0.12)",
+                  }}
+                >
+                  <Icon className="text-main-color-lighter-green mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-semibold text-main-color-dark-green text-sm">{label}</p>
+                    <p className="text-gray-500 text-xs">{desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-            {/* Booking Button */}
-            <motion.div
-              className="mt-6"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8, duration: 1 }}
+            {/* Location */}
+            <div className="flex items-center gap-2 text-gray-500 text-sm">
+              <FaMapMarkerAlt className="text-main-color-lighter-green flex-shrink-0" />
+              <span>Ponijeri, Kakanj — Bosna i Hercegovina</span>
+            </div>
+
+            {/* CTA */}
+            <a
+              href="https://www.booking.com/hotel/ba/apartmani-ponijeri.hr.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-105"
+              style={{
+                background: "linear-gradient(135deg, #0084FF, #005fcc)",
+                boxShadow: "0 0 40px rgba(0,132,255,0.35)",
+              }}
             >
-              <a
-                href="https://www.booking.com/hotel/ba/apartmani-ponijeri.hr.html"
-                className="inline-block bg-main-color-lighter-green text-white font-bold py-3 px-6 mb-12 hover:bg-main-color-dark-green transition-colors rounded-md"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Rezervišite Sada
-              </a>
-            </motion.div>
-          </div>
+              <MdApartment />
+              Rezervišite na Booking.com
+              <span>→</span>
+            </a>
+          </motion.div>
         </div>
       </div>
     </div>

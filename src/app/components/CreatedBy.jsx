@@ -2,26 +2,22 @@ import React from "react";
 
 export default function CreatedBy() {
   return (
-    <footer
-      className="bg-gray-800  text-white"
+    <div
+      className="text-center py-2 text-xs"
       style={{
-        textAlign: "center",
-        padding: "5px",
-        fontSize: "14px",
+        background: "#060d1a",
+        color: "rgba(255,255,255,0.25)",
       }}
     >
-      <div className="flex text-center justify-center">
-        <p className="mr-2">Created by Aydhiny.</p>
-        <p className="mr-2"> Check out my work on</p>
-        <a
-          className="text-blue-500"
-          href="https://github.com/Aydhiny"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          GitHub
-        </a>
-      </div>
-    </footer>
+      Built by{" "}
+      <a
+        href="https://github.com/Aydhiny"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="hover:text-white/50 transition-colors"
+      >
+        Aydhiny
+      </a>
+    </div>
   );
 }
