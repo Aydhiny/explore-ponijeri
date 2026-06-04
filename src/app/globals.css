@@ -132,7 +132,7 @@ body {
   opacity: 0;
   pointer-events: none;
   user-select: none;
-  z-index: 8;
+  z-index: 4;
   animation: snowfall var(--snow-duration, 12s) linear var(--snow-delay, 0s) infinite;
   text-shadow: 0 0 6px rgba(120,200,255,0.6);
 }

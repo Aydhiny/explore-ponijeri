@@ -19,28 +19,33 @@ const LINKS = [
 ];
 
 export default function Navbar() {
-  const [scrolled,    setScrolled]    = useState(false);
-  const [navVisible,  setNavVisible]  = useState(true);
-  const [open,        setOpen]        = useState(false);
-  const lastY = useRef(0);
   const pathname = usePathname();
+  const isHome = pathname === "/";
+
+  // Non-home pages always start in pill state (they have white/light backgrounds)
+  const [scrolled,   setScrolled]   = useState(!isHome);
+  const [navVisible, setNavVisible] = useState(true);
+  const [open,       setOpen]       = useState(false);
+  const lastY = useRef(0);
 
   useEffect(() => {
     const handler = () => {
       const y = window.scrollY;
-      if (y <= 60) {
+      if (isHome && y <= 60) {
         setScrolled(false);
         setNavVisible(true);
       } else {
         setScrolled(true);
-        if (y > lastY.current + 6 && y > 220) setNavVisible(false);
-        if (y < lastY.current - 6)            setNavVisible(true);
+        // Only hide-on-scroll-down on the home page
+        if (isHome && y > lastY.current + 6 && y > 220) setNavVisible(false);
+        if (y < lastY.current - 6) setNavVisible(true);
+        if (!isHome) setNavVisible(true);
       }
       lastY.current = y;
     };
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
-  }, []);
+  }, [isHome]);
 
   useEffect(() => { setOpen(false); }, [pathname]);
 
