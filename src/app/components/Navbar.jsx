@@ -123,10 +123,10 @@ export default function Navbar() {
             animate={{ y: 0,   opacity: 1 }}
             exit={{ y: -80,    opacity: 0 }}
             transition={{ type: "spring", stiffness: 280, damping: 30 }}
-            className="fixed top-4 inset-x-4 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 z-50 sm:w-auto sm:max-w-2xl w-[calc(100%-2rem)]"
+            className="fixed top-4 inset-x-0 z-50 flex justify-center px-4"
           >
             <div
-              className="flex items-center gap-2 px-3 py-2.5 rounded-full"
+              className="flex items-center gap-2 px-3 py-2.5 rounded-full w-full max-w-[680px]"
               style={{
                 background: "rgba(244,249,255,0.88)",
                 backdropFilter: "blur(28px)",
