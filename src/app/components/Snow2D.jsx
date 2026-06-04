@@ -27,15 +27,15 @@ export default function Snow2D() {
     sc.fillStyle = sg;
     sc.fillRect(0, 0, SZ, SZ);
 
-    const COUNT = Math.min(Math.floor((W * H) / 6500), 320);
+    const COUNT = Math.min(Math.floor((W * H) / 7000), 260);
 
     const p = Array.from({ length: COUNT }, () => ({
       x:     Math.random() * W,
       y:     Math.random() * H,
-      r:     1.2 + Math.random() * 2.8,
-      vy:    0.35 + Math.random() * 0.75,
+      r:     0.5 + Math.random() * 1.4,   // much smaller
+      vy:    0.3 + Math.random() * 0.65,
       phase: Math.random() * Math.PI * 2,
-      alpha: 0.28 + Math.random() * 0.55,
+      alpha: 0.15 + Math.random() * 0.32, // much more subtle
     }));
 
     let frame, t = 0;

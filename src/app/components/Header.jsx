@@ -67,22 +67,24 @@ export default function Header() {
       {/* ── Blue tint — turns B&W photo into deep winter navy ────── */}
       <div
         className="absolute inset-0 z-[1]"
-        style={{ background: "rgba(8,28,88,0.58)" }}
+        style={{ background: "rgba(8,28,88,0.52)" }}
       />
 
-      {/* ── Edge vignette + top darkness for text readability ────── */}
+      {/* ── Left panel dark scrim — text contrast ────────────────── */}
       <div
         className="absolute inset-0 z-[2]"
         style={{
           background:
-            "linear-gradient(180deg, rgba(2,8,30,0.55) 0%, transparent 38%, transparent 58%, rgba(2,8,30,0.65) 100%)",
+            "linear-gradient(to right, rgba(2,8,28,0.82) 0%, rgba(2,8,28,0.65) 35%, rgba(2,8,28,0.20) 60%, transparent 80%)",
         }}
       />
+
+      {/* ── Top + bottom vignette ─────────────────────────────────── */}
       <div
         className="absolute inset-0 z-[2]"
         style={{
           background:
-            "radial-gradient(ellipse at 60% 45%, transparent 35%, rgba(2,6,22,0.45) 100%)",
+            "linear-gradient(180deg, rgba(2,8,28,0.40) 0%, transparent 30%, transparent 70%, rgba(2,8,28,0.55) 100%)",
         }}
       />
 
@@ -120,19 +122,20 @@ export default function Header() {
             className="font-display leading-[0.85] mb-9 select-none"
             style={{ fontSize: "clamp(4.5rem, 12vw, 10.5rem)" }}
           >
-            {/* Ghost italic "Explore" */}
-            <span className="block font-light italic" style={{ color: "rgba(255,255,255,0.11)" }}>
+            {/* Ghost italic "Explore" — barely there */}
+            <span className="block font-light italic" style={{ color: "rgba(255,255,255,0.07)" }}>
               Explore
             </span>
-            {/* "Ponijeri" — strong vertical blue gradient */}
+            {/* "Ponijeri" — near-white at top flowing to strong blue */}
             <span
               className="block font-bold not-italic"
               style={{
                 background:
-                  "linear-gradient(180deg, #f0f8ff 0%, #b0d8ff 22%, #4aaaff 52%, #0d5add 78%, #001e88 100%)",
+                  "linear-gradient(180deg, #ffffff 0%, #d0e8ff 25%, #5ab4ff 55%, #1055dd 82%, #002299 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
+                filter: "drop-shadow(0 2px 24px rgba(80,170,255,0.35))",
               }}
             >
               Ponijeri
@@ -253,10 +256,10 @@ export default function Header() {
         </motion.div>
       </motion.button>
 
-      {/* ── Fade to next section ─────────────────────────────────── */}
+      {/* ── Bottom edge — dark strip so section cut is clean ────── */}
       <div
         className="absolute bottom-0 inset-x-0 z-[3] pointer-events-none"
-        style={{ height: "130px", background: "linear-gradient(to bottom, transparent, white)" }}
+        style={{ height: "80px", background: "linear-gradient(to bottom, transparent, rgba(2,8,28,0.70))" }}
       />
     </section>
   );
