@@ -108,8 +108,8 @@ export default function Header() {
             transition={{ duration: 0.55, delay: 0.2 }}
             className="flex items-center gap-3 mb-8"
           >
-            <span className="h-px w-8 bg-white/25" />
-            <span className="text-[10px] tracking-[0.35em] font-bold uppercase text-white/45">
+            <span className="h-px w-8 bg-white/40" />
+            <span className="text-[10px] tracking-[0.35em] font-bold uppercase text-white/70">
               Kakanj · Bosna i Hercegovina · 1200m
             </span>
           </motion.div>
@@ -151,7 +151,7 @@ export default function Header() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -7 }}
                 transition={{ duration: 0.22 }}
-                className="text-[11px] tracking-[0.32em] uppercase font-medium text-white/38"
+                className="text-[11px] tracking-[0.32em] uppercase font-medium text-white/70"
               >
                 {TAGLINES[tagIdx]}
               </motion.p>
@@ -170,8 +170,8 @@ export default function Header() {
               onClick={() => scrollTo("showcase")}
               className="group relative flex items-center gap-3 px-8 py-3.5 rounded-full overflow-hidden"
               style={{
-                background: "rgba(255,255,255,0.10)",
-                border: "1px solid rgba(255,255,255,0.22)",
+                background: "rgba(255,255,255,0.15)",
+                border: "1px solid rgba(255,255,255,0.38)",
                 backdropFilter: "blur(18px)",
                 WebkitBackdropFilter: "blur(18px)",
               }}
@@ -180,16 +180,16 @@ export default function Header() {
                 className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 style={{ background: "rgba(255,255,255,0.07)" }}
               />
-              <span className="relative text-[11px] font-bold tracking-[0.24em] uppercase text-white/88">
+              <span className="relative text-[11px] font-bold tracking-[0.24em] uppercase text-white">
                 Istraži Resort
               </span>
-              <FiArrowRight className="relative text-white/55 group-hover:translate-x-0.5 transition-transform duration-200 text-xs" />
+              <FiArrowRight className="relative text-white/70 group-hover:translate-x-0.5 transition-transform duration-200 text-xs" />
             </button>
 
             {/* Secondary — text only */}
             <button
               onClick={() => scrollTo("about")}
-              className="group flex items-center gap-2 text-[11px] font-medium tracking-[0.22em] uppercase text-white/34 hover:text-white/60 transition-colors duration-200"
+              className="group flex items-center gap-2 text-[11px] font-medium tracking-[0.22em] uppercase text-white/65 hover:text-white transition-colors duration-200"
             >
               O nama
               <span className="h-px w-0 group-hover:w-5 bg-white/28 transition-all duration-300 block" />
@@ -202,7 +202,7 @@ export default function Header() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 1.0 }}
             className="flex items-center gap-8"
-            style={{ borderTop: "1px solid rgba(255,255,255,0.10)", paddingTop: "1.4rem", maxWidth: "460px" }}
+            style={{ borderTop: "1px solid rgba(255,255,255,0.20)", paddingTop: "1.4rem", maxWidth: "460px" }}
           >
             {[
               { val: "5",     sub: "ski staza"  },
@@ -211,8 +211,8 @@ export default function Header() {
               { val: "Noćno", sub: "skijanje"   },
             ].map((s, i) => (
               <div key={i} className="flex flex-col gap-0.5">
-                <span className="font-display font-bold text-base leading-none text-white/82">{s.val}</span>
-                <span className="text-[8px] tracking-[0.24em] uppercase text-white/28">{s.sub}</span>
+                <span className="font-display font-bold text-base leading-none text-white">{s.val}</span>
+                <span className="text-[8px] tracking-[0.24em] uppercase text-white/60">{s.sub}</span>
               </div>
             ))}
           </motion.div>
@@ -245,7 +245,7 @@ export default function Header() {
       {/* ── Scroll cue ───────────────────────────────────────────── */}
       <motion.button
         onClick={() => scrollTo("about")}
-        className="absolute bottom-7 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-white/22 hover:text-white/50 transition-colors"
+        className="absolute bottom-7 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-white/45 hover:text-white/70 transition-colors"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.5 }}
