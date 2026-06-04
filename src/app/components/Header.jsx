@@ -9,7 +9,7 @@ import dynamic from "next/dynamic";
 // Load Three.js snow only client-side (no SSR)
 const SnowCanvas = dynamic(() => import("./SnowCanvas"), { ssr: false });
 
-const BG = new URL("../images/ponijeri.jpg", import.meta.url);
+import BG from "../images/ponijeri.jpg";
 
 const WORDS = ["Planina.", "Priroda.", "Avangarda."];
 

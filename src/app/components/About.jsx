@@ -120,26 +120,28 @@ export default function About() {
           <div className="grid grid-cols-2 gap-4">
             <Reveal delay={0.18} className="col-span-1">
               <div
-                className="tilt-card rounded-2xl overflow-hidden aspect-[3/4]"
+                className="tilt-card relative rounded-2xl overflow-hidden aspect-[3/4]"
                 style={{ border: "1px solid rgba(0,132,255,0.12)" }}
               >
                 <Image
                   src={AboutImage}
                   alt="Ponijeri ljeto"
                   fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
                   className="object-cover"
                 />
               </div>
             </Reveal>
             <Reveal delay={0.28} className="col-span-1 mt-10">
               <div
-                className="tilt-card rounded-2xl overflow-hidden aspect-[3/4]"
+                className="tilt-card relative rounded-2xl overflow-hidden aspect-[3/4]"
                 style={{ border: "1px solid rgba(0,132,255,0.12)" }}
               >
                 <Image
                   src={AboutImage2}
                   alt="Ponijeri priroda"
                   fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
                   className="object-cover"
                 />
               </div>

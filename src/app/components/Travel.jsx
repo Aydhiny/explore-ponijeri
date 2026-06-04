@@ -28,6 +28,7 @@ function Card({ href, image, icon: Icon, title, sub, cta, delay }) {
             src={image}
             alt={title}
             fill
+            sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover transition-transform duration-500 group-hover:scale-103"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/35 to-transparent" />
