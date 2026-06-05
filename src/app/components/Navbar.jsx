@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import kakanj from "../images/kakanj.png";
 import { usePathname } from "next/navigation";
@@ -22,26 +22,13 @@ export default function Navbar() {
   const pathname = usePathname();
   const isHome = pathname === "/";
 
-  // Non-home pages always start in pill state (they have white/light backgrounds)
-  const [scrolled,   setScrolled]   = useState(!isHome);
-  const [navVisible, setNavVisible] = useState(true);
-  const [open,       setOpen]       = useState(false);
-  const lastY = useRef(0);
+  // Non-home pages always start in pill state
+  const [scrolled, setScrolled] = useState(!isHome);
+  const [open,     setOpen]     = useState(false);
 
   useEffect(() => {
     const handler = () => {
-      const y = window.scrollY;
-      if (isHome && y <= 60) {
-        setScrolled(false);
-        setNavVisible(true);
-      } else {
-        setScrolled(true);
-        // Only hide-on-scroll-down on the home page
-        if (isHome && y > lastY.current + 6 && y > 220) setNavVisible(false);
-        if (y < lastY.current - 6) setNavVisible(true);
-        if (!isHome) setNavVisible(true);
-      }
-      lastY.current = y;
+      setScrolled(isHome ? window.scrollY > 60 : true);
     };
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
@@ -117,7 +104,7 @@ export default function Navbar() {
 
       {/* ── Floating pill (scrolled state) ───────────────────── */}
       <AnimatePresence>
-        {scrolled && navVisible && (
+        {scrolled && (
           <motion.div
             initial={{ y: -80, opacity: 0 }}
             animate={{ y: 0,   opacity: 1 }}

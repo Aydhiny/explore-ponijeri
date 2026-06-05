@@ -17,7 +17,11 @@ export default function WeatherDisplay({ scrolled = true }) {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading || temp === null) return null;
+  // Reserve space during load so the nav doesn't jump
+  if (loading) return (
+    <div className="hidden sm:block" style={{ width: 62, height: 28 }} />
+  );
+  if (temp === null) return null;
 
   const snowy = temp <= 2;
   const color = "rgba(0,47,90,0.7)";
