@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import BG from "../images/ponijeri.jpg";
+// 4K aerial mountain range — Lukas Seitz / Unsplash
+const BG = "https://images.unsplash.com/photo-1743376272672-c130603a3af2?w=3840&q=92&fit=crop&auto=format";
 import { motion } from "framer-motion";
 import { FiArrowUpRight, FiArrowDown } from "react-icons/fi";
 import Snow2D from "./Snow2D";

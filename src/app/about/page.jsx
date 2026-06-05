@@ -1,199 +1,170 @@
 "use client";
-import React from "react";
 import Image from "next/image";
 import opcina from "../images/opcina-kakanj.png";
-import AboutImage from "../images/ponijeri-about.jpg";
 import { motion } from "framer-motion";
-import { FaPhone, FaEnvelope, FaMountain } from "react-icons/fa";
+import { useInView } from "react-intersection-observer";
+import { FaPhone, FaEnvelope, FaMountain, FaLeaf, FaGem } from "react-icons/fa";
+import PageHero from "../components/PageHero";
+
+const ABOUT_BG = "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?w=2400&q=88&fit=crop&auto=format";
 
 const STATS = [
   { value: "1200m", label: "Nadmorska visina" },
-  { value: "20km", label: "Od Kaknja" },
-  { value: "1297m", label: "Vrh Tajan" },
-  { value: "4", label: "Susjedne općine" },
+  { value: "20 km", label: "Od Kaknja"        },
+  { value: "1297m", label: "Vrh Tajan"        },
+  { value: "4",     label: "Susjedne općine"  },
+];
+
+const SECTIONS = [
+  {
+    icon: FaMountain,
+    title: "Prirodni dragulj Bosne",
+    text: "Izletište Ponijeri se nalaze u sastavu masiva Ravne Planine koja se pruža između općina Kakanj, Zavidovići, Vareš i Zenica s najvećim vrhom Tajan na nadmorskoj visini od 1297 metara.",
+  },
+  {
+    icon: FaLeaf,
+    title: "Kraški fenomeni",
+    text: "Centralni dio Ponijera izgrađen je od trijaskih vapnanaca koji su razvili kraške formacije — malo kraško polje, 3 veće uvale, mnogobrojna ponore, pećine i jame.",
+  },
+  {
+    icon: FaGem,
+    title: "Minerali i bogatstvo",
+    text: "Ovdje se mogu pronaći minerali: kvarc, jaspis, limonit, serpentin, olivin, opal, hematit, kalcit, gips i liksun. Vode s Ponijerskog polja izviru kao vrelo rijeke Žuće.",
+  },
 ];
 
 export default function AboutPage() {
+  const [ref, inView] = useInView({ threshold: 0.07, triggerOnce: true });
+  const [contactRef, contactInView] = useInView({ threshold: 0.2, triggerOnce: true });
+
   return (
-    <div className="min-h-screen pt-20">
-      {/* Hero */}
-      <div
-        className="relative py-24 sm:py-32 overflow-hidden"
-        style={{
-          background: "linear-gradient(160deg, #0a1628 0%, #001f3f 50%, #002F5A 100%)",
-        }}
-      >
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-20"
-          style={{ backgroundImage: `url(${AboutImage.src})` }}
-        />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 60%, #d8ecff 100%)" }} />
+    <div className="min-h-screen">
+      <PageHero
+        label="Planinsko izletište · Kakanj"
+        title="O Ponijerima"
+        subtitle="Ponijeri — zimski dragulj općine Kakanj, na 1200m nadmorske visine, u srcu netaknute prirode i beskrajne tišine."
+        bgSrc={ABOUT_BG}
+        bgPosition="center 50%"
+        height="min-h-[62vh]"
+      />
 
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            <span
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium text-blue-200 mb-6"
-              style={{ background: "rgba(0,132,255,0.2)", border: "1px solid rgba(0,132,255,0.3)" }}
-            >
-              <FaMountain className="text-xs" />
-              Planinsko izletište
-            </span>
-
-            <h1 className="font-playwrite-hr text-4xl sm:text-6xl md:text-7xl font-bold text-white mb-6">
-              O{" "}
-              <span style={{
-                background: "linear-gradient(135deg, #0084FF, #4fa8ff)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}>
-                Ponijerima
-              </span>
-            </h1>
-
-            <p className="text-white/70 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
-              Ponijeri, poznat kao zimski dragulj općine Kakanj, smješten je u srcu
-              prekrasne prirode i predstavlja savršeno mjesto za ljubitelje skijanja
-              i rekreativnih aktivnosti.
-            </p>
-          </motion.div>
+      {/* ── Stats strip ─────────────────────────────────────────── */}
+      <div style={{ background: "#050e20", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="max-w-7xl mx-auto px-8 sm:px-14 xl:px-20 py-7 grid grid-cols-2 sm:grid-cols-4 gap-6">
+          {STATS.map(({ value, label }, i) => (
+            <div key={label} className="flex flex-col gap-0.5">
+              <span className="font-display italic font-light text-2xl leading-none"
+                    style={{ color: "rgba(255,255,255,0.88)" }}>{value}</span>
+              <span className="font-sans text-[9px] tracking-[0.28em] uppercase"
+                    style={{ color: "rgba(160,200,255,0.42)" }}>{label}</span>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Stats */}
-      <div className="max-w-5xl mx-auto px-6 -mt-8 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-4"
-        >
-          {STATS.map(({ value, label }) => (
-            <div
-              key={label}
-              className="text-center p-5 rounded-2xl"
-              style={{
-                background: "rgba(255,255,255,0.8)",
-                backdropFilter: "blur(12px)",
-                border: "1px solid rgba(0,132,255,0.12)",
-                boxShadow: "0 4px 24px rgba(0,47,90,0.1)",
-              }}
-            >
-              <div className="text-2xl sm:text-3xl font-bold text-main-color-lighter-green mb-1">{value}</div>
-              <div className="text-xs text-gray-500">{label}</div>
-            </div>
-          ))}
-        </motion.div>
-      </div>
+      {/* ── Content ─────────────────────────────────────────────── */}
+      <div ref={ref} className="bg-white">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 xl:px-16 py-20 xl:py-28">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 xl:gap-20 items-start">
 
-      {/* Content */}
-      <div className="max-w-5xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          {/* Text */}
-          <motion.div
-            initial={{ opacity: 0, x: -24 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="space-y-6"
-          >
-            <div>
-              <h2 className="font-jakarta font-bold text-2xl text-main-color-dark-green mb-4">
-                Prirodni dragulj Bosne
-              </h2>
-              <p className="text-gray-600 leading-relaxed">
-                Izletište Ponijeri se nalaze u sastavu masiva Ravne Planine koja se
-                pruža između općina Kakanj, Zavidovići, Vareš i Zenica s najvećim
-                vrhom Tajan na nadmorskoj visini od 1297 metara.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="font-jakarta font-bold text-2xl text-main-color-dark-green mb-4">
-                Geološke posebnosti
-              </h2>
-              <p className="text-gray-600 leading-relaxed">
-                Centralni dio Ponijera izgrađen je od trijaskih vapnanaca koji su
-                razvili kraške formacije — malo kraško polje, 3 veće uvale,
-                mnogobrojna ponore, pećine i jame.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="font-jakarta font-bold text-2xl text-main-color-dark-green mb-4">
-                Minerali i bogatstvo
-              </h2>
-              <p className="text-gray-600 leading-relaxed">
-                Ovdje se mogu pronaći minerali: kvarc, jaspis, limonit, serpentin,
-                olivin, opal, hematit, kalcit, gips i liksun. Vode s Ponijerskog
-                polja izviru kao vrelo rijeke Žuće — strogi prirodni rezervat.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Right side: Image + Contact */}
-          <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="space-y-6"
-          >
-            {/* Logo image */}
-            <div className="flex justify-center">
-              <Image
-                alt="Općina Kakanj"
-                src={opcina}
-                height={180}
-                width={180}
-                className="animate-float"
-                style={{
-                  borderRadius: "50%",
-                  padding: "16px",
-                  background: "rgba(207,237,255,0.5)",
-                  border: "2px solid rgba(0,132,255,0.2)",
-                  boxShadow: "0 0 40px rgba(0,132,255,0.15)",
-                }}
-              />
-            </div>
-
-            {/* Contact card */}
-            <div
-              className="rounded-2xl p-6 space-y-4"
-              style={{
-                background: "rgba(255,255,255,0.7)",
-                backdropFilter: "blur(16px)",
-                border: "1px solid rgba(0,132,255,0.12)",
-                boxShadow: "0 4px 24px rgba(0,47,90,0.08)",
-              }}
-            >
-              <h3 className="font-jakarta font-bold text-xl text-main-color-dark-green">
-                Kontakt informacije
-              </h3>
-              <div
-                className="h-px"
-                style={{ background: "linear-gradient(90deg, rgba(0,132,255,0.3), transparent)" }}
-              />
-              <div className="space-y-3">
-                <a
-                  href="mailto:opcinaka@bih.net.ba"
-                  className="flex items-center gap-3 text-gray-600 hover:text-main-color-lighter-green transition-colors"
+            {/* Text sections */}
+            <div className="space-y-10">
+              {SECTIONS.map(({ icon: Icon, title, text }, i) => (
+                <motion.div
+                  key={title}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: i * 0.12 }}
+                  className="flex gap-5"
                 >
-                  <FaEnvelope className="text-main-color-lighter-green flex-shrink-0" />
-                  opcinaka@bih.net.ba
-                </a>
-                <a
-                  href="tel:+38732771800"
-                  className="flex items-center gap-3 text-gray-600 hover:text-main-color-lighter-green transition-colors"
-                >
-                  <FaPhone className="text-main-color-lighter-green flex-shrink-0" />
-                  +387 32 771 800
-                </a>
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 mt-1"
+                    style={{ background: "rgba(0,132,255,0.08)", border: "1px solid rgba(0,132,255,0.14)" }}
+                  >
+                    <Icon className="text-brand text-sm" />
+                  </div>
+                  <div>
+                    <h2 className="font-display italic font-light text-brand-dark text-xl mb-2">
+                      {title}
+                    </h2>
+                    <p className="text-gray-500 leading-relaxed text-sm">{text}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Right — badge + contact */}
+            <motion.div
+              initial={{ opacity: 0, x: 16 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.25 }}
+              className="space-y-6 lg:pt-2"
+            >
+              {/* Opcina badge */}
+              <div className="flex justify-center lg:justify-start">
+                <Image
+                  alt="Općina Kakanj"
+                  src={opcina}
+                  height={160}
+                  width={160}
+                  className="animate-float"
+                  style={{
+                    borderRadius: "50%",
+                    padding: "14px",
+                    background: "rgba(207,237,255,0.45)",
+                    border: "2px solid rgba(0,132,255,0.15)",
+                    boxShadow: "0 0 40px rgba(0,132,255,0.10)",
+                  }}
+                />
               </div>
-            </div>
-          </motion.div>
+
+              {/* Contact card */}
+              <div
+                ref={contactRef}
+                className="rounded-2xl p-6 space-y-5"
+                style={{
+                  border: "1px solid rgba(0,132,255,0.10)",
+                  background: "rgba(247,251,255,0.80)",
+                  backdropFilter: "blur(12px)",
+                }}
+              >
+                <div>
+                  <p className="text-[9px] tracking-[0.4em] uppercase font-semibold text-brand mb-1">
+                    Kontakt
+                  </p>
+                  <h3 className="font-display italic font-light text-brand-dark"
+                      style={{ fontSize: "1.5rem" }}>
+                    Stupite u kontakt
+                  </h3>
+                </div>
+
+                <div className="h-px" style={{ background: "linear-gradient(90deg, rgba(0,132,255,0.2), transparent)" }} />
+
+                <div className="space-y-3">
+                  <a
+                    href="mailto:opcinaka@bih.net.ba"
+                    className="flex items-center gap-3 text-gray-500 hover:text-brand transition-colors duration-200 text-sm"
+                  >
+                    <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+                         style={{ background: "rgba(0,132,255,0.08)" }}>
+                      <FaEnvelope className="text-brand text-xs" />
+                    </div>
+                    opcinaka@bih.net.ba
+                  </a>
+                  <a
+                    href="tel:+38732771800"
+                    className="flex items-center gap-3 text-gray-500 hover:text-brand transition-colors duration-200 text-sm"
+                  >
+                    <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+                         style={{ background: "rgba(0,132,255,0.08)" }}>
+                      <FaPhone className="text-brand text-xs" />
+                    </div>
+                    +387 32 771 800
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
     </div>
