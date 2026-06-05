@@ -1,34 +1,22 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
-import BG    from "../images/ponijeri-2.jpg";
+import BG    from "../images/ponijeri.jpg";
 import opcina from "../images/opcina-kakanj.png";
-import { motion, AnimatePresence } from "framer-motion";
-import { FiArrowRight, FiArrowDown } from "react-icons/fi";
-import { Spotlight } from "./ui/Spotlight";
+import { motion } from "framer-motion";
+import { FiArrowUpRight, FiArrowDown } from "react-icons/fi";
 import Snow2D from "./Snow2D";
 
-const TAGLINES = ["Planina.", "Priroda.", "Avangarda."];
-
 export default function Header() {
-  const [tagIdx, setTagIdx] = useState(0);
-  const bgRef   = useRef(null);
-  const textRef = useRef(null);
+  const bgRef = useRef(null);
 
-  useEffect(() => {
-    const id = setInterval(() => setTagIdx(i => (i + 1) % TAGLINES.length), 3200);
-    return () => clearInterval(id);
-  }, []);
-
-  // Subtle dual-layer parallax
+  // Subtle photo parallax
   useEffect(() => {
     const h = (e) => {
+      if (!bgRef.current) return;
       const nx = e.clientX / window.innerWidth  - 0.5;
       const ny = e.clientY / window.innerHeight - 0.5;
-      if (bgRef.current)
-        bgRef.current.style.transform = `scale(1.06) translate(${nx * -8}px, ${ny * -5}px)`;
-      if (textRef.current)
-        textRef.current.style.transform = `translate(${nx * -14}px, ${ny * -7}px)`;
+      bgRef.current.style.transform = `scale(1.06) translate(${nx * -10}px, ${ny * -6}px)`;
     };
     window.addEventListener("mousemove", h, { passive: true });
     return () => window.removeEventListener("mousemove", h);
@@ -42,15 +30,14 @@ export default function Header() {
   };
 
   return (
-    <section className="relative w-full h-screen min-h-[640px] overflow-hidden">
+    <section className="relative w-full h-screen min-h-[640px] overflow-hidden bg-[#040c1e]">
 
-      {/* ── Background photo ─────────────────────────────────────── */}
-      {/* ponijeri-2.jpg is B&W — the blue tint overlay turns it cinematic deep-winter */}
+      {/* ── Photo — let it breathe ──────────────────────────────── */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <div
           ref={bgRef}
           className="absolute inset-[-3%]"
-          style={{ transform: "scale(1.06)", transition: "transform 1.0s cubic-bezier(0.16,1,0.3,1)" }}
+          style={{ transform: "scale(1.06)", transition: "transform 1.1s cubic-bezier(0.16,1,0.3,1)" }}
         >
           <Image
             src={BG}
@@ -58,197 +45,166 @@ export default function Header() {
             fill
             priority
             quality={92}
-            className="object-cover object-[center_38%]"
-            style={{ filter: "brightness(0.78) contrast(1.08)" }}
+            className="object-cover object-center"
           />
         </div>
       </div>
 
-      {/* ── Blue tint — turns B&W photo into deep winter navy ────── */}
+      {/* ── Base overlay — very light, just a hint ──────────────── */}
       <div
         className="absolute inset-0 z-[1]"
-        style={{ background: "rgba(8,28,88,0.52)" }}
+        style={{ background: "rgba(4,10,28,0.30)" }}
       />
 
-      {/* ── Left panel dark scrim — text contrast ────────────────── */}
+      {/* ── Top-left scrim — ONLY for headline readability ────────── */}
       <div
         className="absolute inset-0 z-[2]"
         style={{
           background:
-            "linear-gradient(to right, rgba(2,8,28,0.82) 0%, rgba(2,8,28,0.65) 35%, rgba(2,8,28,0.20) 60%, transparent 80%)",
+            "linear-gradient(135deg, rgba(4,10,28,0.75) 0%, rgba(4,10,28,0.50) 30%, transparent 58%)",
         }}
       />
 
-      {/* ── Top + bottom vignette ─────────────────────────────────── */}
+      {/* ── Bottom scrim — for cards ──────────────────────────── */}
       <div
         className="absolute inset-0 z-[2]"
         style={{
           background:
-            "linear-gradient(180deg, rgba(2,8,28,0.40) 0%, transparent 30%, transparent 70%, rgba(2,8,28,0.55) 100%)",
+            "linear-gradient(to top, rgba(4,10,28,0.80) 0%, rgba(4,10,28,0.40) 28%, transparent 50%)",
         }}
       />
 
-      {/* ── Aceternity spotlight (fires once on load) ────────────── */}
-      <Spotlight className="z-[3] -top-20 left-0 lg:left-10" fill="#5599ff" />
-
-      {/* ── 2D Canvas snow — soft circles, no WebGL ──────────────── */}
+      {/* ── Snow — very fine, barely there ──────────────────────── */}
       <Snow2D />
 
-      {/* ── Content ──────────────────────────────────────────────── */}
-      <div className="absolute inset-0 z-10 flex flex-col justify-center px-10 sm:px-16 xl:px-24 pb-20">
-        <div
-          ref={textRef}
-          style={{ transition: "transform 0.95s cubic-bezier(0.16,1,0.3,1)" }}
+      {/* ════════════════════════════════════════════════════════
+          HEADLINE — top left (Iceburg-style)
+          ════════════════════════════════════════════════════════ */}
+      <div className="absolute top-0 left-0 z-10 px-10 sm:px-14 xl:px-20 pt-24 sm:pt-28">
+
+        <motion.p
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="text-[10px] tracking-[0.38em] uppercase font-semibold mb-5"
+          style={{ color: "rgba(180,210,255,0.65)" }}
         >
+          Kakanj · BiH · 1200m
+        </motion.p>
 
-          {/* Location tag */}
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.2 }}
-            className="flex items-center gap-3 mb-8"
+        <motion.h1
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.95, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="font-sans font-black leading-[0.9] tracking-tight select-none"
+          style={{ fontSize: "clamp(3.8rem, 10vw, 9.5rem)" }}
+        >
+          {/* "Explore" — white, slightly muted */}
+          <span className="block text-white" style={{ opacity: 0.92 }}>
+            Explore
+          </span>
+          {/* "Ponijeri" — strong blue vertical gradient */}
+          <span
+            className="block"
+            style={{
+              background:
+                "linear-gradient(180deg, #ffffff 0%, #c0deff 28%, #4aaaff 58%, #0d5aee 85%, #001e99 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              filter: "drop-shadow(0 4px 32px rgba(60,150,255,0.40))",
+            }}
           >
-            <span className="h-px w-8 bg-white/40" />
-            <span className="text-[10px] tracking-[0.35em] font-bold uppercase text-white/70">
-              Kakanj · Bosna i Hercegovina · 1200m
-            </span>
-          </motion.div>
-
-          {/* Main headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 32 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.0, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display leading-[0.85] mb-9 select-none"
-            style={{ fontSize: "clamp(4.5rem, 12vw, 10.5rem)" }}
-          >
-            {/* Ghost italic "Explore" — barely there */}
-            <span className="block font-light italic" style={{ color: "rgba(255,255,255,0.07)" }}>
-              Explore
-            </span>
-            {/* "Ponijeri" — near-white at top flowing to strong blue */}
-            <span
-              className="block font-bold not-italic"
-              style={{
-                background:
-                  "linear-gradient(180deg, #ffffff 0%, #d0e8ff 25%, #5ab4ff 55%, #1055dd 82%, #002299 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                filter: "drop-shadow(0 2px 24px rgba(80,170,255,0.35))",
-              }}
-            >
-              Ponijeri
-            </span>
-          </motion.h1>
-
-          {/* Cycling tagline */}
-          <div className="h-5 overflow-hidden mb-11">
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={tagIdx}
-                initial={{ opacity: 0, y: 7 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -7 }}
-                transition={{ duration: 0.22 }}
-                className="text-[11px] tracking-[0.32em] uppercase font-medium text-white/70"
-              >
-                {TAGLINES[tagIdx]}
-              </motion.p>
-            </AnimatePresence>
-          </div>
-
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.72 }}
-            className="flex items-center gap-6 mb-14"
-          >
-            {/* Primary — frosted glass pill */}
-            <button
-              onClick={() => scrollTo("showcase")}
-              className="group relative flex items-center gap-3 px-8 py-3.5 rounded-full overflow-hidden"
-              style={{
-                background: "rgba(255,255,255,0.15)",
-                border: "1px solid rgba(255,255,255,0.38)",
-                backdropFilter: "blur(18px)",
-                WebkitBackdropFilter: "blur(18px)",
-              }}
-            >
-              <span
-                className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{ background: "rgba(255,255,255,0.07)" }}
-              />
-              <span className="relative text-[11px] font-bold tracking-[0.24em] uppercase text-white">
-                Istraži Resort
-              </span>
-              <FiArrowRight className="relative text-white/70 group-hover:translate-x-0.5 transition-transform duration-200 text-xs" />
-            </button>
-
-            {/* Secondary — text only */}
-            <button
-              onClick={() => scrollTo("about")}
-              className="group flex items-center gap-2 text-[11px] font-medium tracking-[0.22em] uppercase text-white/65 hover:text-white transition-colors duration-200"
-            >
-              O nama
-              <span className="h-px w-0 group-hover:w-5 bg-white/28 transition-all duration-300 block" />
-            </button>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 1.0 }}
-            className="flex items-center gap-8"
-            style={{ borderTop: "1px solid rgba(255,255,255,0.20)", paddingTop: "1.4rem", maxWidth: "460px" }}
-          >
-            {[
-              { val: "5",     sub: "ski staza"  },
-              { val: "1200m", sub: "n.v."       },
-              { val: "8",     sub: "apartmana"  },
-              { val: "Noćno", sub: "skijanje"   },
-            ].map((s, i) => (
-              <div key={i} className="flex flex-col gap-0.5">
-                <span className="font-display font-bold text-base leading-none text-white">{s.val}</span>
-                <span className="text-[8px] tracking-[0.24em] uppercase text-white/60">{s.sub}</span>
-              </div>
-            ))}
-          </motion.div>
-
-        </div>
+            Ponijeri
+          </span>
+        </motion.h1>
       </div>
 
-      {/* ── Opcina badge ─────────────────────────────────────────── */}
+      {/* ════════════════════════════════════════════════════════
+          BOTTOM RIGHT — description + CTA
+          ════════════════════════════════════════════════════════ */}
       <motion.div
-        className="absolute bottom-10 right-9 z-10 animate-float"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.8 }}
+        className="absolute bottom-10 right-10 sm:right-14 xl:right-20 z-10 max-w-[280px] text-right"
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, delay: 0.65 }}
       >
-        <Image
-          alt="Općina Kakanj"
-          src={opcina}
-          width={44}
-          height={44}
+        <p className="text-sm leading-relaxed mb-5" style={{ color: "rgba(220,235,255,0.70)" }}>
+          Skijaški centar na 1200m nadmorske visine. Planinska ljepota Bosne, za sve uzraste.
+        </p>
+
+        {/* Dark pill CTA — Iceburg style */}
+        <button
+          onClick={() => scrollTo("showcase")}
+          className="group inline-flex items-center gap-3 rounded-full text-[11px] font-bold tracking-[0.2em] uppercase transition-all duration-300 hover:gap-4"
           style={{
-            borderRadius: "50%",
-            padding: 5,
-            background: "rgba(255,255,255,0.10)",
-            border: "1px solid rgba(255,255,255,0.18)",
-            backdropFilter: "blur(12px)",
+            background: "rgba(255,255,255,0.92)",
+            color: "#040c1e",
+            padding: "12px 20px 12px 24px",
           }}
-        />
+        >
+          Istraži Resort
+          <span
+            className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
+            style={{ background: "#040c1e" }}
+          >
+            <FiArrowUpRight className="text-white text-xs" />
+          </span>
+        </button>
       </motion.div>
 
-      {/* ── Scroll cue ───────────────────────────────────────────── */}
+      {/* ════════════════════════════════════════════════════════
+          BOTTOM LEFT — glass info card
+          ════════════════════════════════════════════════════════ */}
+      <motion.div
+        className="absolute bottom-10 left-10 sm:left-14 xl:left-20 z-10"
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, delay: 0.80 }}
+      >
+        <button
+          onClick={() => scrollTo("about")}
+          className="group flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300"
+          style={{
+            background: "rgba(255,255,255,0.07)",
+            border: "1px solid rgba(255,255,255,0.14)",
+            backdropFilter: "blur(22px)",
+            WebkitBackdropFilter: "blur(22px)",
+          }}
+        >
+          <div>
+            <p
+              className="text-[12px] font-bold leading-snug"
+              style={{ color: "rgba(255,255,255,0.90)" }}
+            >
+              5 ski staza · Žičara · Ski škola
+            </p>
+            <p
+              className="text-[10px] mt-0.5"
+              style={{ color: "rgba(180,210,255,0.50)" }}
+            >
+              Noćno skijanje · 8 apartmana
+            </p>
+          </div>
+          <span
+            className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
+            style={{ background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.20)" }}
+          >
+            <FiArrowUpRight style={{ color: "rgba(255,255,255,0.80)", fontSize: "11px" }} />
+          </span>
+        </button>
+      </motion.div>
+
+      {/* ── Scroll cue — center bottom ───────────────────────── */}
       <motion.button
         onClick={() => scrollTo("about")}
-        className="absolute bottom-7 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-white/45 hover:text-white/70 transition-colors"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 transition-colors duration-200"
+        style={{ color: "rgba(255,255,255,0.28)" }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.5 }}
+        transition={{ delay: 2.2 }}
+        onMouseEnter={e => e.currentTarget.style.color = "rgba(255,255,255,0.55)"}
+        onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.28)"}
       >
         <span className="text-[8px] tracking-[0.42em] uppercase font-medium">Scroll</span>
         <motion.div animate={{ y: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 2 }}>
@@ -256,11 +212,27 @@ export default function Header() {
         </motion.div>
       </motion.button>
 
-      {/* ── Bottom edge — dark strip so section cut is clean ────── */}
-      <div
-        className="absolute bottom-0 inset-x-0 z-[3] pointer-events-none"
-        style={{ height: "80px", background: "linear-gradient(to bottom, transparent, rgba(2,8,28,0.70))" }}
-      />
+      {/* ── Opcina badge ─────────────────────────────────────── */}
+      <motion.div
+        className="absolute top-6 right-8 z-10 animate-float"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.8 }}
+      >
+        <Image
+          alt="Općina Kakanj"
+          src={opcina}
+          width={40}
+          height={40}
+          style={{
+            borderRadius: "50%",
+            padding: 4,
+            background: "rgba(255,255,255,0.09)",
+            border: "1px solid rgba(255,255,255,0.16)",
+            backdropFilter: "blur(12px)",
+          }}
+        />
+      </motion.div>
     </section>
   );
 }
